@@ -1,0 +1,27 @@
+export const ScreenIds = {
+  GUIDED_HOME: 'guided-home',
+  COMPANION_CHAT: 'companion-chat',
+  JOURNAL_EDITOR: 'journal-editor',
+  JOURNAL_GUIDED_EDITOR: 'journal-guided-editor',
+  JOURNAL_ANNOTATIONS: 'journal-annotations',
+  JOURNAL_MODES: 'journal-modes',
+  BREATH_REMINDER: 'breath-reminder',
+  POST_SAVE_OFFERS: 'post-save-offers',
+  INCIDENT_LOG: 'incident-log',
+  HASH_RECEIPT: 'hash-receipt',
+  INCIDENT_POST_SAVE_OFFERS: 'incident-post-save-offers',
+  LAWYER_DASHBOARD: 'lawyer-dashboard',
+  LAWYER_BOOKING_DETAIL: 'lawyer-booking-detail',
+  LAWYER_ARTIFACTS: 'lawyer-artifacts',
+  LAWYER_CHAT: 'lawyer-chat',
+  LAWYER_NOTES: 'lawyer-notes',
+  LAWYER_EXPORT: 'lawyer-export',
+  CLINICIAN_DASHBOARD: 'clinician-dashboard',
+  CLINICIAN_BOOKING_DETAIL: 'clinician-booking-detail',
+  CLINICIAN_ARTIFACTS: 'clinician-artifacts',
+  CLINICIAN_CHAT: 'clinician-chat',
+  CLINICIAN_NOTES: 'clinician-notes',
+  CLINICIAN_EXPORT: 'clinician-export',
+} as const;
+
+export type ScreenId = typeof ScreenIds[keyof typeof ScreenIds];

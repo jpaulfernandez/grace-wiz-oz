@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Float Driver.js popover outside phone chrome on desktop */
+@media (min-width: 1024px) {
+  .grace-tour-popover {
+    z-index: 99999 !important;
+    width: 320px !important;
+    max-width: 320px !important;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #E5E5E5 !important;
+    background-color: #FFFFFF !important;
+    color: #171717 !important;
+    padding: 18px !important;
+    border-radius: 12px !important;
+  }
+  .grace-tour-popover .driver-popover-arrow {
+    display: none !important;
+  }
+  .grace-tour-popover .driver-popover-title {
+    font-family: 'Newsreader', serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    margin-bottom: 6px !important;
+  }
+  .grace-tour-popover .driver-popover-description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    color: #404040 !important;
+  }
+  .grace-tour-popover .driver-popover-footer {
+    margin-top: 12px !important;
+  }
+}
+
+

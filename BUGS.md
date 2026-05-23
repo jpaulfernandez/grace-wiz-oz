@@ -1,0 +1,2 @@
+1. On free roam, end session is not working
+2. On the first scenario, I am asked to tap the companion, when I tap the companion and go to the next screen, the tap the sned button to send the message is already ticked off as completed. When i tap the suggested prompt, and whe I tap send, it shoes error please complete highlighted task + a walkthrough prompt shows "preloaded prompt" This was working earlier and now it doesn't let me go to the next screen.
