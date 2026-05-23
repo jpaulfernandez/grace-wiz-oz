@@ -461,7 +461,19 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
             allowedSelectors: ['[id^=annotation-]', '#close-annotations-btn'],
             advanceOn: { type: 'tap', selector: '#close-annotations-btn' }
           }
-        ]
+        ],
+        reflection: {
+          id: 'reflection-scenario-c',
+          title: 'A quick reflection',
+          microPrompts: [
+            {
+              id: 'annotation-helpful',
+              type: 'likert-5',
+              question: 'The highlighted annotations helped me better understand what I have been going through.',
+              required: true
+            }
+          ]
+        }
       },
       {
         id: 'scenario-d-journaling',
@@ -542,7 +554,19 @@ Answer the pre-filled questions or tap **Just save it** to secure the entry.`,
             allowedSelectors: ['#just-save-btn'],
             advanceOn: { type: 'tap', selector: '#just-save-btn' }
           }
-        ]
+        ],
+        reflection: {
+          id: 'reflection-no-ai-comfort',
+          title: 'Comparing the two modes',
+          microPrompts: [
+            {
+              id: 'combined-no-ai-comfort',
+              type: 'likert-5',
+              question: 'The guided journaling prompts helped me process what I was going through, even without an AI companion.',
+              required: true
+            }
+          ]
+        }
       },
       {
         id: 'scenario-e-incidents',
@@ -1211,7 +1235,19 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
             allowedSelectors: ['[id^=annotation-]', '#close-annotations-btn'],
             advanceOn: { type: 'tap', selector: '#close-annotations-btn' }
           }
-        ]
+        ],
+        reflection: {
+          id: 'reflection-scenario-c',
+          title: 'A quick reflection',
+          microPrompts: [
+            {
+              id: 'annotation-helpful',
+              type: 'likert-5',
+              question: 'The highlighted annotations helped me better understand what I have been going through.',
+              required: true
+            }
+          ]
+        }
       }
     ],
     postSessionReflection: {
@@ -1558,7 +1594,19 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
             allowedSelectors: ['[id^=annotation-]', '#close-annotations-btn'],
             advanceOn: { type: 'tap', selector: '#close-annotations-btn' }
           }
-        ]
+        ],
+        reflection: {
+          id: 'reflection-scenario-c',
+          title: 'A quick reflection',
+          microPrompts: [
+            {
+              id: 'annotation-helpful',
+              type: 'likert-5',
+              question: 'The highlighted annotations helped me better understand what I have been going through.',
+              required: true
+            }
+          ]
+        }
       },
       {
         id: 'scenario-d-journaling',
@@ -1647,7 +1695,7 @@ Answer the pre-filled questions or tap **Just save it** to secure the entry.`,
             {
               id: 'combined-no-ai-comfort',
               type: 'likert-5',
-              question: 'Journaling without the AI companion felt just as comfortable.',
+              question: 'The guided journaling prompts helped me process what I was going through, even without an AI companion.',
               required: true
             }
           ]

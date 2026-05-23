@@ -81,7 +81,7 @@ export default function Guided() {
   const [isRequestingJournals, setIsRequestingJournals] = useState(false)
   const [isPendingIncidents, setIsPendingIncidents] = useState(false)
   const [isPendingJournals, setIsPendingJournals] = useState(false)
-  
+
   const [providerChatMessages, setProviderChatMessages] = useState<{ sender: 'provider' | 'ai'; text: string; citations?: string[] }[]>([])
   const [providerNotes, setProviderNotes] = useState<string[]>([])
   const [currentProviderNote, setCurrentProviderNote] = useState('')
@@ -116,12 +116,12 @@ export default function Guided() {
     const userMsg = { sender: 'provider' as const, text }
     setProviderChatMessages(prev => [...prev, userMsg])
     setIsProviderChatTyping(true)
-    
+
     // Simulate AI response
     setTimeout(() => {
       let aiText = ''
       let citations: string[] = []
-      
+
       const query = text.toLowerCase()
       if (cohort === 'lawyer') {
         if (query.includes('evidence') || query.includes('proof') || query.includes('witness')) {
@@ -153,7 +153,7 @@ export default function Guided() {
           citations = ['General Clinical Intake']
         }
       }
-      
+
       setProviderChatMessages(prev => [...prev, { sender: 'ai', text: aiText, citations }])
       setIsProviderChatTyping(false)
     }, 1200)
@@ -164,7 +164,7 @@ export default function Guided() {
   const [incidentAnythingElse, setIncidentAnythingElse] = useState('')
   const [showTimestampSpinner, setShowTimestampSpinner] = useState(false)
   const [incidentForm] = useState<IncidentFields>(SCENARIO_E_INCIDENT_DATA)
-  
+
   const [guidedAnswers, setGuidedAnswers] = useState<Record<string, string>>({
     'guided-q1': SCENARIO_D_PROMPTS[0].preloadedAnswer,
     'guided-q2': SCENARIO_D_PROMPTS[1].preloadedAnswer,
@@ -247,7 +247,7 @@ export default function Guided() {
 
   // Auto-complete instructions reactively based on UI checklist variables
   const currentScreen = useStore(state => state.currentScreen)
-  
+
   useEffect(() => {
     if (!currentStep || !currentStep.instructionSteps) return
 
@@ -420,7 +420,7 @@ export default function Guided() {
           // Stage 2: Re-trigger spotlight highlight overlay
           lastOffPathTimeRef.current = 0
           telemetry.track(EventTypes.TOUR_OFF_PATH, { step_id: currentStep.id, clicked_element: target.tagName, stage: 2 })
-          ;(window as any).graceTriggerHelp?.()
+            ; (window as any).graceTriggerHelp?.()
         } else {
           // Stage 1: Pulse active incomplete checklist row
           lastOffPathTimeRef.current = now
@@ -533,15 +533,15 @@ export default function Guided() {
   const getActiveTab = () => {
     if (!currentStep) return 'companion'
     if (
-      currentStep.screenId.startsWith('journal') || 
+      currentStep.screenId.startsWith('journal') ||
       currentStep.screenId === 'post-save-offers' ||
       currentStep.screenId === 'breath-reminder'
     ) {
       return 'journal'
     }
     if (
-      currentStep.screenId === 'incident-log' || 
-      currentStep.screenId === 'hash-receipt' || 
+      currentStep.screenId === 'incident-log' ||
+      currentStep.screenId === 'hash-receipt' ||
       currentStep.screenId === 'incident-post-save-offers'
     ) {
       return 'incident'
@@ -554,7 +554,7 @@ export default function Guided() {
     telemetry.trackButtonTap(`nav-${tabId}-btn`)
     // Advance tour if currently waiting for a tab change
     if (
-      currentStep?.advanceOn?.type === 'tap' && 
+      currentStep?.advanceOn?.type === 'tap' &&
       currentStep.advanceOn.selector === `#nav-${tabId}-btn`
     ) {
       advanceTour()
@@ -623,7 +623,7 @@ export default function Guided() {
         return (
           <div className="flex-1 flex flex-col bg-background h-full overflow-hidden select-none">
             <ScreenHeader title="A space to breathe." />
-            
+
             <div className="flex-1 p-6 space-y-6 overflow-y-auto">
               <div className="py-2">
                 <p className="text-sm font-inter text-text-secondary">Welcome back, {nickname || 'there'}.</p>
@@ -814,7 +814,7 @@ export default function Guided() {
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted">
                   Reflection Options
                 </span>
-                
+
                 <button
                   id="just-save-btn"
                   onClick={advanceTour}
@@ -901,7 +901,7 @@ export default function Guided() {
                   if (segment.annotationId) {
                     const annotation = SCENARIO_C_ANNOTATIONS.find(a => a.id === segment.annotationId)
                     const isSelected = activeAnnotationId === segment.annotationId
-                    
+
                     let highlightClass = "underline decoration-dotted decoration-2 underline-offset-4 cursor-pointer transition-colors px-0.5 "
                     if (annotation?.category === 'somatic') {
                       highlightClass += isSelected ? " bg-primary/20 text-primary decoration-primary" : " text-primary decoration-primary/60 hover:bg-primary/5"
@@ -933,7 +933,7 @@ export default function Guided() {
               {activeAnnotationId && (() => {
                 const annotation = SCENARIO_C_ANNOTATIONS.find(a => a.id === activeAnnotationId)
                 if (!annotation) return null
-                
+
                 let categoryLabel = "Somatic sensation"
                 let cardStyle = "bg-primary-container/20 border-primary/20 text-primary"
                 if (annotation.category === 'pattern') {
@@ -1050,7 +1050,7 @@ export default function Guided() {
                 <button
                   id="save-guided-btn"
                   onClick={() => {
-                    telemetry.track(EventTypes.JOURNAL_SAVE, { 
+                    telemetry.track(EventTypes.JOURNAL_SAVE, {
                       char_count: Object.values(guidedAnswers).join('').length,
                       prompted: true
                     })
@@ -1436,7 +1436,7 @@ export default function Guided() {
 
             <div className="bg-white border border-border-divider rounded-card p-5 space-y-4">
               <h3 className="text-sm font-medium font-inter text-on-surface uppercase tracking-wider text-text-secondary">Client Profile</h3>
-              
+
               <div className="space-y-2 mb-4 text-sm font-inter">
                 <div className="flex">
                   <span className="w-24 text-text-muted">Name:</span>
@@ -1451,9 +1451,9 @@ export default function Guided() {
                   <span className="font-medium">Seeking legal counsel for workplace harassment.</span>
                 </div>
               </div>
-              
+
               <h3 className="text-sm font-medium font-inter text-on-surface uppercase tracking-wider text-text-secondary pt-2 border-t border-border-divider">Synthesis</h3>
-              
+
               <div className="redacted-profile-info space-y-3">
                 <p className="text-sm font-inter text-text-secondary leading-relaxed blur-sm select-none">
                   The user's self-reported timeline outlines a series of workplace intrusions by coworker Marco matching gender-based hostile work environment criteria (RA 11313 - Safe Spaces Act).
@@ -1607,11 +1607,10 @@ export default function Guided() {
             <div className="flex-1 p-4 overflow-y-auto space-y-4 flex flex-col">
               {providerChatMessages.map((msg, index) => (
                 <div key={index} className={`flex flex-col ${msg.sender === 'provider' ? 'items-end' : 'items-start'}`}>
-                  <div className={`p-3 rounded-input text-xs font-inter max-w-[80%] text-left ${
-                    msg.sender === 'provider' 
-                      ? 'bg-primary text-on-primary' 
-                      : 'bg-white border border-border-divider text-on-surface'
-                  }`}>
+                  <div className={`p-3 rounded-input text-xs font-inter max-w-[80%] text-left ${msg.sender === 'provider'
+                    ? 'bg-primary text-on-primary'
+                    : 'bg-white border border-border-divider text-on-surface'
+                    }`}>
                     {msg.text}
                   </div>
                   {msg.citations && msg.citations.length > 0 && (
@@ -1701,15 +1700,15 @@ export default function Guided() {
               <h2 className="text-xl font-medium font-newsreader text-on-surface mb-1">Intake Notes</h2>
               <p className="text-xs font-mono text-text-muted">Chronological case activity logs</p>
             </div>
-            
+
             <div className="bg-primary-container/20 border border-primary-container rounded-card p-4 space-y-2">
               <h3 className="text-sm font-semibold text-primary font-inter flex items-center space-x-2">
                 <Sparkles className="w-4 h-4" />
                 <span>AI Synthesis</span>
               </h3>
               <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                Based on incident logs and journals, indicators of {cohort === 'lawyer' ? 'RA 11313 (Safe Spaces Act)' : 'hyperarousal and somatic stress'} are present. 
-                <br/><br/>
+                Based on incident logs and journals, indicators of {cohort === 'lawyer' ? 'RA 11313 (Safe Spaces Act)' : 'hyperarousal and somatic stress'} are present.
+                <br /><br />
                 <strong>Note:</strong> This is an AI-generated summary and should be reviewed by {cohort === 'lawyer' ? 'legal counsel' : 'a clinician'}.
               </p>
             </div>
@@ -1781,14 +1780,14 @@ export default function Guided() {
               </div>
 
               {/* Embedded PDF */}
-              <div className="bg-white border border-border-divider rounded-card overflow-hidden">
-                <div className="px-4 py-3 border-b border-border-divider flex items-center space-x-2">
+              <div className="bg-white border border-border-divider rounded-card overflow-hidden flex flex-col h-[80vh]">
+                <div className="px-4 py-3 border-b border-border-divider flex items-center space-x-2 shrink-0">
                   <FileText className="w-4 h-4 text-primary" />
                   <span className="text-sm font-semibold text-on-surface font-inter">legal-export-sample.pdf</span>
                 </div>
                 <iframe
                   src="/legal-export-sample.pdf"
-                  className="w-full h-72"
+                  className="w-full flex-1 h-full border-0"
                   title="Legal Export PDF"
                 />
               </div>
@@ -2021,11 +2020,10 @@ export default function Guided() {
             <div className="flex-1 p-4 overflow-y-auto space-y-4 flex flex-col">
               {providerChatMessages.map((msg, index) => (
                 <div key={index} className={`flex flex-col ${msg.sender === 'provider' ? 'items-end' : 'items-start'}`}>
-                  <div className={`p-3 rounded-input text-xs font-inter max-w-[80%] text-left ${
-                    msg.sender === 'provider' 
-                      ? 'bg-secondary text-on-secondary' 
-                      : 'bg-white border border-border-divider text-on-surface'
-                  }`}>
+                  <div className={`p-3 rounded-input text-xs font-inter max-w-[80%] text-left ${msg.sender === 'provider'
+                    ? 'bg-secondary text-on-secondary'
+                    : 'bg-white border border-border-divider text-on-surface'
+                    }`}>
                     {msg.text}
                   </div>
                   {msg.citations && msg.citations.length > 0 && (
@@ -2182,14 +2180,14 @@ export default function Guided() {
               </div>
 
               {/* Embedded PDF */}
-              <div className="bg-white border border-border-divider rounded-card overflow-hidden">
-                <div className="px-4 py-3 border-b border-border-divider flex items-center space-x-2">
+              <div className="bg-white border border-border-divider rounded-card overflow-hidden flex flex-col h-[80vh]">
+                <div className="px-4 py-3 border-b border-border-divider flex items-center space-x-2 shrink-0">
                   <FileText className="w-4 h-4 text-secondary" />
                   <span className="text-sm font-semibold text-on-surface font-inter">clinical-export-sample.pdf</span>
                 </div>
                 <iframe
                   src="/clinical-export-sample.pdf"
-                  className="w-full h-72"
+                  className="w-full flex-1 h-full border-0"
                   title="Clinical Export PDF"
                 />
               </div>
@@ -2223,7 +2221,7 @@ export default function Guided() {
   return (
     <>
       <OnboardingWalkthrough />
-      
+
       <style>{`
         @keyframes pulseRow {
           0% { background-color: transparent; border-color: var(--color-border-divider); }
@@ -2252,8 +2250,8 @@ export default function Guided() {
               <div className="p-5 bg-white border border-neutral-200 rounded-2xl shadow-xl max-w-[280px]">
                 <span className="text-2xl mb-2 block">🔒</span>
                 <p className="text-xs font-inter font-semibold text-on-surface leading-relaxed">
-                  {guidedMode === 'reflection' 
-                    ? "Take a moment — answer the questions in the side panel." 
+                  {guidedMode === 'reflection'
+                    ? "Take a moment — answer the questions in the side panel."
                     : "Read along — we'll tell you when to tap."
                   }
                 </p>
