@@ -44,7 +44,7 @@ export const COMMUNITY_STORIES: CommunityStory[] = [
     replies: [
       { author: 'HopefulVibe', text: 'This gives me so much courage. Thank you for sharing.', date: '2 hours ago' },
       { author: 'SomaticSeeker', text: 'Did they ask for printed evidence or was the digital receipt okay?', date: '1 hour ago' },
-      { author: 'SurvivalSovereign', text: 'The officer accepted my secure hash receipt and logged it in the official blotter!', date: '30 mins ago' }
+      { author: 'SurvivalSovereign', text: 'The officer accepted my secure timestamp receipt and logged it in the official blotter!', date: '30 mins ago' }
     ]
   },
   {
@@ -104,7 +104,7 @@ export const INSTITUTIONS: Institution[] = [
     description: 'National specialized police unit providing secure reporting and criminal investigation support for gender-based violations.',
     prepare: [
       'Verified report digests',
-      'Cryptographic ledger receipts (if using digital logs)',
+      'Secure timestamp receipts (if using digital logs)',
       'Witness contacts'
     ],
     expect: [

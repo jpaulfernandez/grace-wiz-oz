@@ -1,5 +1,6 @@
 import { X, Shield, BookOpen } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { createPortal } from 'react-dom'
 
 interface StudyInfoModalProps {
   onClose: () => void
@@ -8,20 +9,21 @@ interface StudyInfoModalProps {
 export function StudyInfoModal({ onClose }: StudyInfoModalProps) {
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
-        onClick={onClose}
-      >
+      {createPortal(
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-md bg-white rounded-card shadow-xl overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center p-4"
+          onClick={onClose}
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md bg-white rounded-card shadow-xl overflow-hidden"
+          >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-border-divider">
             <div>
@@ -113,7 +115,9 @@ export function StudyInfoModal({ onClose }: StudyInfoModalProps) {
             </button>
           </div>
         </motion.div>
-      </motion.div>
+      </motion.div>,
+      document.body
+    )}
     </AnimatePresence>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { telemetry } from '../../lib/telemetry'
 import { useStore } from '../../lib/store'
 import { Button } from '../../components/ui'
@@ -10,7 +10,8 @@ import {
   Unlock,
   CheckCircle2,
   FileText,
-  Sparkles
+  Sparkles,
+  Lock
 } from 'lucide-react'
 
 export function ProviderHubFreeRoam() {
@@ -24,6 +25,24 @@ export function ProviderHubFreeRoam() {
   const [isRequestingJournals, setIsRequestingJournals] = useState(false)
   const [isPendingIncidents, setIsPendingIncidents] = useState(false)
   const [isPendingJournals, setIsPendingJournals] = useState(false)
+
+  const [providerNotes, setProviderNotes] = useState<string[]>([])
+  const [currentProviderNote, setCurrentProviderNote] = useState('')
+
+  // Preload realistic casework notes
+  useEffect(() => {
+    if (isLawyer) {
+      setProviderNotes([
+        "Note (May 22, 10:30 AM): Reviewed preliminary telemetry logs of elevator/stairs behavior modification. Patterns show consistent avoidance of elevator corridor during Marco's usual break times.",
+        "Note (May 21, 2:15 PM): Client called to verify encryption bounds. Confirmed all logs reside locally on sandbox client-side. Advised her to capture specific quotes of Marco's comments."
+      ])
+    } else {
+      setProviderNotes([
+        "Note (May 22, 10:30 AM): Reviewed telemetry on elevator/stairs behavior. Patient climbing 14 flights of stairs to avoid Marco. Significant somatic hyperarousal and physical fatigue noted.",
+        "Note (May 21, 2:15 PM): Checked in via secure portal. Patient reported chest tightness of 7/10 when approaching the office entrance. Encouraged somatic breathing pause prior to clocking in."
+      ])
+    }
+  }, [isLawyer])
 
   const [chatMessages, setChatMessages] = useState<{ sender: 'provider' | 'ai'; text: string; citations?: string[] }[]>([
     { sender: 'ai', text: isLawyer ? "Secure Pattern Retrieval engine active. Ask any questions about Jane's shared incident timeline." : "Secure Somatic Retrieval engine active. Ask any questions about Grace's somatic tension events." }
@@ -39,11 +58,42 @@ export function ProviderHubFreeRoam() {
 
     setTimeout(() => {
       setIsChatTyping(false)
-      setChatMessages(prev => [...prev, { 
-        sender: 'ai', 
-        text: 'This is a simulated AI response based on the secure corpus.',
-        citations: ['Simulated Record']
-      }])
+      const query = text.toLowerCase()
+      let aiText = ''
+      let citations: string[] = []
+
+      if (isLawyer) {
+        if (query.includes('evidence') || query.includes('proof') || query.includes('witness')) {
+          aiText = 'Based on Incident Log entries (May 14, May 19), evidence consists of a corroborating witness J. who observed avoidant exit from pantry counter, and physical boundary intrusion. No photo attachment is uploaded.'
+          citations = ['Incident Log #3', 'Journal Entry #5']
+        } else if (query.includes('timeline') || query.includes('chronology') || query.includes('dates')) {
+          aiText = 'Timeline summary: 3 incidents logged. Chronology: May 14 (desk intrusion), May 19 (lobby blocking), May 23 (pantry intrusion). Consistent behavior modifications (avoiding elevator, walking 14 flights) logged concurrently.'
+          citations = ['Incident Logs #1-3']
+        } else if (query.includes('name') || query.includes('harass') || query.includes('law')) {
+          aiText = 'AI Pattern Analysis retrieval: Client describes the coworker jokes as "green jokes". AI system identifies indicators corresponding to verbal sexual harassment under Safe Spaces Act (RA 11313). Client has not formally used the term "harassment" in personal journals, which matches trauma-informed restraint protocols.'
+          citations = ['Journal Entry #2', 'Journal Entry #5']
+        } else {
+          aiText = 'I retrieve from the client\'s journal and incident log, and I flag pattern-of-conduct evidence relevant to RA 11313. I do not provide legal advice.'
+          citations = ['General Intake Analysis']
+        }
+      } else {
+        // Clinician
+        if (query.includes('somatic') || query.includes('tension') || query.includes('body') || query.includes('pattern')) {
+          aiText = 'Somatic tracking indicates 3 instances of "chest tightening", 4 instances of "stomach knots", and 2 instances of "shallow breathing" associated with proximity to coworker Marco.'
+          citations = ['Somatic Journals #1', 'Somatic Journal #3', 'Somatic Journal #4']
+        } else if (query.includes('panic') || query.includes('anxiety') || query.includes('heart') || query.includes('reaction')) {
+          aiText = 'Immediate somatic nervous response shows elevated heart rate, shallow breathing, and freezing reactions. Coping behaviors include flight modification (walking stairs, early exits).'
+          citations = ['Clinical Logs #1', 'Clinical Log #2']
+        } else if (query.includes('attachment') || query.includes('relationship') || query.includes('style')) {
+          aiText = 'Self-reflection journal prompts show anxious-avoidant cues when managing boundaries. Focuses heavily on personal blame ("am I the problem?") rather than external threat naming.'
+          citations = ['Somatic Journal #4', 'Somatic Journal #6']
+        } else {
+          aiText = 'I surface patterns from the client\'s writing. I do not diagnose. No additional somatic cues were identified in this query.'
+          citations = ['General Clinical Intake']
+        }
+      }
+
+      setChatMessages(prev => [...prev, { sender: 'ai', text: aiText, citations }])
     }, 1500)
   }
 
@@ -119,7 +169,11 @@ export function ProviderHubFreeRoam() {
             </div>
             <div className="flex">
               <span className="w-24 text-text-muted">Issue:</span>
-              <span className={`font-medium ${!isBookingAccepted ? 'blur-sm select-none' : ''}`}>Seeking legal counsel for workplace harassment.</span>
+              <span className={`font-medium ${!isBookingAccepted ? 'blur-sm select-none' : ''}`}>
+                {isLawyer 
+                  ? "Seeking legal counsel for workplace harassment." 
+                  : "Presenting with high somatic anxiety, chest tightness, and emotional distress following workplace boundary violations."}
+              </span>
             </div>
           </div>
           
@@ -197,7 +251,9 @@ export function ProviderHubFreeRoam() {
                 <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
               )}
               {!isRequestingIncidents && !isPendingIncidents && (
-                <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                  <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                </span>
               )}
             </div>
             {!isRequestingIncidents && !isPendingIncidents && (
@@ -230,7 +286,9 @@ export function ProviderHubFreeRoam() {
                 <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
               )}
               {!isRequestingJournals && !isPendingJournals && (
-                <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                  <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                </span>
               )}
             </div>
             {!isRequestingJournals && !isPendingJournals && (
@@ -269,7 +327,7 @@ export function ProviderHubFreeRoam() {
             variant="primary"
             className="w-full animate-fade-in"
           >
-            Continue to corpus chat &rarr;
+            Chat with Jane's record & journal &rarr;
           </Button>
         )}
       </div>
@@ -387,25 +445,78 @@ export function ProviderHubFreeRoam() {
         <div className="bg-primary-container/20 border border-primary-container rounded-card p-4 space-y-2">
           <h3 className="text-sm font-semibold text-primary font-inter flex items-center space-x-2">
             <Sparkles className="w-4 h-4" />
-            <span>AI Synthesis</span>
+            <span>AI Synthesis ({isLawyer ? 'Legal Assessment' : 'Clinical Grounding Assessment'})</span>
           </h3>
-          <p className="text-xs font-inter text-text-secondary leading-relaxed">
-            Based on incident logs and journals, indicators of {isLawyer ? 'RA 11313 (Safe Spaces Act)' : 'hyperarousal and somatic stress'} are present. 
-            <br/><br/>
-            <strong>Note:</strong> This is an AI-generated summary and should be reviewed by {isLawyer ? 'legal counsel' : 'a clinician'}.
-          </p>
+          {isLawyer ? (
+            <div className="text-xs font-inter text-text-secondary leading-relaxed space-y-2">
+              <p>
+                <strong>Hostile Work Environment Assessment (RA 11313 - Safe Spaces Act):</strong><br />
+                The self-reported timeline outlines 3 chronologically consistent incidents involving coworker Marco:
+              </p>
+              <ul className="list-disc pl-4 space-y-1">
+                <li><strong>May 14 (Desk):</strong> Unwanted verbal remarks and gender-based "green jokes" causing high distress.</li>
+                <li><strong>May 19 (Lobby):</strong> Physical boundary violations, path blocking, and intimidation near elevator.</li>
+                <li><strong>May 23 (Pantry):</strong> Severe workplace boundary intrusion with a corroborating witness J. logged in the blotted intake.</li>
+              </ul>
+              <p>
+                <strong>Behavioral modification:</strong> Telemetry indicates persistent flight behavior (elevator avoidance, climbing 14 flights of stairs daily) to avoid Marco, supporting evidence of a hostile work environment.
+              </p>
+              <p className="text-[10px] font-semibold text-text-muted mt-2">
+                Note: This is an AI-generated summary and should be reviewed by legal counsel.
+              </p>
+            </div>
+          ) : (
+            <div className="text-xs font-inter text-text-secondary leading-relaxed space-y-2">
+              <p>
+                <strong>Somatic & Attachment Synthesis:</strong><br />
+                - <strong>Somatic Stress Triggers:</strong> 3 explicit mentions of chest tightness, 4 mentions of stomach knots, and 2 instances of shallow breathing/freezing reactions logged during or immediately after proximity encounters with coworker Marco.
+                - <strong>Attachment Style:</strong> Self-reflection journaling prompts show highly anxious-avoidant attachment cues. Focuses heavily on personal blame ("am I the problem?") rather than external threat naming, indicating trauma-informed stress internalization.
+                - <strong>Avoidance/Flight Modification:</strong> Highly disruptive behavioral adjustments, including climbing 14 flights of stairs to avoid the elevator corridor, leading to significant physical fatigue and hyperarousal.
+              </p>
+              <p className="text-[10px] font-semibold text-text-muted mt-2">
+                Note: This is an AI-generated summary and should be reviewed by a clinician.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Note logs */}
+        <div className="space-y-3 bg-white border border-border-divider rounded-card p-4 max-h-[220px] overflow-y-auto">
+          {providerNotes.map((note, index) => (
+            <div key={index} className="text-xs font-inter border-b border-border-divider pb-2 last:border-b-0">
+              <p className="text-on-surface-variant leading-relaxed">{note}</p>
+            </div>
+          ))}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-on-surface">Your Confidential Notes</label>
+          <label htmlFor="provider-note" className="text-xs font-medium font-inter text-on-surface uppercase tracking-wider text-text-secondary">Add session prep note</label>
           <textarea 
-            className="w-full h-32 p-3 border border-border-divider rounded-input text-sm font-inter focus:outline-none focus:border-primary"
+            id="provider-note"
+            rows={3}
+            value={currentProviderNote}
+            onChange={(e) => setCurrentProviderNote(e.target.value)}
+            className="w-full border border-border-divider rounded-input p-3 font-inter text-xs bg-white focus:outline-none focus:border-primary resize-y"
             placeholder="Type your observations here..."
-          ></textarea>
+          />
+          <Button
+            disabled={!currentProviderNote.trim()}
+            onClick={() => {
+              const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              const noteContent = `Note (May 23, ${nowStr}): ${currentProviderNote}`
+              setProviderNotes(prev => [noteContent, ...prev])
+              telemetry.trackTextInput('provider_note_save_freeroam', currentProviderNote)
+              setCurrentProviderNote('')
+            }}
+            variant="secondary"
+            className="w-full text-xs py-2"
+          >
+            Add Note
+          </Button>
         </div>
 
-        <Button onClick={() => setCurrentScreen('export')} variant="primary" className="w-full">
-          Save Note & Continue to certified export
+        <Button onClick={() => setCurrentScreen('export')} variant="primary" className="w-full py-4 text-sm font-medium">
+          Continue to certified export
         </Button>
       </div>
     )

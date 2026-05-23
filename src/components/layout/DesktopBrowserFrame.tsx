@@ -154,25 +154,7 @@ export function DesktopBrowserFrame({
               {children}
             </div>
 
-            {/* Prev / Next step controls inside browser footer */}
-            {showStepControls && (
-              <div className="flex-shrink-0 h-12 border-t border-border-divider bg-white flex items-center justify-end px-4 space-x-2">
-                <button
-                  onClick={onPrev}
-                  disabled={!canPrev}
-                  className="px-4 py-1.5 rounded-full border border-border-divider bg-white text-xs font-inter font-medium text-on-surface-variant hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  ← Prev
-                </button>
-                <button
-                  onClick={onNext}
-                  disabled={!canNext}
-                  className="px-4 py-1.5 rounded-full border border-primary bg-primary text-on-primary text-xs font-inter font-medium hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                >
-                  Next →
-                </button>
-              </div>
-            )}
+
           </div>
 
           {/* If in reflection mode, dim and show arrow pointing towards the side panel */}

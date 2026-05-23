@@ -82,6 +82,7 @@ interface AppState extends SessionState, UIState {
   resetGuidedProgress: () => void
   setScenarioIndex: (index: number) => void
   setGuidedMode: (mode: 'step' | 'reflection' | 'scenario-intro') => void
+  restartToScenario1: () => void
 
   // Full reset
   reset: () => void
@@ -390,6 +391,37 @@ export const useStore = create<AppState>((set) => ({
   setScenarioIndex: (index) => set({ currentScenarioIndex: index }),
 
   setGuidedMode: (mode) => set({ guidedMode: mode }),
+
+  restartToScenario1: () => set((state) => {
+    const session = state.scenarioId ? getSessionConfig(state.scenarioId) : null
+    if (!session) return {}
+    const scenario1 = session.scenarios[1]
+    const mode = scenario1?.description ? 'scenario-intro' : 'step'
+    return {
+      currentScenarioIndex: 1,
+      currentStepIndex: 0,
+      guidedMode: mode,
+      completedInstructions: {},
+      reflectionAnswers: {},
+
+      // Reset checklist/interactive elements state
+      chatMessagesCount: 0,
+      chatInputText: '',
+      journalTextContent: '',
+      clickedAnnotations: [],
+      incidentNotes: '',
+      isIncidentsRequested: false,
+      isJournalsRequested: false,
+      providerChatCount: 0,
+      providerNotesCount: 0,
+      letGoButtonClicked: false,
+
+      // Reset session state
+      isPaused: false,
+      guidedCompletedAt: null,
+      freeRoamStartedAt: null
+    }
+  }),
 
   reset: () => set({
     ...initialSessionState,

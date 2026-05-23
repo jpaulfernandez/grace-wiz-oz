@@ -1,7 +1,7 @@
 ---
 name: code-map
 description: AI-optimized knowledge graph of the codebase. Scan this FIRST before reading any files.
-last_updated: 2026-05-23
+last_updated: 2026-05-24
 ---
 
 # Codebase Knowledge Graph
@@ -74,7 +74,7 @@ last_updated: 2026-05-23
 | `src/config/scenarios.ts` | Study scenario definitions | Different experimental conditions. |
 | `src/config/scenarioTypes.ts` | Guided walkthrough interfaces | Scenario, session, step, and reflection configuration types. |
 | `src/config/sidePanel.ts` | Side panel session configs | **CENTRAL STUDY FLOW:** Defines SESSIONS steps, intros, and reflections for all cohorts verbatim. |
-| `src/config/surveys.ts` | Survey question definitions | SUS, post-study, end-of-study surveys. |
+| `src/config/surveys.ts` | Survey question definitions | SUS, cohort safety check, post-study, and pricing survey items. |
 
 ---
 
@@ -126,8 +126,8 @@ last_updated: 2026-05-23
 | `DesktopFrame.tsx` / `MobileFrame.tsx` | Responsive frame wrappers |
 | `PhoneChrome.tsx` | Mobile browser chrome simulation |
 | `SidePanel.tsx` / `SideDrawer.tsx` | Side navigation |
-| `StepChecklist.tsx` | Progress checklist |
-| `OnboardingWalkthrough.tsx` | First-run tour |
+| `StepChecklist.tsx` | Suggested task checklist with auto-expanding active steps and inline popover descriptions |
+| `OnboardingWalkthrough.tsx` | Legacy first-run tour (retired in favor of Scenario 0 SidePanel orientation) |
 
 ---
 

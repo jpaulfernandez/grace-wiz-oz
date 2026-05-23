@@ -4,20 +4,20 @@ import { ScreenIds } from '../lib/screenIds'
 // Scenario 0 - Orientation (Shared by all participant walkthrough flows)
 const SCENARIO_0_ORIENTATION: ScenarioConfig = {
   id: 'scenario-0-orientation',
-  label: 'Getting oriented',
+  label: 'Getting started',
   steps: [
     {
       id: 'orientation-prototype',
       screenId: 'guided-home',
-      title: 'Welcome to Grace',
+      title: 'Welcome',
       prototypeInteractive: false,
-      sidePanelInstruction: `### Welcome to Grace
+      sidePanelInstruction: `### Welcome
 
-Thank you for taking part in this session. You'll spend about 60 minutes exploring **Grace**, a prototype space for women navigating gender-based harm.
+Thanks for being part of this session. You'll spend about 60 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
 
-The phone screen on your left is the **prototype** — you'll tap and interact with it the way you would a real app. The researcher running this session will play the part of the AI Companion live, so the conversations are real even if some parts of the prototype are simulated.
+The phone on your left is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
 
-Tap **Next step** when you're ready to learn about the rest of the screen.`,
+Tap **Next step** when you're ready.`,
       instructionSteps: [
         {
           id: 'see-prototype',
@@ -25,7 +25,7 @@ Tap **Next step** when you're ready to learn about the rest of the screen.`,
           selector: '#phone-frame-root',
           popover: {
             title: 'The prototype',
-            description: 'This is the interactive Grace prototype. We\'ll show you what to tap as we go.',
+            description: `This is what you'll interact with. We'll point to what to tap as we go.`,
             side: 'right',
             align: 'center',
           },
@@ -38,18 +38,17 @@ Tap **Next step** when you're ready to learn about the rest of the screen.`,
     {
       id: 'orientation-side-panel',
       screenId: 'guided-home',
-      title: 'Your instructions live here',
+      title: 'This panel guides you',
       prototypeInteractive: false,
       sidePanelInstruction: `### This panel guides you
 
+Each scenario shows up here with:
 
-Each scenario will appear here with:
+- A short explanation of what you're about to do
+- A checklist of small steps to follow
+- A pointer on the prototype showing where to tap
 
-- A short **explanation** of what you're about to do
-- A **task checklist** with the small steps to follow
-- A **pointer** on the prototype showing exactly where to tap
-
-If you ever feel lost, tap any row in the checklist and we'll point you to the right spot on the prototype.
+If you lose your place, tap any row in the checklist and we'll point you back to the right spot.
 
 Tap **Next step** to continue.`,
       instructionSteps: [],
@@ -59,23 +58,23 @@ Tap **Next step** to continue.`,
     {
       id: 'orientation-help',
       screenId: 'guided-home',
-      title: 'Help is always available',
+      title: 'If you need help',
       prototypeInteractive: false,
-      sidePanelInstruction: `### If you get lost
+      sidePanelInstruction: `### If you need help
 
 At the top of the screen, **I need help** reaches the researcher running this session. **Study info** explains what we're testing and how your data is handled.
 
-You can stop, pause, or skip any part of this session at any time without affecting your compensation. There are no wrong answers, and "I don't know" is always a valid response.
+You can pause, skip, or stop at any time without affecting your compensation. There are no wrong answers, and "I don't know" is always a valid response.
 
 Tap **Next step** to continue.`,
       instructionSteps: [
         {
           id: 'see-help',
-          label: 'Help button is at the top-left',
+          label: 'I need help is at the top-left',
           selector: '#help-button',
           popover: {
             title: 'Need help?',
-            description: 'Tap here any time during the session if you get lost or have a question.',
+            description: `Tap here any time to reach the researcher.`,
             side: 'bottom',
             align: 'start',
           }
@@ -86,7 +85,7 @@ Tap **Next step** to continue.`,
           selector: '#study-info-button',
           popover: {
             title: 'About this study',
-            description: 'Tap to see what we\'re testing and how your data is being handled.',
+            description: `Tap to see what we're testing and how your data is handled.`,
             side: 'bottom',
             align: 'start',
           }
@@ -98,18 +97,18 @@ Tap **Next step** to continue.`,
     {
       id: 'orientation-reflections',
       screenId: 'guided-home',
-      title: 'Reflection moments',
+      title: 'Quick reflections along the way',
       prototypeInteractive: false,
-      sidePanelInstruction: `### Between scenarios, we'll pause
+      sidePanelInstruction: `### Quick reflections along the way
 
-Every now and then, the prototype will pause and a few short questions will appear here in the panel. They look something like this:
+Between scenarios, the prototype will pause and a short question or two will appear here in the panel. They look something like this:
 
 > **Example only — not recorded**
-> *I feel comfortable using a digital tool to discuss sensitive concerns.*
-> 
+> _I feel comfortable using a digital tool to discuss sensitive concerns._
+>
 > 1 (Strongly disagree) to 5 (Strongly agree)
 
-Please answer honestly. There are no wrong answers, and these short reflections are how we understand whether Grace is working the way it should.
+Please answer honestly. These short reflections are how we tell whether Grace is working the way it should.
 
 Tap **Next step** when you're ready for your first reflection.`,
       instructionSteps: [],
@@ -157,9 +156,9 @@ Your coworker Marco frequently tells inappropriate sexual jokes. You feel uncomf
             title: 'Get started',
             sidePanelInstruction: `### Welcome to Grace
 
-Grace is an austere, editorial-minimal sanctuary designed to provide emotional safety and structured recording for survivors.
+Grace is a private space designed to provide emotional safety and structured recording for survivors.
 
-To begin, tap the **Companion** card on the screen to talk with your supportive AI partner.`,
+To begin, tap the **Companion** card on the screen to talk with the Companion.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card',
@@ -257,7 +256,7 @@ You feel anxious about work proximity to Marco and want to explore somatic calmi
             title: 'Get started',
             sidePanelInstruction: `### Companion Chat
 
-Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
+Tap the **Companion** card on the screen to open the Companion.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card-b',
@@ -512,7 +511,7 @@ Tap the **Reflective Journal** card on the screen to begin.`,
             title: 'Choose journaling mode',
             sidePanelInstruction: `### Journal style
 
-Tap **Guided** to use Pennebaker-style structured prompts.`,
+Tap **Guided** to use guided structured prompts.`,
             instructionSteps: [
               {
                 id: 'tap-guided-btn',
@@ -520,7 +519,7 @@ Tap **Guided** to use Pennebaker-style structured prompts.`,
                 selector: '#guided-journal-btn',
                 popover: {
                   title: 'Guided mode',
-                  description: 'Use Pennebaker-style prompts to structure your reflection.',
+                  description: 'Use guided prompts to structure your reflection.',
                   side: 'top',
                   align: 'center'
                 },
@@ -640,9 +639,9 @@ Tap the **Incident Log** tab in the bottom navigation.`,
             id: 'scenario-e-hash',
             screenId: ScreenIds.HASH_RECEIPT,
             title: 'Secure timestamp receipt',
-            sidePanelInstruction: `### Cryptographic receipt
+            sidePanelInstruction: `### Timestamp receipt
 
-Observe the secure blockchain authority hash, then click **Next** to proceed.`,
+Observe the secure timestamp, then click **Next** to proceed.`,
             instructionSteps: [
               {
                 id: 'tap-receipt-next',
@@ -756,7 +755,7 @@ Tap the **Reflective Journal** card on the screen to begin.`,
             title: 'Choose journaling mode',
             sidePanelInstruction: `### Journal style
 
-Tap **Guided** to use Pennebaker-style structured prompts.`,
+Tap **Guided** to use guided structured prompts.`,
             instructionSteps: [
               {
                 id: 'tap-guided-btn',
@@ -764,7 +763,7 @@ Tap **Guided** to use Pennebaker-style structured prompts.`,
                 selector: '#guided-journal-btn',
                 popover: {
                   title: 'Guided mode',
-                  description: 'Use Pennebaker-style prompts to structure your reflection.',
+                  description: 'Use guided prompts to structure your reflection.',
                   side: 'top',
                   align: 'center'
                 },
@@ -872,9 +871,9 @@ Tap the **Incident Log** tab in the bottom navigation.`,
             id: 'scenario-e-hash',
             screenId: ScreenIds.HASH_RECEIPT,
             title: 'Secure timestamp receipt',
-            sidePanelInstruction: `### Cryptographic receipt
+            sidePanelInstruction: `### Timestamp receipt
 
-Observe the secure blockchain authority hash, then click **Next** to proceed.`,
+Observe the secure timestamp, then click **Next** to proceed.`,
             instructionSteps: [
               {
                 id: 'tap-receipt-next',
@@ -931,9 +930,9 @@ Your coworker Marco frequently tells inappropriate sexual jokes. You feel uncomf
             title: 'Get started',
             sidePanelInstruction: `### Welcome to Grace
 
-Grace is an austere, editorial-minimal sanctuary designed to provide emotional safety and structured recording for survivors.
+Grace is a private space designed to provide emotional safety and structured recording for survivors.
 
-To begin, tap the **Companion** card on the screen to talk with your supportive AI partner.`,
+To begin, tap the **Companion** card on the screen to talk with the Companion.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card',
@@ -1031,7 +1030,7 @@ You feel anxious about work proximity to Marco and want to explore somatic calmi
             title: 'Get started',
             sidePanelInstruction: `### Companion Chat
 
-Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
+Tap the **Companion** card on the screen to open the Companion.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card-b',
@@ -1283,18 +1282,20 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
       SCENARIO_0_ORIENTATION,
       {
         id: 'scenario-a-green-jokes',
-        label: 'Scenario A — Green jokes',
-        description: `### Scenario A: Green jokes
+        label: 'A workplace situation',
+        description: `### A workplace situation
 
-Your coworker Marco frequently tells inappropriate sexual jokes. You feel uncomfortable but are not sure if it qualifies as harassment.`,
+A coworker keeps making sexual jokes at the office. You're not sure if it counts as harassment.`,
         steps: [
           {
             id: 'scenario-a-home',
             screenId: 'guided-home',
-            title: 'Get started',
-            sidePanelInstruction: `### Welcome to Grace
+            title: 'Open the Companion',
+            sidePanelInstruction: `### Open the Companion
 
-To begin, tap the **Companion** card on the screen to talk with your supportive AI partner.`,
+Grace has a few different spaces. The **Companion** is for talking through what's on your mind.
+
+Tap the **Companion** card on the phone to open it.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card',
@@ -1302,7 +1303,7 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
                 selector: '#companion-card',
                 popover: {
                   title: 'Companion',
-                  description: 'Open a chat with Grace\'s Companion.',
+                  description: `Open a chat with the Companion.`,
                   side: 'right',
                   align: 'center'
                 },
@@ -1315,20 +1316,22 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
           {
             id: 'scenario-a-chat',
             screenId: 'companion-chat',
-            title: 'Scenario A: Green jokes',
-            sidePanelInstruction: `### Companion: Harassment Uncertainty
+            title: 'Talk it through',
+            sidePanelInstruction: `### Talk it through
 
-1. Tap the **Suggested prompt** chip to fill in a sample message.
-2. Tap the **Send** button.
-3. Once the companion replies, tap **Let go for now** to conclude.`,
+You're now in the Companion. It's a space to think out loud. The Companion replies, but it won't tell you what your experience is — that's up to you.
+
+1. Tap the **suggested prompt** chip to drop a sample message into the input.
+2. Tap **Send**.
+3. After the Companion replies, tap **Let go for now** to close the conversation without saving it.`,
             instructionSteps: [
               {
                 id: 'tap-suggestion-chip',
-                label: 'Tap the suggested prompt to fill in the input',
+                label: 'Tap the suggested prompt',
                 selector: '#chat-suggestion-chip-0',
                 popover: {
-                  title: 'Preloaded prompt',
-                  description: 'Tap this chip to drop a sample message into the input field.',
+                  title: 'Suggested prompt',
+                  description: `Tap to drop a sample message into the input. You don't need to type anything yourself.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1340,7 +1343,7 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
                 selector: '#chat-send-btn',
                 popover: {
                   title: 'Send',
-                  description: 'Send the message to the Companion.',
+                  description: `Send the message. The researcher will reply as the Companion would.`,
                   side: 'left',
                   align: 'center'
                 },
@@ -1348,11 +1351,11 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
               },
               {
                 id: 'select-let-go',
-                label: 'Choose "Let go for now"',
+                label: 'Tap "Let go for now"',
                 selector: '#let-go-btn',
                 popover: {
-                  title: 'Ephemeral choice',
-                  description: 'Choose to let this one go without logging it.',
+                  title: 'Let go for now',
+                  description: `Close the conversation without keeping a record of it.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1369,9 +1372,8 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
           microPrompts: [
             {
               id: 'chat-restraint',
-              type: 'single-choice',
-              question: 'Did the Companion\'s restraint feel supportive or frustrating?',
-              options: ['Supportive', 'Neutral', 'Frustrating'],
+              type: 'likert-5',
+              question: 'The way the Companion held back from defining my experience felt supportive.',
               required: true
             }
           ]
@@ -1379,18 +1381,18 @@ To begin, tap the **Companion** card on the screen to talk with your supportive 
       },
       {
         id: 'scenario-b-work-anxiety',
-        label: 'Scenario B — Work anxiety',
-        description: `### Scenario B: Work Anxiety
+        label: 'Heading to work',
+        description: `### Heading to work
 
-You feel anxious about work proximity to Marco and want to explore somatic calming techniques or log your feelings.`,
+It's Monday morning. You feel anxious about going to the office because of the coworker from the last scenario.`,
         steps: [
           {
             id: 'scenario-b-home',
             screenId: 'guided-home',
-            title: 'Get started',
-            sidePanelInstruction: `### Companion Chat
+            title: 'Open the Companion',
+            sidePanelInstruction: `### Open the Companion
 
-Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
+Tap the **Companion** card on the phone.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card-b',
@@ -1398,7 +1400,7 @@ Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
                 selector: '#companion-card',
                 popover: {
                   title: 'Companion',
-                  description: 'Open a chat with Grace\'s Companion.',
+                  description: `Open a chat with the Companion.`,
                   side: 'right',
                   align: 'center'
                 },
@@ -1411,20 +1413,22 @@ Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
           {
             id: 'scenario-b-chat',
             screenId: 'companion-chat',
-            title: 'Scenario B: Work anxiety',
-            sidePanelInstruction: `### Somatic Tension & Reflection
+            title: 'Move it into the journal',
+            sidePanelInstruction: `### Move it into the journal
 
-1. Tap the **Suggested prompt** chip to explain your somatic symptoms.
-2. Tap the **Send** button.
-3. Tap **Continue to journal** to carry this conversation into your personal journal.`,
+Sometimes a conversation is worth keeping. The Companion can hand off what you've talked about into the journal, where you can write more about it on your own.
+
+1. Tap the **suggested prompt** to fill in the input.
+2. Tap **Send**.
+3. When the Companion replies, tap **Continue to journal** to move the conversation into your journal.`,
             instructionSteps: [
               {
                 id: 'tap-suggestion-chip-b',
-                label: 'Tap the suggested prompt to fill in the input',
+                label: 'Tap the suggested prompt',
                 selector: '#chat-suggestion-chip-0',
                 popover: {
-                  title: 'Preloaded prompt',
-                  description: 'Tap this chip to drop a sample message into the input field.',
+                  title: 'Suggested prompt',
+                  description: `Tap to drop a sample message into the input.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1436,7 +1440,7 @@ Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
                 selector: '#chat-send-btn',
                 popover: {
                   title: 'Send',
-                  description: 'Send the message to the Companion.',
+                  description: `Send the message to the Companion.`,
                   side: 'left',
                   align: 'center'
                 },
@@ -1444,11 +1448,11 @@ Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
               },
               {
                 id: 'select-continue-journal',
-                label: 'Choose "Continue to journal"',
+                label: 'Tap "Continue to journal"',
                 selector: '#continue-journal-btn',
                 popover: {
-                  title: 'Carry it forward',
-                  description: 'Move the conversation into your journal.',
+                  title: 'Continue to journal',
+                  description: `Carry this conversation into your journal so you can write more about it.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1461,21 +1465,21 @@ Tap the **Companion** card on the screen to open the somatic AI chat partner.`,
           {
             id: 'journal-handoff',
             screenId: ScreenIds.JOURNAL_EDITOR,
-            title: 'Reflective Journaling',
-            sidePanelInstruction: `### Free Flow Journal
+            title: "Write what you're feeling",
+            sidePanelInstruction: `### Write what you're feeling
 
-Your conversation summary is pre-filled. 
+A short summary of your chat is already at the top of the journal entry. You can keep it, edit it, or ignore it.
 
-1. Write a brief sentence about how you are feeling in the editor.
-2. Click **Save entry** in the top-right corner to save privately.`,
+1. Write a sentence or two about how you're feeling.
+2. Tap **Save entry** at the top right.`,
             instructionSteps: [
               {
                 id: 'jh-write',
-                label: 'Write a sentence about how you are feeling',
+                label: "Write a sentence about how you're feeling",
                 selector: 'textarea',
                 popover: {
                   title: 'Write freely',
-                  description: 'Type a short sentence describing your somatic sensations or thoughts.',
+                  description: `Type a short sentence. There's no right way to do this.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1483,11 +1487,11 @@ Your conversation summary is pre-filled.
               },
               {
                 id: 'jh-save',
-                label: 'Save your entry',
+                label: 'Save the entry',
                 selector: '#save-journal-btn',
                 popover: {
                   title: 'Save',
-                  description: 'Save what you\'ve written.',
+                  description: `Save what you've written. Grace doesn't comment on it — it just saves.`,
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1500,12 +1504,12 @@ Your conversation summary is pre-filled.
           {
             id: 'scenario-b-breath',
             screenId: 'breath-reminder',
-            title: 'Pause & breathe',
-            sidePanelInstruction: `### Somatic breath pause
+            title: 'Take a breath',
+            sidePanelInstruction: `### Take a breath
 
-Breathe slowly. Follow the somatic expansion circle on the screen.
+After a heavier entry, Grace offers a short breathing pause. Follow the circle on the phone for a few seconds.
 
-Tap **Next step** when ready.`,
+Tap **Next step** when you're ready.`,
             instructionSteps: [],
             allowedSelectors: [],
             advanceOn: { type: 'manual_next' }
@@ -1518,7 +1522,7 @@ Tap **Next step** when ready.`,
             {
               id: 'summary-useful',
               type: 'likert-5',
-              question: 'The carry-over summary made it easier to move from chat into the journal.',
+              question: 'Moving from the chat into the journal felt natural to me.',
               required: true
             }
           ]
@@ -1526,28 +1530,28 @@ Tap **Next step** when ready.`,
       },
       {
         id: 'scenario-c-patterns',
-        label: 'Scenario C — Pattern surfacing',
-        description: `### Scenario C: Pattern Surfacing
+        label: 'Looking back over time',
+        description: `### Looking back over time
 
-Review recurring themes and patterns across your saved entries.`,
+You've written a few entries over the past few weeks. Grace can look across them and point out things you've mentioned more than once.`,
         steps: [
           {
             id: 'scenario-c-offers',
             screenId: ScreenIds.POST_SAVE_OFFERS,
-            title: 'Reviewing patterns',
-            sidePanelInstruction: `### Looking back
+            title: 'Ask Grace to look for patterns',
+            sidePanelInstruction: `### Ask Grace to look for patterns
 
-Grace notices patterns over time. 
+After you save an entry, Grace offers a few things you can do next. One of them is to look across your past entries for things that keep coming up.
 
-Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
+Tap **Help me notice patterns**.`,
             instructionSteps: [
               {
                 id: 'tap-notice-patterns',
                 label: 'Tap "Help me notice patterns"',
                 selector: '#help-notice-patterns-btn',
                 popover: {
-                  title: 'Pattern surfacing',
-                  description: 'Let Grace highlight repeated themes across your entries.',
+                  title: 'Help me notice patterns',
+                  description: `Let Grace look across your entries and flag what comes up more than once.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1560,19 +1564,21 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
           {
             id: 'scenario-c-annotations',
             screenId: ScreenIds.JOURNAL_ANNOTATIONS,
-            title: 'Exploring highlighted themes',
-            sidePanelInstruction: `### Surfaced themes
+            title: 'See what came up',
+            sidePanelInstruction: `### See what came up
 
-1. Tap one of the **highlighted phrases** (colored superscript numbers) on the screen to read what Grace noticed.
-2. Tap **Close** to return and complete the scenario.`,
+Grace marks phrases in your entries it noticed. Each one is something that appeared more than once or seemed worth pointing out.
+
+1. Tap one of the highlighted phrases (the colored numbers in your text) to see what Grace flagged.
+2. Tap **Close** to return.`,
             instructionSteps: [
               {
                 id: 'tap-annotation-phrase',
-                label: 'Tap a highlighted phrase to see what Grace noticed',
+                label: 'Tap a highlighted phrase',
                 selector: '[id^=annotation-]',
                 popover: {
-                  title: 'AI note',
-                  description: 'Each highlight is something Grace flagged across your entries. Tap to read.',
+                  title: 'A note from Grace',
+                  description: `Each highlight is something Grace flagged. Tap to read what it noticed.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1580,11 +1586,11 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
               },
               {
                 id: 'tap-close-annotation',
-                label: 'Tap "Close" when you\'ve reviewed the highlights',
+                label: 'Tap "Close" when you\'ve read it',
                 selector: '#close-annotations-btn',
                 popover: {
                   title: 'Close',
-                  description: 'Return to your journal.',
+                  description: `Return to your journal.`,
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1602,7 +1608,7 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
             {
               id: 'annotation-helpful',
               type: 'likert-5',
-              question: 'The highlighted annotations helped me better understand what I have been going through.',
+              question: 'The highlighted phrases reflected things I felt were worth pointing out.',
               required: true
             }
           ]
@@ -1610,18 +1616,18 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
       },
       {
         id: 'scenario-d-journaling',
-        label: 'Scenario D — Prompted Journaling',
-        description: `### Scenario D: Prompted Journaling
+        label: 'Writing with a prompt',
+        description: `### Writing with a prompt
 
-Let's try a structured journaling session to process recent stress.`,
+Sometimes a blank page is too much. Grace has guided prompts that give you somewhere to start.`,
         steps: [
           {
             id: 'scenario-d-home',
             screenId: 'guided-home',
-            title: 'Structured journaling',
-            sidePanelInstruction: `### Reflective Journal card
+            title: 'Open the journal',
+            sidePanelInstruction: `### Open the journal
 
-Tap the **Reflective Journal** card on the screen to begin.`,
+Tap the **Reflective Journal** card on the phone.`,
             instructionSteps: [
               {
                 id: 'tap-journal-card',
@@ -1629,7 +1635,7 @@ Tap the **Reflective Journal** card on the screen to begin.`,
                 selector: '#journal-card',
                 popover: {
                   title: 'Reflective Journal',
-                  description: 'Open your journal to write freely or use a guided prompt.',
+                  description: `Open the journal.`,
                   side: 'right',
                   align: 'center'
                 },
@@ -1642,18 +1648,20 @@ Tap the **Reflective Journal** card on the screen to begin.`,
           {
             id: 'scenario-d-modes',
             screenId: 'journal-modes',
-            title: 'Choose journaling mode',
-            sidePanelInstruction: `### Journal style
+            title: 'Pick a guided session',
+            sidePanelInstruction: `### Pick a guided session
 
-Tap **Guided** to use Pennebaker-style structured prompts.`,
+The journal has two modes. **Free flow** is a blank page. **Guided** gives you a few short prompts to write into.
+
+Tap **Guided**.`,
             instructionSteps: [
               {
                 id: 'tap-guided-btn',
                 label: 'Tap "Guided"',
                 selector: '#guided-journal-btn',
                 popover: {
-                  title: 'Guided mode',
-                  description: 'Use Pennebaker-style prompts to structure your reflection.',
+                  title: 'Guided',
+                  description: `Use short prompts to help you start.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1665,19 +1673,21 @@ Tap **Guided** to use Pennebaker-style structured prompts.`,
           },
           {
             id: 'scenario-d-editor',
-            screenId: 'journal-guided-editor',
-            title: 'Structured prompts',
-            sidePanelInstruction: `### Guided prompt editor
+            screenId: ScreenIds.JOURNAL_GUIDED_EDITOR,
+            title: 'Save the entry',
+            sidePanelInstruction: `### Save the entry
 
-Answer the pre-filled questions or tap **Just save it** to secure the entry.`,
+You can answer the prompts now, or just save the entry as-is and come back to it later.
+
+Tap **save entry**.`,
             instructionSteps: [
               {
                 id: 'tap-just-save',
-                label: 'Tap "Just save it"',
+                label: 'Tap "save entry"',
                 selector: '#save-guided-btn',
                 popover: {
-                  title: 'Save quietly',
-                  description: 'Save your entry without any AI follow-up.',
+                  title: 'save entry',
+                  description: `Save the entry without writing anything more.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1690,12 +1700,12 @@ Answer the pre-filled questions or tap **Just save it** to secure the entry.`,
         ],
         reflection: {
           id: 'reflection-no-ai-comfort',
-          title: 'Comparing the two modes',
+          title: 'A quick reflection',
           microPrompts: [
             {
               id: 'combined-no-ai-comfort',
               type: 'likert-5',
-              question: 'The guided journaling prompts helped me process what I was going through, even without an AI companion.',
+              question: 'The guided prompts gave me somewhere to start.',
               required: true
             }
           ]
@@ -1703,26 +1713,26 @@ Answer the pre-filled questions or tap **Just save it** to secure the entry.`,
       },
       {
         id: 'scenario-e-incidents',
-        label: 'Scenario E — Incident Logging',
-        description: `### Scenario E: Incident Logging
+        label: 'Writing it down as a record',
+        description: `### Writing it down as a record
 
-Document an incident with structured fields for date, place, and people involved.`,
+Sometimes you want to write something down in case you need it later — for yourself, or to share with someone. The incident log has fields for the date, place, and people involved, and saves the entry with a timestamp.`,
         steps: [
           {
             id: 'scenario-e-home',
             screenId: 'guided-home',
-            title: 'Structured logging',
-            sidePanelInstruction: `### Incident Log Tab
+            title: 'Open the incident log',
+            sidePanelInstruction: `### Open the incident log
 
-Tap the **Incident Log** tab in the bottom navigation.`,
+Tap **Incident Log** in the bottom nav.`,
             instructionSteps: [
               {
                 id: 'tap-incident-tab',
-                label: 'Tap "Incident Log" in the bottom nav',
+                label: 'Tap "Incident Log"',
                 selector: '#incident-nav-tab',
                 popover: {
                   title: 'Incident Log',
-                  description: 'Document an incident with structured fields.',
+                  description: `Open the incident log.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1735,19 +1745,22 @@ Tap the **Incident Log** tab in the bottom navigation.`,
           {
             id: 'scenario-e-log',
             screenId: 'incident-log',
-            title: 'Logging an incident',
-            sidePanelInstruction: `### Log details
+            title: 'Review incident log',
+            sidePanelInstruction: `### Review incident log
 
-1. Type a short description of the intrusion in the editor.
-2. Tap **Save incident** at the bottom.`,
+The incident log has been prefilled with details from your statement. Please review it.
+
+1. Review the prefilled incident details.
+2. Optionally add notes in the **Anything else** section at the bottom.
+3. Tap **Save incident** at the bottom.`,
             instructionSteps: [
               {
                 id: 'sel-write',
-                label: 'Type details in the incident log',
+                label: 'Review prefilled description',
                 selector: 'textarea',
                 popover: {
-                  title: 'Record incident details',
-                  description: 'Document who was involved, when, and where.',
+                  title: 'Review prefilled log',
+                  description: `Review the prefilled fields. You can optionally add notes at the bottom.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1759,7 +1772,7 @@ Tap the **Incident Log** tab in the bottom navigation.`,
                 selector: '#save-incident-btn',
                 popover: {
                   title: 'Save',
-                  description: 'Save your incident with a secure timestamp.',
+                  description: `Save the entry. Grace will add a timestamp.`,
                   side: 'bottom',
                   align: 'center'
                 },
@@ -1772,18 +1785,20 @@ Tap the **Incident Log** tab in the bottom navigation.`,
           {
             id: 'scenario-e-hash',
             screenId: ScreenIds.HASH_RECEIPT,
-            title: 'Secure timestamp receipt',
-            sidePanelInstruction: `### Cryptographic receipt
+            title: 'Your timestamp receipt',
+            sidePanelInstruction: `### Your timestamp receipt
 
-Observe the secure blockchain authority hash, then click **Next** to proceed.`,
+After you save, Grace shows a timestamp receipt for the entry. This is what proves the entry hasn't been changed since you wrote it, in case you ever need that.
+
+Tap **Next** to continue.`,
             instructionSteps: [
               {
                 id: 'tap-receipt-next',
-                label: 'Tap "Next" to continue',
+                label: 'Tap "Next"',
                 selector: '#incident-receipt-next-btn',
                 popover: {
-                  title: 'Continue',
-                  description: 'Move on to see what options you have next.',
+                  title: 'Next',
+                  description: `Move on to your options.`,
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1796,18 +1811,20 @@ Observe the secure blockchain authority hash, then click **Next** to proceed.`,
           {
             id: 'scenario-e-offers',
             screenId: ScreenIds.INCIDENT_POST_SAVE_OFFERS,
-            title: 'Conclude logging',
-            sidePanelInstruction: `### Conclude logging
+            title: 'Decide what to do next',
+            sidePanelInstruction: `### Decide what to do next
 
-Click **Do nothing for now** to wrap up the guided scenario.`,
+After saving, Grace offers a few things you could do — share with a lawyer or clinician, look at your past entries, or just leave it for now.
+
+Tap **Do nothing for now**.`,
             instructionSteps: [
               {
                 id: 'tap-do-nothing',
                 label: 'Tap "Do nothing for now"',
                 selector: '#do-nothing-btn',
                 popover: {
-                  title: 'Pause',
-                  description: 'Save the record without taking any further action right now.',
+                  title: 'Do nothing for now',
+                  description: `Save the record without taking any further action.`,
                   side: 'right',
                   align: 'start'
                 },
@@ -1817,7 +1834,19 @@ Click **Do nothing for now** to wrap up the guided scenario.`,
             allowedSelectors: ['#do-nothing-btn'],
             advanceOn: { type: 'tap', selector: '#do-nothing-btn' }
           }
-        ]
+        ],
+        reflection: {
+          id: 'reflection-scenario-e',
+          title: 'A quick reflection',
+          microPrompts: [
+            {
+              id: 'incident-record-confidence',
+              type: 'likert-5',
+              question: 'The incident log felt like a place I could record something I might need later.',
+              required: true
+            }
+          ]
+        }
       }
     ],
     postSessionReflection: {
@@ -1834,13 +1863,19 @@ Click **Do nothing for now** to wrap up the guided scenario.`,
         {
           id: 'trust-words',
           type: 'likert-5',
-          question: 'I trust this app with my words.',
+          question: 'I trust this app with what I write in it.',
           required: true
         },
         {
           id: 'would-tell-another-woman',
           type: 'likert-5',
-          question: 'I would tell another woman about this app.',
+          question: 'If a woman I knew was going through something similar, I would mention this app to her.',
+          required: true
+        },
+        {
+          id: 'nothing-felt-unsafe',
+          type: 'likert-5',
+          question: 'Nothing in this app felt unsafe to me.',
           required: true
         }
       ]
@@ -1853,23 +1888,25 @@ Click **Do nothing for now** to wrap up the guided scenario.`,
       SCENARIO_0_ORIENTATION_PROVIDER,
       {
         id: 'lawyer-intake',
-        label: 'Lawyer Intake Dashboard',
+        label: 'Intake walkthrough',
         steps: [
           {
             id: 'la-home',
             screenId: ScreenIds.LAWYER_DASHBOARD,
-            title: 'Intake Dashboard',
-            sidePanelInstruction: `### Open Intake Request
+            title: 'New consultation request',
+            sidePanelInstruction: `### New consultation request
 
-Welcome to the Lawyer Dashboard. Tap the **Request for Consultation - Jane** notification to open the intake request.`,
+This is the receiving provider's dashboard. A prospective client has submitted a consultation request through Grace.
+
+Tap the **Consultation request — Jane** notification to open it.`,
             instructionSteps: [
               {
                 id: 'la-open-intake',
-                label: 'Open the intake request',
+                label: 'Open the consultation request',
                 selector: '#booking-notification',
                 popover: {
-                  title: 'New Intake',
-                  description: 'Tap to review the new request from Jane.',
+                  title: 'New consultation request',
+                  description: `Open the request submitted by Jane.`,
                   side: 'right',
                   align: 'center'
                 },
@@ -1882,18 +1919,20 @@ Welcome to the Lawyer Dashboard. Tap the **Request for Consultation - Jane** not
           {
             id: 'la-view-intake',
             screenId: 'lawyer-booking-detail',
-            title: 'Review Client Profile',
-            sidePanelInstruction: `### Review and Accept
+            title: 'Review the request and accept',
+            sidePanelInstruction: `### Review the request and accept
 
-Review the client profile. Tap **Accept Request** to formally accept the consultation and view evidence request options.`,
+The request shows a redacted client profile. The client's full identifying information is held back until you formally accept.
+
+Review what's shown, then tap **Accept Request** to proceed and unlock evidence access controls.`,
             instructionSteps: [
               {
                 id: 'la-review-profile',
-                label: 'Review client profile',
+                label: 'Review the client profile',
                 selector: '.redacted-profile-info',
                 popover: {
-                  title: 'Information',
-                  description: 'Review the initial consultation details.',
+                  title: 'Client profile',
+                  description: `Identifying details remain redacted until you accept.`,
                   side: 'left',
                   align: 'center'
                 },
@@ -1901,11 +1940,11 @@ Review the client profile. Tap **Accept Request** to formally accept the consult
               },
               {
                 id: 'la-accept-booking',
-                label: 'Accept Request',
+                label: 'Tap "Accept Request"',
                 selector: '#accept-booking-btn',
                 popover: {
                   title: 'Accept',
-                  description: 'Tap to formally accept and reveal data access options.',
+                  description: `Formally accept the consultation. This unlocks evidence access.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1918,18 +1957,20 @@ Review the client profile. Tap **Accept Request** to formally accept the consult
           {
             id: 'la-view-records',
             screenId: 'lawyer-artifacts',
-            title: 'Secure Client Data',
-            sidePanelInstruction: `### Request Data Access
+            title: 'Request access to client records',
+            sidePanelInstruction: `### Request access to client records
 
-Jane has shared encrypted Incident Logs and Somatic Journals. Request access to both logs to decrypt and review them.`,
+The client has elected to share two artifact types: encrypted incident logs and journal entries. Access is gated — you request, the client grants, and access is logged on both sides.
+
+Request access to both. Then tap **Next**.`,
             instructionSteps: [
               {
                 id: 'la-request-incident',
-                label: 'Request Incident Logs',
+                label: 'Request access to incident logs',
                 selector: '#request-incident-btn',
                 popover: {
-                  title: 'Request Logs',
-                  description: 'Tap to request decryption access for incident logs.',
+                  title: 'Request incident logs',
+                  description: `Request decryption access to the client's incident logs.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1937,11 +1978,11 @@ Jane has shared encrypted Incident Logs and Somatic Journals. Request access to 
               },
               {
                 id: 'la-request-journal',
-                label: 'Request Somatic Journals',
+                label: 'Request access to journal entries',
                 selector: '#request-journal-btn',
                 popover: {
-                  title: 'Request Journals',
-                  description: 'Tap to request decryption access for somatic journals.',
+                  title: 'Request journal entries',
+                  description: `Request decryption access to the client's journal entries.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -1951,35 +1992,50 @@ Jane has shared encrypted Incident Logs and Somatic Journals. Request access to 
             allowedSelectors: ['#request-incident-btn', '#request-journal-btn', '#artifacts-next-btn'],
             advanceOn: { type: 'tap', selector: '#artifacts-next-btn' }
           },
-
-
           {
             id: 'la-chat-corpus',
             screenId: 'lawyer-chat',
-            title: 'Chat with Corpus',
-            sidePanelInstruction: `### Ask the AI
+            title: "Query the client's corpus",
+            sidePanelInstruction: `### Query the client's corpus
 
-Ask questions directly to the client's evidence corpus by tapping the suggestions.`,
+The corpus chat lets you ask questions about the shared entries. Every answer cites the specific entry and paragraph it draws from. The client sees every question you ask and every answer returned.
+
+Tap each of the three suggested questions to see how the corpus responds. Then tap **Next**.`,
             instructionSteps: [
               {
                 id: 'la-chat-timeline',
-                label: 'Click "Show me the timeline"',
+                label: 'Ask "Show me the timeline"',
                 selector: '#chat-suggestion-timeline',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query the corpus',
+                  description: `Ask the corpus to surface a chronological account.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-timeline' }
               },
               {
                 id: 'la-chat-evidence',
-                label: 'Click "What evidence is attached?"',
+                label: 'Ask "What evidence is attached?"',
                 selector: '#chat-suggestion-evidence',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query the corpus',
+                  description: `Ask what attached evidence the client has shared.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-evidence' }
               },
               {
                 id: 'la-chat-named',
-                label: 'Click "Has she named what happened?"',
+                label: 'Ask "Has she named what happened?"',
                 selector: '#chat-suggestion-named',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query the corpus',
+                  description: `Ask whether the client has named the conduct in her own words.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-named' }
               }
             ],
@@ -1989,18 +2045,20 @@ Ask questions directly to the client's evidence corpus by tapping the suggestion
           {
             id: 'la-intake-notes',
             screenId: 'lawyer-notes',
-            title: 'Intake Notes',
-            sidePanelInstruction: `### Finalize Notes
+            title: 'Add intake notes',
+            sidePanelInstruction: `### Add intake notes
 
-Review the AI Synthesis, add your notes, and proceed to the certified export.`,
+Review the AI synthesis and add your own intake notes. Your notes are kept separately from the synthesis and the client's entries.
+
+Save a note, then tap **Next** to continue to the certified export.`,
             instructionSteps: [
               {
                 id: 'la-save-notes',
-                label: 'Add and save note',
+                label: 'Add and save intake note',
                 selector: '#save-note-btn',
                 popover: {
-                  title: 'Save Notes',
-                  description: 'Type observations and save.',
+                  title: 'Save note',
+                  description: `Type a brief intake note and save.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2008,11 +2066,11 @@ Review the AI Synthesis, add your notes, and proceed to the certified export.`,
               },
               {
                 id: 'la-continue-export',
-                label: 'Continue to certified export',
+                label: 'Continue to the certified export',
                 selector: '#notes-next-btn',
                 popover: {
-                  title: 'Export',
-                  description: 'Proceed to export preview.',
+                  title: 'Continue',
+                  description: `Move on to the export preview.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2025,18 +2083,20 @@ Review the AI Synthesis, add your notes, and proceed to the certified export.`,
           {
             id: 'la-export',
             screenId: 'lawyer-export',
-            title: 'Certified Export',
-            sidePanelInstruction: `### This is the last stage, review.
+            title: 'Review the certified export',
+            sidePanelInstruction: `### Review the certified export
 
-Review the certified PDF export and tap End Review.`,
+The certified export is the PDF you'd attach to a pleading or share with co-counsel. It includes the synthesis, the cited excerpts, the hash receipts, and the timestamp chain for each incident log.
+
+Review the export, then tap **End Review** to finish.`,
             instructionSteps: [
               {
                 id: 'la-end-review',
-                label: 'Press end when you\'re done reviewing',
+                label: 'Tap "End Review" when done',
                 selector: '#export-end-btn',
                 popover: {
                   title: 'End Review',
-                  description: 'Finish the scenario.',
+                  description: `Finish the walkthrough.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2056,13 +2116,13 @@ Review the certified PDF export and tap End Review.`,
         {
           id: 'legal-synthesis-useful',
           type: 'likert-5',
-          question: 'The legal lens synthesis would be useful for case preparation.',
+          question: 'The legal-lens synthesis would be useful for case preparation.',
           required: true
         },
         {
           id: 'hash-defensible',
           type: 'likert-5',
-          question: 'The hash-receipt and timestamp model, if implemented as described, would be defensible under cross-examination.',
+          question: 'The hash-receipt and timestamp model, as a concept, could be defensible under cross-examination if implemented as described.',
           required: true
         },
         {
@@ -2081,23 +2141,25 @@ Review the certified PDF export and tap End Review.`,
       SCENARIO_0_ORIENTATION_PROVIDER,
       {
         id: 'clinician-intake',
-        label: 'Clinician Intake Dashboard',
+        label: 'Patient intake walkthrough',
         steps: [
           {
             id: 'ca-home',
             screenId: ScreenIds.CLINICIAN_DASHBOARD,
-            title: 'Intake Dashboard',
-            sidePanelInstruction: `### Open Intake Request
+            title: 'New referral',
+            sidePanelInstruction: `### New referral
 
-Welcome to the Clinician Dashboard. Tap the **Request for Consultation - Jane** notification to open the intake request.`,
+This is the receiving provider's dashboard. A prospective patient has shared her Grace artifacts and requested an initial consultation.
+
+Tap the **Referral — Jane** notification to open it.`,
             instructionSteps: [
               {
                 id: 'ca-open-intake',
-                label: 'Open the intake request',
+                label: 'Open the referral',
                 selector: '#booking-notification',
                 popover: {
-                  title: 'New Intake',
-                  description: 'Tap to review the new request from Jane.',
+                  title: 'New referral',
+                  description: `Open the referral from Jane.`,
                   side: 'right',
                   align: 'center'
                 },
@@ -2109,19 +2171,21 @@ Welcome to the Clinician Dashboard. Tap the **Request for Consultation - Jane** 
           },
           {
             id: 'ca-view-intake',
-            screenId: 'lawyer-booking-detail',
-            title: 'Review Client Profile',
-            sidePanelInstruction: `### Review and Accept
+            screenId: 'clinician-booking-detail',
+            title: 'Review the referral and accept',
+            sidePanelInstruction: `### Review the referral and accept
 
-Review the client profile. Tap **Accept Request** to formally accept the consultation and view evidence request options.`,
+The referral shows a redacted patient profile. Full identifying details are held back until you accept.
+
+Review what's shown, then tap **Accept Request** to proceed.`,
             instructionSteps: [
               {
                 id: 'ca-review-profile',
-                label: 'Review client profile',
+                label: 'Review the patient profile',
                 selector: '.redacted-profile-info',
                 popover: {
-                  title: 'Information',
-                  description: 'Review the initial consultation details.',
+                  title: 'Patient profile',
+                  description: `Identifying details remain redacted until you accept.`,
                   side: 'left',
                   align: 'center'
                 },
@@ -2129,11 +2193,11 @@ Review the client profile. Tap **Accept Request** to formally accept the consult
               },
               {
                 id: 'ca-accept-booking',
-                label: 'Accept Request',
+                label: 'Tap "Accept Request"',
                 selector: '#accept-booking-btn',
                 popover: {
                   title: 'Accept',
-                  description: 'Tap to formally accept and reveal data access options.',
+                  description: `Accept the referral to unlock access to her shared artifacts.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2143,23 +2207,23 @@ Review the client profile. Tap **Accept Request** to formally accept the consult
             allowedSelectors: ['#accept-booking-btn'],
             advanceOn: { type: 'tap', selector: '#accept-booking-btn' }
           },
-
-
           {
             id: 'ca-view-records',
-            screenId: 'lawyer-artifacts',
-            title: 'Secure Client Data',
-            sidePanelInstruction: `### Request Data Access
+            screenId: 'clinician-artifacts',
+            title: 'Request access to shared artifacts',
+            sidePanelInstruction: `### Request access to shared artifacts
 
-Jane has shared encrypted Incident Logs and Somatic Journals. Request access to both logs to decrypt and review them.`,
+The patient has shared two artifact types: encrypted incident logs and journal entries. Access is gated — you request, the patient grants, and the access is logged on both sides.
+
+Request access to both. Then tap **Next**.`,
             instructionSteps: [
               {
                 id: 'ca-request-incident',
-                label: 'Request Incident Logs',
+                label: 'Request access to incident logs',
                 selector: '#request-incident-btn',
                 popover: {
-                  title: 'Request Logs',
-                  description: 'Tap to request decryption access for incident logs.',
+                  title: 'Request incident logs',
+                  description: `Request access to the patient's incident logs.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2167,11 +2231,11 @@ Jane has shared encrypted Incident Logs and Somatic Journals. Request access to 
               },
               {
                 id: 'ca-request-journal',
-                label: 'Request Somatic Journals',
+                label: 'Request access to journal entries',
                 selector: '#request-journal-btn',
                 popover: {
-                  title: 'Request Journals',
-                  description: 'Tap to request decryption access for somatic journals.',
+                  title: 'Request journal entries',
+                  description: `Request access to the patient's journal entries.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2183,31 +2247,48 @@ Jane has shared encrypted Incident Logs and Somatic Journals. Request access to 
           },
           {
             id: 'ca-chat-corpus',
-            screenId: 'lawyer-chat',
-            title: 'Chat with Corpus',
-            sidePanelInstruction: `### Ask the AI
+            screenId: 'clinician-chat',
+            title: "Query the patient's somatic logs",
+            sidePanelInstruction: `### Query the patient's somatic logs
 
-Ask questions directly to the client's evidence corpus by tapping the suggestions.`,
+The somatic chat lets you ask questions about what the patient has shared. Every answer cites the entry and paragraph it draws from. The client sees every question and answer.
+
+Tap each of the three suggested questions to see how the somatic assistant responds. Then tap **Next**.`,
             instructionSteps: [
               {
                 id: 'ca-chat-timeline',
-                label: 'Click "Show me the timeline"',
+                label: 'Ask "Show somatic patterns"',
                 selector: '#chat-suggestion-timeline',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query somatic patterns',
+                  description: `Ask for self-reported somatic stress patterns.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-timeline' }
               },
               {
                 id: 'ca-chat-evidence',
-                label: 'Click "What evidence is attached?"',
+                label: 'Ask "What are the panic reactions?"',
                 selector: '#chat-suggestion-evidence',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query panic reactions',
+                  description: `Ask what physical panic reactions are logged.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-evidence' }
               },
               {
                 id: 'ca-chat-named',
-                label: 'Click "Has she named what happened?"',
+                label: 'Ask "What attachment style is noted?"',
                 selector: '#chat-suggestion-named',
-                popover: { title: 'Query AI', description: 'Tap to ask the AI.', side: 'top', align: 'center' },
+                popover: {
+                  title: 'Query attachment indicators',
+                  description: `Ask about attachment style indicators in self-reflection.`,
+                  side: 'top',
+                  align: 'center'
+                },
                 completedWhen: { type: 'tap', selector: '#chat-suggestion-named' }
               }
             ],
@@ -2216,19 +2297,21 @@ Ask questions directly to the client's evidence corpus by tapping the suggestion
           },
           {
             id: 'ca-intake-notes',
-            screenId: 'lawyer-notes',
-            title: 'Intake Notes',
-            sidePanelInstruction: `### Finalize Notes
+            screenId: 'clinician-notes',
+            title: 'Add session-prep notes',
+            sidePanelInstruction: `### Add session-prep notes
 
-Review the AI Synthesis, add your notes, and proceed to the certified export.`,
+Review the AI synthesis and add notes for your first session with this patient. Your notes are kept separately from the synthesis and the patient's entries.
+
+Save a note, then tap **Next** to continue to the export.`,
             instructionSteps: [
               {
                 id: 'ca-save-notes',
-                label: 'Add and save note',
+                label: 'Add and save a session-prep note',
                 selector: '#save-note-btn',
                 popover: {
-                  title: 'Save Notes',
-                  description: 'Type observations and save.',
+                  title: 'Save note',
+                  description: `Type a brief note for session prep and save.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2236,11 +2319,11 @@ Review the AI Synthesis, add your notes, and proceed to the certified export.`,
               },
               {
                 id: 'ca-continue-export',
-                label: 'Continue to certified export',
+                label: 'Continue to the export',
                 selector: '#notes-next-btn',
                 popover: {
-                  title: 'Export',
-                  description: 'Proceed to export preview.',
+                  title: 'Continue',
+                  description: `Move on to the export preview.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2252,19 +2335,21 @@ Review the AI Synthesis, add your notes, and proceed to the certified export.`,
           },
           {
             id: 'ca-export',
-            screenId: 'lawyer-export',
-            title: 'Certified Export',
-            sidePanelInstruction: `### This is the last stage, review.
+            screenId: 'clinician-export',
+            title: 'Review the export',
+            sidePanelInstruction: `### Review the export
 
-Review the certified PDF export and tap End Review.`,
+The export is what you'd file in the patient's record. It includes the synthesis, the cited excerpts, and the patient's somatic and pattern flags.
+
+Review the export, then tap **End Review** to finish.`,
             instructionSteps: [
               {
                 id: 'ca-end-review',
-                label: 'Press end when you\'re done reviewing',
+                label: 'Tap "End Review" when done',
                 selector: '#export-end-btn',
                 popover: {
                   title: 'End Review',
-                  description: 'Finish the scenario.',
+                  description: `Finish the walkthrough.`,
                   side: 'top',
                   align: 'center'
                 },
@@ -2284,7 +2369,7 @@ Review the certified PDF export and tap End Review.`,
         {
           id: 'clinical-synthesis-useful',
           type: 'likert-5',
-          question: 'The clinical lens synthesis would be useful for session preparation.',
+          question: 'The clinical-lens synthesis would be useful for session preparation.',
           required: true
         },
         {

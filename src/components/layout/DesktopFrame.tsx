@@ -4,7 +4,7 @@ import { PhoneChrome } from './PhoneChrome'
 import { PauseAffordance } from './PauseAffordance'
 import { StudyInfoModal } from './StudyInfoModal'
 import { useStore } from '../../lib/store'
-import { HelpCircle, Info, ChevronLeft, ChevronRight } from 'lucide-react'
+import { HelpCircle, Info } from 'lucide-react'
 
 interface DesktopFrameProps {
   children: React.ReactNode
@@ -143,27 +143,6 @@ export function DesktopFrame({
             {children}
           </PhoneChrome>
 
-          {/* Prev / Next step controls — outside phone */}
-          {showStepControls && (
-            <div className="flex items-center space-x-3 mt-6">
-              <button
-                onClick={onPrev}
-                disabled={!canPrev}
-                className="flex items-center space-x-1.5 px-4 py-2 rounded-full border border-border-divider bg-white text-xs font-inter font-medium text-on-surface-variant hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Prev</span>
-              </button>
-              <button
-                onClick={onNext}
-                disabled={!canNext}
-                className="flex items-center space-x-1.5 px-4 py-2 rounded-full border border-primary bg-primary text-on-primary text-xs font-inter font-medium hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
-              >
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
 
           {/* If in reflection mode, dim and show arrow pointing towards the side panel */}
           {guidedMode === 'reflection' && !isFreeRoam && (

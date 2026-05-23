@@ -40,16 +40,49 @@ export default function Done() {
             : 'You have successfully completed the research session. Your contribution will help us build safer systems.'}
         </p>
 
-        <div className="bg-neutral-50 p-6 rounded-2xl border border-border-divider">
-          <h2 className="text-sm font-semibold font-inter text-on-surface mb-2">Have suggestions or feedback?</h2>
-          <p className="text-xs font-inter text-text-secondary leading-relaxed">
-            If you have any additional thoughts, feature requests, or encountered any issues during your session, please let us know:
-          </p>
-          <div className="mt-4 flex items-center justify-center space-x-2 text-sm font-mono text-primary bg-primary-container/20 py-3 rounded-xl">
-            <Mail className="w-4 h-4" />
-            <span>hello@weve.org</span>
+        <div className="bg-neutral-50 p-6 rounded-2xl border border-border-divider text-left space-y-4">
+          <div>
+            <h2 className="text-sm font-semibold font-inter text-on-surface">Have suggestions or feedback?</h2>
+            <p className="text-xs font-inter text-text-secondary leading-relaxed mt-1">
+              If you have any questions about this study or have additional feedback, please reach out to the researchers at the **Asian Institute of Management** (Master in Innovation and Business):
+            </p>
+          </div>
+
+          <div className="space-y-3 border-t border-border-divider pt-3">
+            <div className="flex items-start space-x-2.5 text-xs font-inter">
+              <Mail className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-on-surface">Jan Paul Fernandez (Lead Contact)</p>
+                <a href="mailto:jfernandez.MIB2026B@aim.edu" className="text-primary hover:underline font-mono">jfernandez.MIB2026B@aim.edu</a>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-2.5 text-xs font-inter">
+              <Mail className="w-4 h-4 text-text-muted shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-text-secondary">Marc Julian E. De Leon</p>
+                <a href="mailto:mdeleon.MIB2026B@aim.edu" className="text-text-secondary hover:text-on-surface hover:underline font-mono">mdeleon.MIB2026B@aim.edu</a>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-2.5 text-xs font-inter">
+              <Mail className="w-4 h-4 text-text-muted shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-text-secondary">April Y. Barrinuevo</p>
+                <a href="mailto:abarrinuevo.MIB2026B@aim.edu" className="text-text-secondary hover:text-on-surface hover:underline font-mono">abarrinuevo.MIB2026B@aim.edu</a>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-2.5 text-xs font-inter">
+              <Mail className="w-4 h-4 text-text-muted shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-text-secondary">Mark Cyrille O. Yano</p>
+                <a href="mailto:myano.MIB2026B@aim.edu" className="text-text-secondary hover:text-on-surface hover:underline font-mono">myano.MIB2026B@aim.edu</a>
+              </div>
+            </div>
           </div>
         </div>
+
 
         {/* Grounding note */}
         <div className="pt-6 border-t border-border-divider">

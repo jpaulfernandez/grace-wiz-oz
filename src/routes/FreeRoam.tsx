@@ -199,7 +199,7 @@ export default function FreeRoam() {
                   <div className="flex-1 min-w-0">
                     <h4 className="text-xs font-semibold font-inter text-on-surface">Private Journal</h4>
                     <p className="text-[11px] font-inter text-text-secondary mt-0.5 leading-relaxed">
-                      Write freely with Pennebaker trauma-informed writing prompts.
+                      Write freely with guided journaling prompts.
                     </p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-text-muted self-center" />
@@ -353,7 +353,7 @@ export default function FreeRoam() {
               {freeRoamJournalTab === 'reflective' && (
                 <div className="space-y-4">
                   <div className="bg-white border border-border-divider rounded-card p-4 space-y-2">
-                    <span className="text-[9px] font-mono text-primary font-semibold uppercase tracking-wider block">Pennebaker Prompt</span>
+                    <span className="text-[9px] font-mono text-primary font-semibold uppercase tracking-wider block">Guided Prompt</span>
                     <p className="text-xs font-inter text-text-secondary leading-relaxed font-medium">
                       "Write about the event that stands out most. Do not worry about spelling or grammar—write purely to release the somatic tension you hold."
                     </p>
@@ -433,12 +433,12 @@ export default function FreeRoam() {
                         {isSecuring ? (
                           <>
                             <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            <span>Anchoring digital signatures...</span>
+                            <span>Securing entry timestamp...</span>
                           </>
                         ) : (
                           <>
                             <Lock className="w-3.5 h-3.5" />
-                            <span>Verify & Cryptographically Sign</span>
+                            <span>Verify & Save Securely</span>
                           </>
                         )}
                       </button>
@@ -446,10 +446,10 @@ export default function FreeRoam() {
                       <div className="p-4 bg-green-50 border border-green-150 rounded-card space-y-2 animate-scale-up">
                         <div className="flex items-center space-x-2 text-green-800 font-semibold text-xs font-inter">
                           <CheckCircle className="w-4 h-4 text-green-600" />
-                          <span>Ledger Secured Successfully!</span>
+                          <span>Incident Secured Successfully!</span>
                         </div>
                         <p className="text-[10px] font-mono text-green-700 leading-relaxed break-all">
-                          Fingerprint: <br /><strong>{incidentHash}</strong>
+                          Timestamp fingerprint: <br /><strong>{incidentHash}</strong>
                         </p>
                       </div>
                     )}

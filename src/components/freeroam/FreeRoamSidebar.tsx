@@ -7,13 +7,11 @@ import { telemetry } from '../../lib/telemetry'
 export function FreeRoamSidebar() {
   const navigate = useNavigate()
   const { 
-    scenarioId, 
     freeRoamProgress, 
     setFreeRoamTab, 
     setFreeRoamResourceTab, 
     setFreeRoamJournalTab, 
     setFreeRoamProgress: tickProgress,
-    completedAt
   } = useStore()
 
   // Feedback states
@@ -35,7 +33,7 @@ export function FreeRoamSidebar() {
     {
       id: 'journal',
       label: 'Draft a Reflective Diary',
-      desc: 'Test the Pennebaker guided prompt.',
+      desc: 'Test the guided prompt.',
       selector: '#freeroam-nav-journal',
       onClick: () => {
         setFreeRoamTab('journal')
@@ -90,11 +88,7 @@ export function FreeRoamSidebar() {
   ]
 
   const handleEndSession = () => {
-    if (scenarioId === 'admin-freeroam' || completedAt) {
-      navigate('/done')
-    } else {
-      navigate('/survey')
-    }
+    navigate('/done')
   }
 
   const handleSubmitFeedback = () => {
@@ -150,14 +144,63 @@ export function FreeRoamSidebar() {
           </p>
         </div>
 
-        {/* Feature checklist */}
+        {/* Free Roam Survey Section (Brought to the top for maximum visibility) */}
+        <div className="space-y-4 bg-neutral-50/50 p-4 border border-border-divider rounded-card">
+          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider flex items-center space-x-1 font-mono">
+            <HelpCircle className="w-3.5 h-3.5 text-primary" />
+            <span>Interactive Feedback</span>
+          </h3>
+          
+          <div className="space-y-4">
+            <div className="space-y-1.5 text-left">
+              <label className="block text-xs font-inter font-medium text-on-surface-variant leading-relaxed">
+                1. What are your overall thoughts on the Grace prototype?
+              </label>
+              <textarea
+                value={overallThoughts}
+                onChange={(e) => setOverallThoughts(e.target.value)}
+                placeholder="Share your general experience, design feedback, or somatic tracking impressions..."
+                className="w-full text-xs font-inter p-3 border border-border-divider rounded-input focus:outline-none focus:border-primary bg-white resize-none h-20 shadow-sm"
+              />
+            </div>
+
+            <div className="space-y-1.5 text-left font-inter">
+              <label className="block text-xs font-medium text-on-surface-variant leading-relaxed">
+                2. Are there other features you wish Grace had?
+              </label>
+              <textarea
+                value={desiredFeatures}
+                onChange={(e) => setDesiredFeatures(e.target.value)}
+                placeholder="E.g., offline signing, emergency alerts, lawyer hot-line integrations..."
+                className="w-full text-xs font-inter p-3 border border-border-divider rounded-input focus:outline-none focus:border-primary bg-white resize-none h-20 shadow-sm"
+              />
+            </div>
+
+            <button
+              onClick={handleSubmitFeedback}
+              disabled={isFeedbackSubmitted || (!overallThoughts.trim() && !desiredFeatures.trim())}
+              className="w-full mt-2 py-2.5 bg-primary text-white rounded-input text-xs font-semibold hover:bg-opacity-90 disabled:opacity-50 transition-all shadow-sm focus:outline-none flex items-center justify-center gap-1.5"
+            >
+              {isFeedbackSubmitted ? (
+                <>
+                  <Check className="w-4 h-4 stroke-[3]" />
+                  <span>Feedback submitted</span>
+                </>
+              ) : (
+                'Submit feedback'
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Explorable Features Stepper (formerly Checklist) */}
         <div className="space-y-4">
-          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider block">
-            Explorable Features Checklist
+          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider block font-mono">
+            Explorable Features
           </h3>
 
           <div className="space-y-2.5">
-            {checklistItems.map((item) => (
+            {checklistItems.map((item, index) => (
               <div
                 key={item.id}
                 onClick={item.onClick}
@@ -167,15 +210,19 @@ export function FreeRoamSidebar() {
                     : 'bg-white border-border-divider hover:border-primary shadow-sm'
                 }`}
               >
-                {/* Checkbox (Read-only since it auto-ticks) */}
+                {/* Stepper badge instead of Checkbox */}
                 <div 
-                  className={`w-5 h-5 mt-0.5 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${
+                  className={`w-5 h-5 mt-0.5 rounded-full flex items-center justify-center flex-shrink-0 transition-all font-mono text-[10px] font-bold ${
                     freeRoamProgress[item.id]
-                      ? 'bg-green-500 border-green-500 text-white'
-                      : 'border-text-muted bg-white group-hover:border-primary'
+                      ? 'bg-green-500 text-white shadow-sm'
+                      : 'bg-neutral-100 border border-neutral-300 text-text-muted group-hover:border-primary group-hover:bg-primary-container/20 group-hover:text-primary'
                   }`}
                 >
-                  {freeRoamProgress[item.id] && <Check className="w-3.5 h-3.5" />}
+                  {freeRoamProgress[item.id] ? (
+                    <Check className="w-3 h-3 stroke-[3]" />
+                  ) : (
+                    index + 1
+                  )}
                 </div>
 
                 <div className="flex-1">
@@ -195,7 +242,7 @@ export function FreeRoamSidebar() {
 
         {/* Unvisited features summary */}
         <div className="border-t border-border-divider pt-5 space-y-4">
-          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider block">
+          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider block font-mono">
             Here are other features not covered in the test:
           </h3>
 
@@ -235,48 +282,6 @@ export function FreeRoamSidebar() {
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Free Roam Survey Section */}
-        <div className="border-t border-border-divider pt-5 space-y-4">
-          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider flex items-center space-x-1">
-            <HelpCircle className="w-3.5 h-3.5 text-primary" />
-            <span>Interactive Feedback</span>
-          </h3>
-          
-          <div className="space-y-4 bg-neutral-50/50 p-4 border border-border-divider rounded-card">
-            <div className="space-y-1.5 text-left">
-              <label className="block text-xs font-inter font-medium text-on-surface-variant leading-relaxed">
-                1. What are your overall thoughts on the Grace prototype?
-              </label>
-              <textarea
-                value={overallThoughts}
-                onChange={(e) => setOverallThoughts(e.target.value)}
-                placeholder="Share your general experience, design feedback, or somatic tracking impressions..."
-                className="w-full text-xs font-inter p-3 border border-border-divider rounded-input focus:outline-none focus:border-primary bg-white resize-none h-20 shadow-sm"
-              />
-            </div>
-
-            <div className="space-y-1.5 text-left font-inter">
-              <label className="block text-xs font-medium text-on-surface-variant leading-relaxed">
-                2. Are there other features you wish Grace had?
-              </label>
-              <textarea
-                value={desiredFeatures}
-                onChange={(e) => setDesiredFeatures(e.target.value)}
-                placeholder="E.g., offline signing, emergency alerts, lawyer hot-line integrations..."
-                className="w-full text-xs font-inter p-3 border border-border-divider rounded-input focus:outline-none focus:border-primary bg-white resize-none h-20 shadow-sm"
-              />
-            </div>
-
-            <button
-              onClick={handleSubmitFeedback}
-              disabled={isFeedbackSubmitted || (!overallThoughts.trim() && !desiredFeatures.trim())}
-              className="w-full mt-2 py-2.5 bg-primary text-white rounded-input text-xs font-semibold hover:bg-opacity-90 disabled:opacity-50 transition-all shadow-sm focus:outline-none"
-            >
-              {isFeedbackSubmitted ? 'Feedback submitted \u2713' : 'Submit feedback'}
-            </button>
           </div>
         </div>
 

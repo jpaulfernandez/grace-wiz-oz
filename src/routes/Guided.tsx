@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Sparkles, MessageSquare, BookOpen, AlertOctagon, Heart, ChevronRight, Check, ShieldAlert, Unlock, CheckCircle2, Calendar, Paperclip, FileText } from 'lucide-react'
+import { Sparkles, MessageSquare, BookOpen, AlertOctagon, Heart, ChevronRight, Check, ShieldAlert, Unlock, CheckCircle2, Calendar, Paperclip, FileText, Lock } from 'lucide-react'
 import { useStore, getCurrentStep } from '../lib/store'
 import { useGuidedTour } from '../lib/useGuidedTour'
 import { FrameWrapper } from '../components/layout/FrameWrapper'
 import { telemetry, EventTypes } from '../lib/telemetry'
 import { getSessionConfig } from '../config/sidePanel'
 import { Button } from '../components/ui'
-import { OnboardingWalkthrough } from '../components/layout/OnboardingWalkthrough'
 
 // Custom chrome components
 import { BottomNav } from '../components/chrome/BottomNav'
@@ -268,7 +267,7 @@ export default function Guided() {
         }
         if (currentStep.id === 'scenario-e-log') {
           if (ins.id === 'sel-write') {
-            shouldComplete = incidentAnythingElse.trim().length > 0
+            shouldComplete = true
           }
         }
         if (currentStep.id === 'blank-journal' || currentStep.id === 'combined-blank-journal') {
@@ -282,6 +281,10 @@ export default function Guided() {
         if (rule.screenId && currentScreen === rule.screenId) {
           shouldComplete = true
         }
+      }
+
+      if (rule.type === 'tap' && rule.selector === '#chat-send-btn') {
+        shouldComplete = showHandoff
       }
 
       // Check if it is a provider action
@@ -330,7 +333,8 @@ export default function Guided() {
     providerNotes.length,
     completedInstructions,
     markInstructionComplete,
-    cohort
+    cohort,
+    showHandoff
   ])
 
   const lastOffPathTimeRef = useRef<number>(0)
@@ -366,6 +370,9 @@ export default function Guided() {
         if (rule && rule.type === 'tap' && rule.selector) {
           const matched = target.closest(rule.selector)
           if (matched) {
+            if (rule.selector === '#chat-send-btn' && !showHandoff) {
+              return
+            }
             markInstructionComplete(currentStep.id, ins.id)
             telemetry.track(EventTypes.INSTRUCTION_AUTO_COMPLETED, {
               stepId: currentStep.id,
@@ -455,6 +462,21 @@ export default function Guided() {
     }
   }, [currentStep?.id, carryOverSummary, journalText])
 
+  // Pre-fill providerNotes with realistic case notes on mount/cohort change for testing/use cases
+  useEffect(() => {
+    if (cohort === 'lawyer') {
+      setProviderNotes([
+        "Note (May 22, 10:30 AM): Reviewed preliminary telemetry logs of elevator/stairs behavior modification. Patterns show consistent avoidance of elevator corridor during Marco's usual break times.",
+        "Note (May 21, 2:15 PM): Client called to verify encryption bounds. Confirmed all logs reside locally on sandbox client-side. Advised her to capture specific quotes of Marco's comments."
+      ])
+    } else if (cohort === 'clinician') {
+      setProviderNotes([
+        "Note (May 22, 10:30 AM): Reviewed telemetry on elevator/stairs behavior. Patient climbing 14 flights of stairs to avoid Marco. Significant somatic hyperarousal and physical fatigue noted.",
+        "Note (May 21, 2:15 PM): Checked in via secure portal. Patient reported chest tightness of 7/10 when approaching the office entrance. Encouraged somatic breathing pause prior to clocking in."
+      ])
+    }
+  }, [cohort])
+
   // Scroll to bottom on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -469,6 +491,20 @@ export default function Guided() {
       setGuidedFinished(false)
     }
   }, [guidedCompletedAt])
+
+  // Reset local guided/provider state when restarting back to scenario 1 step 0
+  useEffect(() => {
+    if (currentScenarioIndex === 1 && currentStepIndex === 0) {
+      setCarryOverSummary(null)
+      setJournalText('')
+      setIsRequestingIncidents(false)
+      setIsRequestingJournals(false)
+      setIsPendingIncidents(false)
+      setIsPendingJournals(false)
+      setProviderChatMessages([])
+      setProviderNotes([])
+    }
+  }, [currentScenarioIndex, currentStepIndex])
 
   // Synchronize screen state in telemetry on step transition
   useEffect(() => {
@@ -581,7 +617,7 @@ export default function Guided() {
           <div className="space-y-4">
             <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
             <p className="text-base font-newsreader font-medium text-on-surface">Timestamping...</p>
-            <p className="text-xs font-inter text-text-muted">Securing entry fingerprint to blockchain authority</p>
+            <p className="text-xs font-inter text-text-muted">Securing entry timestamp</p>
           </div>
         </div>
       )
@@ -590,20 +626,22 @@ export default function Guided() {
     if (guidedFinished) {
       return (
         <div className="flex-1 flex flex-col p-6 text-center bg-white h-full justify-between select-none">
-          <div className="my-auto space-y-6 max-w-[320px] mx-auto">
-            <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mx-auto text-primary animate-pulse">
-              <Sparkles className="w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-medium font-newsreader text-on-surface">
-              Orientation complete
+          <div className="my-auto space-y-6 max-w-[320px] mx-auto text-left">
+            <h2 className="text-2xl font-semibold font-newsreader text-on-surface">
+              Thank you for going through that.
             </h2>
-            <p className="text-sm font-inter text-text-secondary leading-relaxed">
-              Excellent job, {nickname || 'Jane'}! You've successfully finished the guided orientation scenarios. You can now transition to the final evaluation survey.
-            </p>
+            <div className="text-sm font-inter text-text-secondary space-y-4 leading-relaxed">
+              <p>
+                You're almost done. We just have a few closing questions to ask before we wrap up.
+              </p>
+              <p>
+                I hope you're doing okay. Take a moment if you need one, then tap below when you're ready.
+              </p>
+            </div>
           </div>
           <div className="w-full space-y-3 pt-6 border-t border-border-divider mt-auto">
             <Button variant="primary" className="w-full" onClick={handleStartFreeRoam}>
-              Proceed to Evaluation
+              Continue to closing questions
             </Button>
           </div>
         </div>
@@ -646,7 +684,7 @@ export default function Guided() {
                       Companion
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Chat safely with a virtual companion to process somatic stress.
+                      Talk through what's on your mind to think things through.
                     </p>
                   </div>
                 </button>
@@ -666,7 +704,7 @@ export default function Guided() {
                       Reflective Journal
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Secure, unguided free writing space to write your own story.
+                      Write freely. No prompts, no structure.
                     </p>
                   </div>
                 </button>
@@ -1014,7 +1052,7 @@ export default function Guided() {
                       Guided Mode
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Pennebaker prompted writing designed to process sensitive events.
+                      Guided writing designed to process sensitive events.
                     </p>
                   </div>
                 </button>
@@ -1065,7 +1103,7 @@ export default function Guided() {
 
             <div className="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col min-h-0">
               <div className="p-4 bg-[#EDE7F6]/30 border border-[#673AB7]/10 rounded-card text-xs font-inter text-text-secondary leading-relaxed">
-                This structured Pennebaker guided exercise splits reflection into clear prompts. Feel free to review or edit the responses before saving.
+                This structured guided exercise splits reflection into clear prompts. Feel free to review or edit the responses before saving.
               </div>
 
               {/* Prompt inputs */}
@@ -1096,8 +1134,8 @@ export default function Guided() {
             <ScreenHeader
               title="Incident Log"
               rightAction={
-                <span className="text-[10px] font-mono font-medium text-primary bg-primary-container px-2 py-1 rounded-full flex items-center select-none">
-                  🔒 SECURE
+                <span className="text-[10px] font-mono font-medium text-primary bg-primary-container px-2.5 py-1 rounded-full flex items-center gap-1 select-none">
+                  <Lock className="w-3 h-3" /> SECURE
                 </span>
               }
             />
@@ -1262,7 +1300,7 @@ export default function Guided() {
                   Incident secured & verified
                 </h3>
                 <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                  Your incident log is frozen in time. A cryptographic fingerprint has been anchored so it cannot be altered or backdated.
+                  Your incident log is frozen in time. A timestamp fingerprint has been anchored so it cannot be altered or backdated.
                 </p>
               </div>
 
@@ -1500,7 +1538,9 @@ export default function Guided() {
                     <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
                   )}
                   {!isRequestingIncidents && !isPendingIncidents && (
-                    <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                      <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                    </span>
                   )}
                 </div>
                 {!isRequestingIncidents && !isPendingIncidents && (
@@ -1537,7 +1577,9 @@ export default function Guided() {
                     <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
                   )}
                   {!isRequestingJournals && !isPendingJournals && (
-                    <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                      <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                    </span>
                   )}
                 </div>
                 {!isRequestingJournals && !isPendingJournals && (
@@ -1571,8 +1613,6 @@ export default function Guided() {
               </div>
             )}
 
-
-
             {isRequestingIncidents && isRequestingJournals && (
               <Button
                 onClick={() => {
@@ -1582,7 +1622,7 @@ export default function Guided() {
                 variant="primary"
                 className="w-full animate-fade-in"
               >
-                Continue to corpus chat &rarr;
+                Chat with Jane's record & journal &rarr;
               </Button>
             )}
           </div>
@@ -1704,13 +1744,25 @@ export default function Guided() {
             <div className="bg-primary-container/20 border border-primary-container rounded-card p-4 space-y-2">
               <h3 className="text-sm font-semibold text-primary font-inter flex items-center space-x-2">
                 <Sparkles className="w-4 h-4" />
-                <span>AI Synthesis</span>
+                <span>AI Synthesis (Legal Assessment)</span>
               </h3>
-              <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                Based on incident logs and journals, indicators of {cohort === 'lawyer' ? 'RA 11313 (Safe Spaces Act)' : 'hyperarousal and somatic stress'} are present.
-                <br /><br />
-                <strong>Note:</strong> This is an AI-generated summary and should be reviewed by {cohort === 'lawyer' ? 'legal counsel' : 'a clinician'}.
-              </p>
+              <div className="text-xs font-inter text-text-secondary leading-relaxed space-y-2">
+                <p>
+                  <strong>Hostile Work Environment Assessment (RA 11313 - Safe Spaces Act):</strong><br />
+                  The self-reported timeline outlines 3 chronologically consistent incidents involving coworker Marco:
+                </p>
+                <ul className="list-disc pl-4 space-y-1">
+                  <li><strong>May 14 (Desk):</strong> Unwanted verbal remarks and gender-based "green jokes" causing high distress.</li>
+                  <li><strong>May 19 (Lobby):</strong> Physical boundary violations, path blocking, and intimidation near elevator.</li>
+                  <li><strong>May 23 (Pantry):</strong> Severe workplace boundary intrusion with a corroborating witness J. logged in the blotted intake.</li>
+                </ul>
+                <p>
+                  <strong>Behavioral modification:</strong> Telemetry indicates persistent flight behavior (elevator avoidance, climbing 14 flights of stairs daily) to avoid Marco, supporting evidence of a hostile work environment.
+                </p>
+                <p className="text-[10px] font-semibold text-text-muted mt-2">
+                  Note: This is an AI-generated summary and should be reviewed by legal counsel.
+                </p>
+              </div>
             </div>
 
             {/* Note logs */}
@@ -1834,14 +1886,14 @@ export default function Guided() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <h3 className="text-sm font-medium font-inter text-on-surface">
-                    Session Prep Flagged
+                    Consultation Request - Jane
                   </h3>
                   <span className="px-2 py-0.5 bg-primary-container text-primary text-[10px] font-mono rounded-full font-medium">
-                    New Prep
+                    New Request
                   </span>
                 </div>
                 <p className="text-sm font-inter text-text-secondary leading-normal">
-                  Redacted intake from Tester Grace indicates high somatic anxiety indicators. Click to prepare and review grounding cards.
+                  Intake request from Jane indicates high somatic anxiety indicators. Click to prepare and review grounding cards.
                 </p>
               </div>
             </button>
@@ -1865,6 +1917,29 @@ export default function Guided() {
                 <Paperclip className="w-4 h-4 text-secondary" />
                 <span>Patient State: <strong>Self-Somatic Monitoring</strong></span>
               </div>
+            </div>
+
+            <div className="bg-white border border-border-divider rounded-card p-5 space-y-4">
+              <h3 className="text-sm font-medium font-inter text-on-surface uppercase tracking-wider text-text-secondary">Client Profile</h3>
+
+              <div className="space-y-2 mb-4 text-sm font-inter">
+                <div className="flex">
+                  <span className="w-24 text-text-muted">Name:</span>
+                  <span className="font-medium blur-sm select-none">Jane Doe</span>
+                </div>
+                <div className="flex">
+                  <span className="w-24 text-text-muted">Location:</span>
+                  <span className="font-medium blur-sm select-none">Metro Manila, Philippines</span>
+                </div>
+                <div className="flex">
+                  <span className="w-24 text-text-muted">Issue:</span>
+                  <span className="font-medium blur-sm select-none">Presenting with high somatic anxiety, chest tightness, and emotional distress following workplace boundary violations.</span>
+                </div>
+              </div>
+
+              <p className="text-xs font-mono text-text-muted italic bg-neutral-100 p-2 text-center rounded">
+                Client details are hidden to protect privacy. Accept the proposed time to reveal full context and prepare session.
+              </p>
             </div>
 
             <div className="bg-white border border-border-divider rounded-card p-5 space-y-4">
@@ -1915,7 +1990,9 @@ export default function Guided() {
                     <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
                   )}
                   {!isRequestingIncidents && !isPendingIncidents && (
-                    <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                      <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                    </span>
                   )}
                 </div>
                 {!isRequestingIncidents && !isPendingIncidents && (
@@ -1952,7 +2029,9 @@ export default function Guided() {
                     <span className="inline-block text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-mono animate-pulse mt-1">Requesting client approval...</span>
                   )}
                   {!isRequestingJournals && !isPendingJournals && (
-                    <span className="inline-block text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">🔒 Redacted & Locked</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded-full font-mono mt-1">
+                      <Lock className="w-2.5 h-2.5" /> Redacted & Locked
+                    </span>
                   )}
                 </div>
                 {!isRequestingJournals && !isPendingJournals && (
@@ -1995,7 +2074,7 @@ export default function Guided() {
                 variant="primary"
                 className="w-full animate-fade-in"
               >
-                Continue to somatic chat &rarr;
+                Chat with Jane's record & journal &rarr;
               </Button>
             )}
           </div>
@@ -2114,6 +2193,24 @@ export default function Guided() {
               <p className="text-xs font-mono text-text-muted">Secure clinician reflections</p>
             </div>
 
+            <div className="bg-primary-container/20 border border-primary-container rounded-card p-4 space-y-2">
+              <h3 className="text-sm font-semibold text-primary font-inter flex items-center space-x-2">
+                <Sparkles className="w-4 h-4" />
+                <span>AI Synthesis (Clinical Grounding Assessment)</span>
+              </h3>
+              <div className="text-xs font-inter text-text-secondary leading-relaxed space-y-2">
+                <p>
+                  <strong>Somatic & Attachment Synthesis:</strong><br />
+                  - <strong>Somatic Stress Triggers:</strong> 3 explicit mentions of chest tightness, 4 mentions of stomach knots, and 2 instances of shallow breathing/freezing reactions logged during or immediately after proximity encounters with coworker Marco.
+                  - <strong>Attachment Style:</strong> Self-reflection journaling prompts show highly anxious-avoidant attachment cues. Focuses heavily on personal blame ("am I the problem?") rather than external threat naming, indicating trauma-informed stress internalization.
+                  - <strong>Avoidance/Flight Modification:</strong> Highly disruptive behavioral adjustments, including climbing 14 flights of stairs to avoid the elevator corridor, leading to significant physical fatigue and hyperarousal.
+                </p>
+                <p className="text-[10px] font-semibold text-text-muted mt-2">
+                  Note: This is an AI-generated summary and should be reviewed by a clinician.
+                </p>
+              </div>
+            </div>
+
             {/* Note logs */}
             <div className="space-y-3 bg-white border border-border-divider rounded-card p-4 max-h-[220px] overflow-y-auto">
               {providerNotes.map((note, index) => (
@@ -2220,8 +2317,6 @@ export default function Guided() {
 
   return (
     <>
-      <OnboardingWalkthrough />
-
       <style>{`
         @keyframes pulseRow {
           0% { background-color: transparent; border-color: var(--color-border-divider); }
@@ -2248,7 +2343,7 @@ export default function Guided() {
           {(!currentStep || currentStep.prototypeInteractive === false || guidedMode === 'reflection') && (
             <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-[2px] z-[999] flex flex-col items-center justify-center p-6 text-center select-none animate-fade-in pointer-events-auto">
               <div className="p-5 bg-white border border-neutral-200 rounded-2xl shadow-xl max-w-[280px]">
-                <span className="text-2xl mb-2 block">🔒</span>
+                <Lock className="w-8 h-8 text-secondary mx-auto mb-3" />
                 <p className="text-xs font-inter font-semibold text-on-surface leading-relaxed">
                   {guidedMode === 'reflection'
                     ? "Take a moment — answer the questions in the side panel."

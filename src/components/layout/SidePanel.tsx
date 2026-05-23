@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CheckCircle2, ChevronRight } from 'lucide-react'
 import { useStore, getCurrentStep, getCurrentReflection, canAdvance, canContinueReflection } from '../../lib/store'
 import { telemetry, EventTypes } from '../../lib/telemetry'
 import { getSessionConfig } from '../../config/sidePanel'
@@ -182,7 +182,6 @@ export function SidePanel({
     reflectionAnswers,
     recordMicroPromptAnswer,
     nextStep,
-    prevStep,
     moderatorNotes,
     setModeratorNotes,
     showNudgeText
@@ -407,15 +406,6 @@ export function SidePanel({
           {showStepControls && (
             <div className="flex flex-col space-y-2 pt-4 border-t border-border-divider">
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={prevStep}
-                  disabled={currentScenarioIndex === 0 && currentStepIndex === 0}
-                  className="flex items-center space-x-1 px-3 py-2 rounded-full border border-border-divider text-xs font-inter font-medium text-on-surface-variant hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span>Prev</span>
-                </button>
-
                 {(currentStep.advanceOn.type === 'manual_next' || currentStep.advanceOn.type === 'all_instructions_done') && (
                   <button
                     onClick={nextStep}

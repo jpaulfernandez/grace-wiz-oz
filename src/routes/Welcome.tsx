@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { Check } from 'lucide-react'
 import { Button, Input } from '../components/ui'
 import { lookupScenario } from '../config/scenarios'
 import { useStore } from '../lib/store'
@@ -206,8 +207,8 @@ export default function Welcome() {
             </p>
 
             {inviteCodeValue && !codeError && lookupScenario(inviteCodeValue) && (
-              <div className="text-sm font-inter text-primary mt-2">
-                ✓ Code recognized
+              <div className="text-sm font-inter text-primary mt-2 flex items-center gap-1.5 font-medium animate-fade-in">
+                <Check className="w-4 h-4 stroke-[3]" /> Code recognized
               </div>
             )}
 

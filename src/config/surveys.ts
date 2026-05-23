@@ -19,32 +19,33 @@ export const COHORT_SURVEYS: Record<'women' | 'lawyer' | 'clinician', CohortSurv
   women: {
     likertQuestions: [
       { id: 'w_write_interest', text: 'I would write what is happening to me in this app.' },
-      { id: 'w_trust_words', text: 'I trust this app with my words.' },
-      { id: 'w_tell_others', text: 'I would tell another woman about this app.' }
+      { id: 'w_trust_words', text: 'I trust this app with what I write in it.' },
+      { id: 'w_tell_others', text: 'If a woman I knew was going through something similar, I would mention this app to her.' },
+      { id: 'w_nothing_felt_unsafe', text: 'Nothing in this app felt unsafe to me.' }
     ],
     openQuestions: [
       { id: 'w_safe_unsafe', text: 'What about this app made you feel safe, or unsafe?', placeholder: 'Describe your thoughts...' },
       { id: 'w_not_write', text: 'Was there anything you would not write into this app, even if it were happening to you?', placeholder: 'Describe your thoughts...' },
-      { id: 'w_worse_factor', text: 'What would make this worse for someone you know?', placeholder: 'Describe your thoughts...' }
+      { id: 'w_worse_factor', text: 'What would make this app worse for someone you know?', placeholder: 'Describe your thoughts...' }
     ],
     hasPricingThrowaway: false
   },
   lawyer: {
     likertQuestions: [
-      { id: 'l_synthesis_utility', text: 'The legal lens synthesis would be useful for case preparation.' },
-      { id: 'l_hash_defensibility', text: 'The hash-receipt and timestamp model, if implemented as described, would be defensible under cross-examination.' },
+      { id: 'l_synthesis_utility', text: 'The legal-lens synthesis would be useful for case preparation.' },
+      { id: 'l_hash_defensibility', text: 'The hash-receipt and timestamp model, as a concept, could be defensible under cross-examination if implemented as described.' },
       { id: 'l_accept_links', text: 'I would accept shared Grace links from clients as a receiving provider on this platform.' }
     ],
     openQuestions: [
       { id: 'l_admissibility_fields', text: 'Which fields in the incident log are essential for admissibility, and what\'s missing?', placeholder: 'Describe your thoughts...' },
-      { id: 'l_chat_breakdown', text: 'Where does the citation-chip / corpus-chat model break down?', placeholder: 'Describe your thoughts...' },
+      { id: 'l_chat_breakdown', text: 'Where does the citation-chip or corpus-chat model break down?', placeholder: 'Describe your thoughts...' },
       { id: 'l_changes_needed', text: 'What would have to change before you\'d use this with an actual client matter?', placeholder: 'Describe your thoughts...' }
     ],
     hasPricingThrowaway: true
   },
   clinician: {
     likertQuestions: [
-      { id: 'c_synthesis_utility', text: 'The clinical lens synthesis would be useful for session preparation.' },
+      { id: 'c_synthesis_utility', text: 'The clinical-lens synthesis would be useful for session preparation.' },
       { id: 'c_refer_patients', text: 'I would recommend a patient use this between sessions.' },
       { id: 'c_accept_links', text: 'I would accept shared links from patients as a receiving provider on this platform.' }
     ],
