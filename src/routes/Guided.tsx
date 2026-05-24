@@ -347,10 +347,15 @@ export default function Guided() {
       if (scenarioId === 'admin-freeroam') return
 
       const target = e.target as HTMLElement
-      const isInsidePhone = target.closest('#phone-viewport')
+      const isInsidePhone = target.closest('#phone-viewport') || window.innerWidth < 1024
       if (!isInsidePhone) return
 
-      const isOverride = target.closest('.driver-popover') || target.closest('.driver-overlay') || target.closest('.onboarding-overlay')
+      const isOverride = target.closest('.driver-popover') || 
+                         target.closest('.driver-overlay') || 
+                         target.closest('.onboarding-overlay') ||
+                         target.closest('#right-sidebar-panel') ||
+                         target.closest('button[aria-label="View instructions"]') ||
+                         target.closest('button[aria-label="Close instructions drawer"]')
       if (isOverride) return
 
       // Always allow input and textarea focus clicks to ensure smooth typing
@@ -2341,13 +2346,13 @@ export default function Guided() {
 
           {/* Locks-and-dimming overlay container covering the phone viewport */}
           {(!currentStep || currentStep.prototypeInteractive === false || guidedMode === 'reflection') && (
-            <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-[2px] z-[999] flex flex-col items-center justify-center p-6 text-center select-none animate-fade-in pointer-events-auto">
-              <div className="p-5 bg-white border border-neutral-200 rounded-2xl shadow-xl max-w-[280px]">
+            <div className={`absolute inset-0 flex flex-col pointer-events-auto select-none animate-fade-in ${window.innerWidth < 1024 ? 'bg-transparent items-center pt-6 z-20' : 'bg-neutral-900/60 backdrop-blur-[2px] items-center justify-center p-6 text-center z-[999]'}`}>
+              <div className="p-5 bg-white border border-neutral-200 rounded-2xl shadow-xl max-w-[280px] text-center">
                 <Lock className="w-8 h-8 text-secondary mx-auto mb-3" />
                 <p className="text-xs font-inter font-semibold text-on-surface leading-relaxed">
                   {guidedMode === 'reflection'
-                    ? "Take a moment — answer the questions in the side panel."
-                    : "Read along — we'll tell you when to tap."
+                    ? (window.innerWidth < 1024 ? "Tap 'Guide' below to answer the reflection." : "Take a moment — answer the questions in the side panel.")
+                    : (window.innerWidth < 1024 ? "Tap 'Guide' below to read the instructions." : "Read along — we'll tell you when to tap.")
                   }
                 </p>
               </div>

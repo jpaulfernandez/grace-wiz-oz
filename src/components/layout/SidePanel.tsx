@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle2, ChevronRight } from 'lucide-react'
+import { CheckCircle2, ChevronRight, Info } from 'lucide-react'
 import { useStore, getCurrentStep, getCurrentReflection, canAdvance, canContinueReflection } from '../../lib/store'
 import { telemetry, EventTypes } from '../../lib/telemetry'
 import { getSessionConfig } from '../../config/sidePanel'
@@ -45,7 +45,7 @@ function ReflectionPanel({
 }) {
   return (
     <div className="flex-1 flex flex-col justify-between p-6 space-y-6">
-      <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-255px)] pr-1">
+      <div className="space-y-6 overflow-y-auto max-h-[calc(100%-4rem)] pr-1">
         <div className="space-y-2 text-left">
           <h3 className="text-xs font-mono uppercase tracking-wider text-text-muted">
             Reflection
@@ -326,18 +326,20 @@ export function SidePanel({
               <button
                 onClick={() => {
                   const state = useStore.getState()
-                  const nextScenarioIndex = state.currentScenarioIndex + 1
                   if (currentScenario?.reflection) {
                     useStore.setState({ guidedMode: 'reflection' })
-                  } else if (nextScenarioIndex < session.scenarios.length) {
-                    const nextScenario = session.scenarios[nextScenarioIndex]
-                    useStore.setState({
-                      currentScenarioIndex: nextScenarioIndex,
-                      currentStepIndex: 0,
-                      guidedMode: nextScenario.description ? 'scenario-intro' : 'step'
-                    })
                   } else {
-                    useStore.setState({ guidedMode: 'reflection' })
+                    const nextScenarioIndex = state.currentScenarioIndex + 1
+                    if (nextScenarioIndex < session.scenarios.length) {
+                      const nextScenario = session.scenarios[nextScenarioIndex]
+                      useStore.setState({
+                        currentScenarioIndex: nextScenarioIndex,
+                        currentStepIndex: 0,
+                        guidedMode: nextScenario.description ? 'scenario-intro' : 'step'
+                      })
+                    } else {
+                      useStore.setState({ guidedMode: 'reflection' })
+                    }
                   }
                 }}
                 className="text-xs font-inter font-medium text-secondary hover:underline"
@@ -383,7 +385,13 @@ export function SidePanel({
       {guidedMode === 'step' && currentStep && (
         <div className="flex-1 p-6 space-y-6 flex flex-col justify-between">
           <div className="space-y-6">
-            <Markdown source={currentStep.sidePanelInstruction} />
+            {window.innerWidth < 1024 && currentStepIndex === 0 && (
+              <div className="p-4 bg-secondary-container/40 border border-secondary/20 rounded-card text-sm font-inter text-on-secondary-container leading-relaxed flex items-start space-x-3">
+                <Info className="w-5 h-5 flex-shrink-0 mt-0.5 text-secondary" />
+                <p>Read the steps below, then <strong>close this guide</strong> when you are ready to interact with the prototype. You can always re-open it by tapping <strong>Open Guide</strong>.</p>
+              </div>
+            )}
+            <Markdown source={(window.innerWidth < 1024 && currentStep.mobileSidePanelInstruction) ? currentStep.mobileSidePanelInstruction : currentStep.sidePanelInstruction} />
 
             {currentStep.instructionSteps && currentStep.instructionSteps.length > 0 && (
               <div className="border-t border-border-divider pt-5">

@@ -255,7 +255,7 @@ export default function FreeRoam() {
 
           {/* TAB 2: COMPANION CHAT */}
           {freeRoamTab === 'companion' && (
-            <div className="h-[730px] flex flex-col bg-white animate-fade-in">
+            <div className="h-[calc(100dvh-116px)] flex flex-col bg-white animate-fade-in">
               {/* Header */}
               <div className="p-4 border-b border-border-divider flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center space-x-2 text-left">

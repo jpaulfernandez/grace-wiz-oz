@@ -15,7 +15,7 @@ export function BottomNav({ activeTab = 'companion', onTabChange, disabled = fal
   ] as const
 
   return (
-    <nav className="h-[72px] bg-white border-t border-border-divider flex items-center justify-around px-4 select-none flex-shrink-0 w-full z-10">
+    <nav className="h-[72px] bg-white border-t border-border-divider flex items-center justify-around px-4 pb-[env(safe-area-inset-bottom)] box-content select-none flex-shrink-0 w-full z-10">
       {tabs.map((tab) => {
         const Icon = tab.icon
         const isActive = activeTab === tab.id
@@ -30,7 +30,7 @@ export function BottomNav({ activeTab = 'companion', onTabChange, disabled = fal
             }`}
           >
             <Icon className="w-6 h-6 stroke-[1.5px] mb-1" />
-            <span className="text-[10px] font-inter tracking-tight leading-none">{tab.label}</span>
+            <span className="text-xs font-inter tracking-tight leading-none">{tab.label}</span>
           </button>
         )
       })}

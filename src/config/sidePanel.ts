@@ -18,10 +18,17 @@ Thanks for being part of this session. You'll spend about 60 minutes walking thr
 The phone on your left is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
 
 Tap **Next step** when you're ready.`,
+      mobileSidePanelInstruction: `### Welcome
+
+Thanks for being part of this session. You'll spend about 60 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
+
+This screen is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
+
+Tap **Next step** when you're ready.`,
       instructionSteps: [
         {
           id: 'see-prototype',
-          label: 'The prototype is on the left',
+          label: 'This screen is the prototype',
           selector: '#phone-frame-root',
           popover: {
             title: 'The prototype',
@@ -51,6 +58,17 @@ Each scenario shows up here with:
 If you lose your place, tap any row in the checklist and we'll point you back to the right spot.
 
 Tap **Next step** to continue.`,
+      mobileSidePanelInstruction: `### This drawer guides you
+
+Each scenario shows up here with:
+
+- A short explanation of what you're about to do
+- A checklist of small steps to follow
+- A pointer on the prototype showing where to tap
+
+If you get lost, just tap the **Guide** button at the bottom of the screen to open this drawer again.
+
+Tap **Next step** to continue.`,
       instructionSteps: [],
       allowedSelectors: [],
       advanceOn: { type: 'manual_next' }
@@ -67,30 +85,7 @@ At the top of the screen, **I need help** reaches the researcher running this se
 You can pause, skip, or stop at any time without affecting your compensation. There are no wrong answers, and "I don't know" is always a valid response.
 
 Tap **Next step** to continue.`,
-      instructionSteps: [
-        {
-          id: 'see-help',
-          label: 'I need help is at the top-left',
-          selector: '#help-button',
-          popover: {
-            title: 'Need help?',
-            description: `Tap here any time to reach the researcher.`,
-            side: 'bottom',
-            align: 'start',
-          }
-        },
-        {
-          id: 'see-study-info',
-          label: 'Study info is next to it',
-          selector: '#study-info-button',
-          popover: {
-            title: 'About this study',
-            description: `Tap to see what we're testing and how your data is handled.`,
-            side: 'bottom',
-            align: 'start',
-          }
-        }
-      ],
+      instructionSteps: [],
       allowedSelectors: ['#help-button', '#study-info-button'],
       advanceOn: { type: 'manual_next' }
     } as GuidedStepConfig,

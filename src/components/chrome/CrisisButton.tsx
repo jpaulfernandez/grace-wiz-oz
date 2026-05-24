@@ -44,7 +44,7 @@ export function CrisisButton() {
       <button
         onClick={handleTap}
         id="crisis-floating-btn"
-        className="fixed bottom-[88px] right-6 z-40 w-14 h-14 rounded-full bg-secondary text-white shadow-[0_4px_12px_rgba(0,137,123,0.25)] hover:bg-opacity-95 transition-all flex items-center justify-center border border-teal-600 focus:outline-none"
+        className="fixed bottom-[calc(90px+env(safe-area-inset-bottom))] right-4 sm:right-6 z-40 w-14 h-14 rounded-full bg-secondary text-white shadow-[0_4px_12px_rgba(0,137,123,0.25)] hover:bg-opacity-95 transition-all flex items-center justify-center border border-teal-600 focus:outline-none"
         aria-label="Get crisis assistance"
       >
         <Phone className="w-6 h-6 stroke-[1.75]" />

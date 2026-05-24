@@ -33,7 +33,7 @@ export function PathwaysDirectory() {
           {/* Header */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 bg-primary-container text-primary text-[9px] font-mono rounded font-semibold uppercase tracking-wider">
+              <span className="px-2.5 py-0.5 bg-primary-container text-primary text-xs font-mono rounded font-semibold uppercase tracking-wider">
                 {activeInst.tag}
               </span>
               <div className="flex items-center space-x-1 text-xs text-amber-500 font-mono">
@@ -124,7 +124,7 @@ export function PathwaysDirectory() {
             <button
               key={tag}
               onClick={() => setActiveFilter(tag)}
-              className={`px-3 py-1 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none ${
+              className={`px-3 py-2 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none active:border-primary active:bg-primary/5 ${
                 activeFilter === tag
                   ? 'bg-primary border-primary text-on-primary shadow-sm'
                   : 'bg-white border-border-divider text-text-secondary hover:border-text-muted'
@@ -146,12 +146,15 @@ export function PathwaysDirectory() {
           filtered.map((inst) => (
             <div
               key={inst.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter') setSelectedId(inst.id) }}
               onClick={() => setSelectedId(inst.id)}
-              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
+              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md active:border-primary active:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 bg-primary-container text-primary text-[8px] font-mono rounded font-semibold uppercase">
+                  <span className="px-2 py-0.5 bg-primary-container text-primary text-xs font-mono rounded font-semibold uppercase">
                     {inst.tag}
                   </span>
                   <span className="text-[9px] font-mono text-text-muted">{inst.location}</span>

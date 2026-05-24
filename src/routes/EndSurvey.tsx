@@ -114,8 +114,8 @@ export default function EndSurvey() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center py-10 px-4">
-      <div className="w-full max-w-2xl bg-white border border-border-divider rounded-card p-6 md:p-8 space-y-8">
+    <div className="min-h-screen bg-background flex flex-col items-center py-6 sm:py-10 px-2 sm:px-4">
+      <div className="w-full max-w-2xl bg-white border border-border-divider rounded-card p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
         
         {/* Header */}
         <div className="border-b border-border-divider pb-6">

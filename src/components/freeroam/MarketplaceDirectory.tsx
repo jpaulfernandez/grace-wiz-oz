@@ -57,7 +57,7 @@ export function MarketplaceDirectory() {
           {/* Header */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 bg-secondary-container text-secondary text-[9px] font-mono rounded font-semibold uppercase tracking-wider">
+              <span className="px-2.5 py-0.5 bg-secondary-container text-secondary text-xs font-mono rounded font-semibold uppercase tracking-wider">
                 {activeEnt.tag}
               </span>
               <div className="flex items-center space-x-1 text-xs text-amber-500 font-mono">
@@ -185,7 +185,7 @@ export function MarketplaceDirectory() {
             <button
               key={tag}
               onClick={() => setActiveFilter(tag)}
-              className={`px-3 py-1 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none ${
+              className={`px-3 py-2 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none active:border-primary active:bg-primary/5 ${
                 activeFilter === tag
                   ? 'bg-primary border-primary text-on-primary shadow-sm'
                   : 'bg-white border-border-divider text-text-secondary hover:border-text-muted'
@@ -207,12 +207,15 @@ export function MarketplaceDirectory() {
           filtered.map((ent) => (
             <div
               key={ent.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter') setSelectedId(ent.id) }}
               onClick={() => setSelectedId(ent.id)}
-              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
+              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md active:border-primary active:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 bg-secondary-container text-secondary text-[8px] font-mono rounded font-semibold uppercase">
+                  <span className="px-2 py-0.5 bg-secondary-container text-secondary text-xs font-mono rounded font-semibold uppercase">
                     {ent.tag}
                   </span>
                   <span className="text-[9px] font-mono text-text-muted">{ent.location}</span>

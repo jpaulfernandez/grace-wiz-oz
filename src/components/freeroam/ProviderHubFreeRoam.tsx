@@ -138,7 +138,7 @@ export function ProviderHubFreeRoam() {
   if (currentScreen === 'booking-detail') {
     return (
       <div className="flex-1 p-6 space-y-6 bg-background h-full overflow-y-auto">
-        <button onClick={() => setCurrentScreen('dashboard')} className="text-xs text-text-muted mb-2 inline-block">&larr; Back to Dashboard</button>
+        <button onClick={() => setCurrentScreen('dashboard')} className="text-xs text-text-muted mb-2 inline-block p-2 -ml-2 hover:bg-black/5 rounded-md">&larr; Back to Dashboard</button>
         <div>
           <h2 className="text-xl font-medium font-newsreader text-on-surface mb-1">Intake Details</h2>
           <p className="text-xs font-mono text-text-muted">Case ref: GRACE-FR-01</p>
@@ -231,7 +231,7 @@ export function ProviderHubFreeRoam() {
   if (currentScreen === 'artifacts') {
     return (
       <div className="flex-1 p-6 space-y-6 bg-background h-full overflow-y-auto">
-        <button onClick={() => setCurrentScreen('booking-detail')} className="text-xs text-text-muted mb-2 inline-block">&larr; Back to Details</button>
+        <button onClick={() => setCurrentScreen('booking-detail')} className="text-xs text-text-muted mb-2 inline-block p-2 -ml-2 hover:bg-black/5 rounded-md">&larr; Back to Details</button>
         <div>
           <h2 className="text-xl font-medium font-newsreader text-on-surface mb-1">Secure Client Data</h2>
           <p className="text-xs font-inter text-text-secondary leading-relaxed mt-2">
@@ -339,7 +339,7 @@ export function ProviderHubFreeRoam() {
       <div className="flex-1 flex flex-col bg-background h-full overflow-hidden select-none">
         {/* Header */}
         <div className="p-4 border-b border-border-divider bg-white text-left flex items-center space-x-3">
-          <button onClick={() => setCurrentScreen('artifacts')} className="text-xs text-text-muted">&larr;</button>
+          <button onClick={() => setCurrentScreen('artifacts')} className="text-xs text-text-muted p-2 -ml-2 hover:bg-black/5 rounded-md">&larr;</button>
           <div>
             <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider block">Secured AI Retrieval</span>
             <h3 className="text-sm font-medium font-inter text-on-surface">Client Record Assistant</h3>
@@ -436,7 +436,7 @@ export function ProviderHubFreeRoam() {
   if (currentScreen === 'notes') {
     return (
       <div className="flex-1 p-6 space-y-6 bg-background h-full overflow-y-auto text-left">
-        <button onClick={() => setCurrentScreen('chat')} className="text-xs text-text-muted mb-2 inline-block">&larr; Back to Chat</button>
+        <button onClick={() => setCurrentScreen('chat')} className="text-xs text-text-muted mb-2 inline-block p-2 -ml-2 hover:bg-black/5 rounded-md">&larr; Back to Chat</button>
         <div>
           <h2 className="text-xl font-medium font-newsreader text-on-surface mb-1">Intake Notes</h2>
           <p className="text-xs font-mono text-text-muted">Draft findings and observations</p>
@@ -481,7 +481,7 @@ export function ProviderHubFreeRoam() {
         </div>
 
         {/* Note logs */}
-        <div className="space-y-3 bg-white border border-border-divider rounded-card p-4 max-h-[220px] overflow-y-auto">
+        <div className="space-y-3 bg-white border border-border-divider rounded-card p-4">
           {providerNotes.map((note, index) => (
             <div key={index} className="text-xs font-inter border-b border-border-divider pb-2 last:border-b-0">
               <p className="text-on-surface-variant leading-relaxed">{note}</p>
@@ -525,7 +525,7 @@ export function ProviderHubFreeRoam() {
   if (currentScreen === 'export') {
     return (
       <div className="flex-1 p-6 space-y-6 bg-background h-full overflow-y-auto text-left">
-        <button onClick={() => setCurrentScreen('notes')} className="text-xs text-text-muted mb-2 inline-block">&larr; Back to Notes</button>
+        <button onClick={() => setCurrentScreen('notes')} className="text-xs text-text-muted mb-2 inline-block p-2 -ml-2 hover:bg-black/5 rounded-md">&larr; Back to Notes</button>
         <div>
           <h2 className="text-xl font-medium font-newsreader text-on-surface mb-1">Certified Export</h2>
           <p className="text-xs font-mono text-text-muted">Review the final documentation</p>
@@ -536,7 +536,7 @@ export function ProviderHubFreeRoam() {
             <FileText className="w-4 h-4 text-primary" />
             <span>PDF Document Extract</span>
           </h3>
-          <div className="bg-neutral-100 p-4 rounded-input border border-border-divider text-xs font-mono text-text-secondary leading-relaxed h-64 overflow-y-auto">
+          <div className="bg-neutral-100 p-4 rounded-input border border-border-divider text-xs font-mono text-text-secondary leading-relaxed">
             [PDF PREVIEW]<br/>
             Subject: Evidence Logs<br/>
             Client: Jane Doe<br/>

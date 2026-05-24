@@ -13,7 +13,7 @@ export function ScreenHeader({ title, onBack, rightAction }: ScreenHeaderProps) 
         {onBack ? (
           <button
             onClick={onBack}
-            className="p-1.5 -ml-2 mr-1 rounded-full text-text-secondary hover:text-primary active:bg-primary-container transition-colors"
+            className="p-3 -ml-2 mr-1 rounded-full text-text-secondary hover:text-primary active:bg-primary-container transition-colors"
             aria-label="Go back"
           >
             <ChevronLeft className="w-5 h-5 stroke-[2]" />

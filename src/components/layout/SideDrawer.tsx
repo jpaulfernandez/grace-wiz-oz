@@ -27,6 +27,12 @@ export function SideDrawer({ isOpen, onClose, children }: SideDrawerProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            drag="y"
+            dragConstraints={{ top: 0 }}
+            dragElastic={0.1}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 100 || info.velocity.y > 500) onClose()
+            }}
             className="fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] bg-white rounded-t-sheet shadow-crisis lg:hidden flex flex-col"
           >
             {/* Grab handle / drag indicator */}

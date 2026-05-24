@@ -19,7 +19,7 @@ export function LikertItem({ questionId, questionText, value, onChange }: Likert
       <p className="text-body-lg text-on-surface font-inter mb-4">{questionText}</p>
       
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-1 sm:gap-2">
           {options.map((opt) => {
             const isSelected = value === opt.value
             return (

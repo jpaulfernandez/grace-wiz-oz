@@ -61,7 +61,7 @@ export function CommunityStories() {
           {/* Header */}
           <div className="flex items-start justify-between">
             <div>
-              <span className={`text-[9px] font-mono font-semibold px-2 py-0.5 rounded ${
+              <span className={`text-xs font-mono font-semibold px-2 py-0.5 rounded ${
                 activeStory.tag === '#NeedHelp' ? 'bg-error-container text-on-error-container' :
                 activeStory.tag === '#PositiveStory' ? 'bg-primary-container text-on-primary-container' :
                 'bg-secondary-container text-on-secondary-container'
@@ -162,7 +162,7 @@ export function CommunityStories() {
             <button
               key={tag}
               onClick={() => setActiveFilter(tag)}
-              className={`px-3 py-1 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none ${
+              className={`px-3 py-2 rounded-full text-[10px] font-inter font-semibold transition-all border focus:outline-none active:border-primary active:bg-primary/5 ${
                 activeFilter === tag
                   ? 'bg-primary border-primary text-on-primary shadow-sm'
                   : 'bg-white border-border-divider text-text-secondary hover:border-text-muted'
@@ -184,12 +184,15 @@ export function CommunityStories() {
           filtered.map((story) => (
             <div
               key={story.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter') setSelectedId(story.id) }}
               onClick={() => setSelectedId(story.id)}
-              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
+              className="bg-white border border-border-divider rounded-card p-5 hover:border-primary hover:shadow-md active:border-primary active:shadow-md cursor-pointer transition-all shadow-sm flex flex-col justify-between"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className={`text-[8px] font-mono font-semibold px-2 py-0.5 rounded ${
+                  <span className={`text-xs font-mono font-semibold px-2 py-0.5 rounded ${
                     story.tag === '#NeedHelp' ? 'bg-error-container text-on-error-container' :
                     story.tag === '#PositiveStory' ? 'bg-primary-container text-on-primary-container' :
                     'bg-secondary-container text-on-secondary-container'
@@ -208,11 +211,11 @@ export function CommunityStories() {
 
               <div className="flex items-center justify-between border-t border-border-divider mt-4 pt-3 text-[9px] font-mono text-text-muted">
                 <div className="flex items-center space-x-3">
-                  <span className="hover:text-primary transition-colors flex items-center space-x-1" onClick={(e) => handleUpvote(story.id, e)}>
+                  <span className="p-3 -m-3 hover:text-primary active:text-primary transition-colors flex items-center space-x-1" onClick={(e) => handleUpvote(story.id, e)}>
                     <ThumbsUp className="w-3 h-3" />
                     <span>{story.upvotes}</span>
                   </span>
-                  <span className="flex items-center space-x-1">
+                  <span className="flex items-center space-x-1 p-3 -m-3">
                     <MessageSquare className="w-3 h-3" />
                     <span>{story.replies.length}</span>
                   </span>

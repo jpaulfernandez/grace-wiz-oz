@@ -40,6 +40,7 @@ export interface GuidedStepConfig {
   screenId: string
   title: string
   sidePanelInstruction: string    // markdown
+  mobileSidePanelInstruction?: string // optional mobile-specific markdown
   instructionSteps?: InstructionStep[]
   allowedSelectors?: string[]     // taps outside this list trigger redirect
   advanceOn: AdvanceRule

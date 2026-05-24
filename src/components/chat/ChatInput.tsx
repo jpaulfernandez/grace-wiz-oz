@@ -85,6 +85,7 @@ export function ChatInput({
             value={localValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
+            onFocus={(e) => { setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300) }}
             disabled={disabled}
             placeholder={disabled ? 'Waiting for Companion...' : 'Type what is on your mind...'}
             className="w-full bg-transparent text-sm font-inter text-on-surface focus:outline-none placeholder:text-text-muted resize-none max-h-[120px] leading-tight align-middle"

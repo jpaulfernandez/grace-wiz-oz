@@ -19,7 +19,7 @@ export function ChatMessage({ sender, text, timestamp }: ChatMessageProps) {
         <p className="whitespace-pre-line">{text}</p>
         {timestamp ? (
           <span
-            className={`block text-[10px] font-mono mt-1.5 text-right ${
+            className={`block text-xs font-mono mt-1.5 text-right ${
               isAi ? 'text-text-muted' : 'text-primary-fixed-dim'
             }`}
           >

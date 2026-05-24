@@ -124,7 +124,7 @@ export function FreeRoamSidebar() {
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>Free Roam Sandbox</span>
           </span>
-          <span className="text-[10px] font-mono bg-neutral-100 text-text-muted px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">
+          <span className="text-xs font-mono bg-neutral-100 text-text-muted px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">
             Unlocked
           </span>
         </div>
@@ -212,7 +212,7 @@ export function FreeRoamSidebar() {
               >
                 {/* Stepper badge instead of Checkbox */}
                 <div 
-                  className={`w-5 h-5 mt-0.5 rounded-full flex items-center justify-center flex-shrink-0 transition-all font-mono text-[10px] font-bold ${
+                  className={`w-5 h-5 mt-0.5 rounded-full flex items-center justify-center flex-shrink-0 transition-all font-mono text-xs font-bold ${
                     freeRoamProgress[item.id]
                       ? 'bg-green-500 text-white shadow-sm'
                       : 'bg-neutral-100 border border-neutral-300 text-text-muted group-hover:border-primary group-hover:bg-primary-container/20 group-hover:text-primary'

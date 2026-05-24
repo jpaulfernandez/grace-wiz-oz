@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Info, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Info, HelpCircle } from 'lucide-react'
 import { useStore } from '../../lib/store'
 import { SideDrawer } from './SideDrawer'
 import { SidePanel } from './SidePanel'
@@ -23,24 +23,41 @@ export function MobileFrame({
   canNext,
   showStepControls
 }: MobileFrameProps) {
-  const { cohort, simulatedCohort, setSimulatedCohort } = useStore()
+  const { cohort, simulatedCohort, setSimulatedCohort, guidedMode, currentScenarioIndex } = useStore()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [showStudyInfo, setShowStudyInfo] = useState(false)
 
   const isProvider = cohort === 'lawyer' || cohort === 'clinician'
 
+  useEffect(() => {
+    if (guidedMode === 'reflection' || currentScenarioIndex === 0) {
+      setIsDrawerOpen(true)
+    }
+  }, [guidedMode, currentScenarioIndex])
+
   return (
-    <div className="flex lg:hidden w-screen h-screen bg-background flex-col relative overflow-hidden">
+    <div className="flex lg:hidden w-screen h-[100dvh] bg-background flex-col relative overflow-hidden">
 
       {/* Outer Top Bar */}
       <div className="flex-shrink-0 h-11 w-full bg-white border-b border-border-divider flex items-center justify-between px-4 z-30">
-        <button
-          onClick={() => setShowStudyInfo(true)}
-          className="p-1.5 text-text-muted hover:text-primary transition-colors"
-          aria-label="Study information"
-        >
-          <Info className="w-4 h-4" />
-        </button>
+        <div className="flex items-center space-x-1 -ml-2">
+          <button
+            id="help-button"
+            onClick={() => (window as any).graceTriggerHelp?.()}
+            className="p-2 text-text-muted hover:text-primary transition-colors"
+            aria-label="Request help"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
+          <button
+            id="study-info-button"
+            onClick={() => setShowStudyInfo(true)}
+            className="p-2 text-text-muted hover:text-primary transition-colors"
+            aria-label="Study information"
+          >
+            <Info className="w-4 h-4" />
+          </button>
+        </div>
 
         {/* Simulate Jane / Grace (provider only) */}
         {isProvider && (
@@ -76,35 +93,16 @@ export function MobileFrame({
         {children}
       </main>
 
-      {/* Prev / Next outside phone (sticky at bottom) */}
+      {/* Prominent Guide Button outside phone (sticky at bottom) */}
       {showStepControls && (
-        <div className="flex-shrink-0 h-12 bg-white border-t border-border-divider flex items-center justify-between px-4">
-          <button
-            onClick={onPrev}
-            disabled={!canPrev}
-            className="flex items-center space-x-1 px-3 py-1.5 rounded-full border border-border-divider text-xs font-inter font-medium text-on-surface-variant hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Prev</span>
-          </button>
-
-          {/* Instructions drawer trigger */}
+        <div className="flex-shrink-0 h-14 bg-white border-t border-border-divider flex items-center justify-center px-4 pt-1 pb-[calc(4px+env(safe-area-inset-bottom))] box-content">
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-primary text-on-primary text-xs font-inter font-medium shadow-sm"
+            className="w-full h-full flex items-center justify-center space-x-2 rounded-full bg-primary text-on-primary text-sm font-inter font-medium shadow-sm hover:bg-opacity-90 active:scale-[0.98] transition-all"
             aria-label="View instructions"
           >
-            <Info className="w-3.5 h-3.5" />
-            <span>Guide</span>
-          </button>
-
-          <button
-            onClick={onNext}
-            disabled={!canNext}
-            className="flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary bg-primary text-on-primary text-xs font-inter font-medium hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-          >
-            <span>Next</span>
-            <ChevronRight className="w-4 h-4" />
+            <Info className="w-4 h-4" />
+            <span>Open Guide</span>
           </button>
         </div>
       )}
@@ -113,7 +111,7 @@ export function MobileFrame({
       {!showStepControls && (
         <button
           onClick={() => setIsDrawerOpen(true)}
-          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-primary text-on-primary shadow-crisis hover:bg-opacity-90 active:scale-95 transition-all flex items-center justify-center"
+          className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-40 p-3.5 rounded-full bg-primary text-on-primary shadow-crisis hover:bg-opacity-90 active:scale-95 transition-all flex items-center justify-center"
           aria-label="View instructions"
         >
           <Info className="w-5 h-5" />

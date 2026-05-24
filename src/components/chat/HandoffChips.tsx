@@ -31,7 +31,7 @@ export function HandoffChips({ onSelect, disabled = false }: HandoffChipsProps) 
       <span className="text-[10px] font-mono tracking-wider uppercase text-text-muted text-center mb-1">
         AI Suggestion Paths
       </span>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         {chips.map((chip) => {
           const Icon = chip.icon
           const buttonId = chip.id === 'journal' ? 'continue-journal-btn' :
@@ -43,7 +43,7 @@ export function HandoffChips({ onSelect, disabled = false }: HandoffChipsProps) 
               key={chip.id}
               disabled={disabled}
               onClick={() => onSelect(chip.id)}
-              className="h-10 flex items-center justify-center space-x-1.5 border border-secondary/30 rounded-input bg-transparent text-secondary hover:bg-secondary-container/10 hover:border-secondary transition-all disabled:opacity-50 text-[11px] font-inter font-medium leading-none px-2 text-center"
+              className="h-12 flex items-center justify-center space-x-1.5 border border-secondary/30 rounded-input bg-transparent text-secondary hover:bg-secondary-container/10 hover:border-secondary transition-all disabled:opacity-50 text-xs font-inter font-medium leading-none px-2 text-center"
             >
               <Icon className="w-3.5 h-3.5 flex-shrink-0" />
               <span>{chip.label}</span>
