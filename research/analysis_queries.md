@@ -263,6 +263,25 @@ ORDER BY cohort;
 
 ---
 
+## 5. Reset Database (Start Fresh)
+
+**WARNING: This will permanently delete all data in the database. Use with caution!**
+
+```sql
+-- Truncate events table (foreign key reference to sessions)
+TRUNCATE TABLE events CASCADE;
+
+-- Truncate sessions table (will also delete all associated events due to CASCADE)
+TRUNCATE TABLE sessions CASCADE;
+```
+
+### Why use this query?
+- For testing purposes
+- When resetting the study for a new cohort
+- To clean up test data
+
+---
+
 ## Notes on Data Quality:
 - Email addresses are optional and may be missing
 - Some sessions may have `ended_early = true` indicating the user left before completing
