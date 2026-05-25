@@ -7,6 +7,7 @@ interface ChatInputProps {
   onSend: (text: string) => void
   disabled?: boolean
   suggestion?: string
+  disableDirectTyping?: boolean
 }
 
 export function ChatInput({
@@ -14,7 +15,8 @@ export function ChatInput({
   onChange,
   onSend,
   disabled = false,
-  suggestion
+  suggestion,
+  disableDirectTyping = false
 }: ChatInputProps) {
   const [localValue, setLocalValue] = useState('')
   const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -85,10 +87,25 @@ export function ChatInput({
             value={localValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            onFocus={(e) => { setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300) }}
+            onFocus={(e) => {
+              if (disableDirectTyping) {
+                e.target.blur()
+                return
+              }
+              setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300)
+            }}
+            readOnly={disableDirectTyping}
             disabled={disabled}
-            placeholder={disabled ? 'Waiting for Companion...' : 'Type what is on your mind...'}
-            className="w-full bg-transparent text-sm font-inter text-on-surface focus:outline-none placeholder:text-text-muted resize-none max-h-[120px] leading-tight align-middle"
+            placeholder={
+              disabled 
+                ? 'Waiting for Companion...' 
+                : disableDirectTyping 
+                  ? 'Tap the suggested prompt above...' 
+                  : 'Type what is on your mind...'
+            }
+            className={`w-full bg-transparent text-base md:text-sm font-inter text-on-surface focus:outline-none placeholder:text-text-muted resize-none max-h-[120px] leading-tight align-middle ${
+              disableDirectTyping ? 'cursor-default select-none' : ''
+            }`}
             style={{ height: 'auto' }}
           />
         </div>

@@ -88,12 +88,21 @@ interface AppState extends SessionState, UIState {
   reset: () => void
 }
 
+// Check if there is an active session stored in localStorage to restore state synchronously
+const savedSessionRaw = localStorage.getItem('grace_session')
+let savedSession: any = null
+try {
+  if (savedSessionRaw) {
+    savedSession = JSON.parse(savedSessionRaw)
+  }
+} catch (e) {}
+
 const initialSessionState: SessionState = {
-  sessionId: null,
-  nickname: '',
-  inviteCode: '',
-  cohort: null,
-  scenarioId: null,
+  sessionId: savedSession?.sessionId || null,
+  nickname: savedSession?.nickname || '',
+  inviteCode: savedSession?.inviteCode || '',
+  cohort: savedSession?.cohort || null,
+  scenarioId: savedSession?.scenarioId || null,
   startedAt: null,
   consentedAt: null,
   guidedCompletedAt: null,
@@ -109,10 +118,10 @@ const initialUIState: UIState = {
   currentScreen: 'welcome',
   isPaused: false,
   viewAsUser: false,
-  currentStepIndex: 0,
+  currentStepIndex: savedSession?.currentStepIndex || 0,
   moderatorNotes: '',
   showNudgeText: false,
-  simulatedCohort: null,
+  simulatedCohort: savedSession?.cohort === 'lawyer' ? 'legal' : (savedSession?.cohort === 'clinician' ? 'clinician' : null),
   onboardingComplete: localStorage.getItem('grace_onboarding_complete') === 'true',
 
   // Checklist defaults
@@ -134,8 +143,8 @@ const initialUIState: UIState = {
   freeRoamProgress: {},
 
   // Guided walkthrough defaults
-  currentScenarioIndex: 0,
-  guidedMode: 'step',
+  currentScenarioIndex: savedSession?.currentScenarioIndex || 0,
+  guidedMode: savedSession?.guidedMode || 'step',
   completedInstructions: {},
   reflectionAnswers: {},
 }
@@ -478,3 +487,20 @@ export function canContinueReflection(state: AppState): boolean {
     return true
   })
 }
+
+// Subscribe to store changes to keep localStorage session in sync
+useStore.subscribe((state) => {
+  if (state.scenarioId) {
+    const sessionData = {
+      sessionId: state.sessionId,
+      nickname: state.nickname,
+      inviteCode: state.inviteCode,
+      cohort: state.cohort,
+      scenarioId: state.scenarioId,
+      currentScenarioIndex: state.currentScenarioIndex,
+      currentStepIndex: state.currentStepIndex,
+      guidedMode: state.guidedMode,
+    }
+    localStorage.setItem('grace_session', JSON.stringify(sessionData))
+  }
+})

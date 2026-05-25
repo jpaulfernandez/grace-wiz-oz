@@ -160,6 +160,8 @@ export default function Guided() {
 
   // Phase 4 specific states
   const [activeAnnotationId, setActiveAnnotationId] = useState<string | null>(null)
+  const [hasTappedAnnotation, setHasTappedAnnotation] = useState(false)
+  const [showCloseGuidance, setShowCloseGuidance] = useState(false)
   const [incidentAnythingElse, setIncidentAnythingElse] = useState('')
   const [showTimestampSpinner, setShowTimestampSpinner] = useState(false)
   const [incidentForm] = useState<IncidentFields>(SCENARIO_E_INCIDENT_DATA)
@@ -752,6 +754,7 @@ export default function Guided() {
                 onSend={(text) => sendMessage(text)}
                 disabled={isTyping}
                 suggestion={suggestionPrompt}
+                disableDirectTyping={true}
               />
             )}
 
@@ -914,7 +917,7 @@ export default function Guided() {
 
       case 'journal-annotations':
         return (
-          <div className="flex-1 flex flex-col bg-white h-full overflow-hidden">
+          <div className="flex-1 flex flex-col bg-white h-full overflow-hidden relative">
             <ScreenHeader
               title="Patterns surfed"
               rightAction={
@@ -922,9 +925,17 @@ export default function Guided() {
                   id="close-annotations-btn"
                   onClick={() => {
                     telemetry.trackButtonTap('close-annotations-btn')
-                    advanceTour()
+                    if (!hasTappedAnnotation) {
+                      setShowCloseGuidance(true)
+                    } else {
+                      advanceTour()
+                    }
                   }}
-                  className="px-4 py-1.5 bg-primary text-white rounded-input text-xs font-inter font-medium hover:bg-opacity-90 transition-colors shadow-sm focus:outline-none"
+                  className={`px-4 py-1.5 rounded-input text-xs font-inter font-medium transition-colors shadow-sm focus:outline-none ${
+                    !hasTappedAnnotation
+                      ? 'bg-neutral-200 text-neutral-500 hover:bg-neutral-300'
+                      : 'bg-primary text-white hover:bg-opacity-90'
+                  }`}
                 >
                   Close
                 </button>
@@ -961,6 +972,7 @@ export default function Guided() {
                         onClick={() => {
                           telemetry.track('micro_prompt_answer', { annotation_id: segment.annotationId })
                           setActiveAnnotationId(isSelected ? null : (segment.annotationId ?? null))
+                          setHasTappedAnnotation(true)
                         }}
                         className={highlightClass}
                       >
@@ -1007,6 +1019,31 @@ export default function Guided() {
                 )
               })()}
             </div>
+
+            {/* Premium Interactive Guidance Modal */}
+            {showCloseGuidance && (
+              <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-[2px] flex items-center justify-center p-6 text-center z-[999] select-none animate-fade-in">
+                <div className="p-6 bg-white border border-neutral-200 rounded-2xl shadow-xl max-w-[280px] text-center space-y-4">
+                  <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto">
+                    <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold font-inter text-on-surface">
+                      Try the annotation first
+                    </h4>
+                    <p className="text-xs font-inter text-text-secondary leading-relaxed">
+                      Please test the annotation feature before closing. Tap any highlighted phrase in the journal entry (e.g., <strong>"chest felt so tight"</strong>) to see what Grace identified.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowCloseGuidance(false)}
+                    className="w-full py-2 bg-primary text-white text-xs font-medium rounded-input hover:bg-opacity-95 active:scale-95 transition-all shadow-sm focus:outline-none"
+                  >
+                    Got it, I'll try it
+                  </button>
+                </div>
+              </div>
+            )}
 
             <BottomNav activeTab={getActiveTab()} onTabChange={handleTabChange} />
           </div>
