@@ -35,11 +35,16 @@ export function PauseAffordance({ onEndSession }: PauseAffordanceProps) {
 
   const handleEndSession = async () => {
     if (sessionId) {
-      await recordSessionComplete(sessionId, true)
+      try {
+        await recordSessionComplete(sessionId, true)
+      } catch (err) {
+        console.error('Error logging session completion:', err)
+      }
     }
     setIsModalOpen(false)
     setPaused(false)
     onEndSession?.()
+    navigate('/done?ended=1')
   }
 
   const handleRestartClick = () => {

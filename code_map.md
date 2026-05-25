@@ -30,6 +30,7 @@ last_updated: 2026-05-24
 | `src/config/` | Static configuration and content | HIGH |
 | `src/lib/` | Business logic, state, utilities | HIGH |
 | `src/routes/` | Top-level route components | HIGH |
+| `docs/` | User-facing documentation and guides | LOW |
 | `research/` | Research documentation | LOW |
 | `scripts/` | Build and utility scripts | LOW |
 

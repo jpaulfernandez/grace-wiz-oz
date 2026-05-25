@@ -70,6 +70,9 @@ export default function Welcome() {
       telemetry.track('email_collected', { email: data.email })
     }
 
+    // Reset store before starting a new session to clear any leftover in-memory states
+    useStore.getState().reset()
+
     // Store in Zustand
     useStore.setState({
       nickname: data.nickname.trim(),

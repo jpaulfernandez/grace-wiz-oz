@@ -44,6 +44,9 @@ export async function createSession(data: {
 
   const sessionId = result.id
 
+  // Reset the store to clear any leftover in-memory progress from previous runs
+  useStore.getState().reset()
+
   // Store in Zustand
   useStore.setState({
     sessionId,
