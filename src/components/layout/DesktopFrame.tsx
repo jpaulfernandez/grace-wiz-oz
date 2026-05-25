@@ -33,7 +33,7 @@ export function DesktopFrame({
   return (
     <div className="hidden lg:flex w-screen h-screen bg-background overflow-hidden flex-col">
       {/* Outer Top Bar */}
-      <div className="flex-shrink-0 h-12 w-full bg-white border-b border-border-divider flex items-center justify-between px-6 z-30">
+      <div id="outer-top-bar" className="flex-shrink-0 h-12 w-full bg-white border-b border-border-divider flex items-center justify-between px-6 z-30">
         {/* Left: Study info + Help */}
         <div className="flex items-center space-x-2.5">
           <button

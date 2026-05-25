@@ -433,8 +433,55 @@ export const useStore = create<AppState>((set) => ({
   }),
 
   reset: () => set({
-    ...initialSessionState,
-    ...initialUIState,
+    // Clear Session State
+    sessionId: null,
+    nickname: '',
+    inviteCode: '',
+    cohort: null,
+    scenarioId: null,
+    startedAt: null,
+    consentedAt: null,
+    guidedCompletedAt: null,
+    freeRoamStartedAt: null,
+    completedAt: null,
+    endedEarly: false,
+    userAgent: null,
+    viewportWidth: null,
+    isModerated: false,
+
+    // Clear UI/Guided Walkthrough State
+    currentScreen: 'welcome',
+    isPaused: false,
+    viewAsUser: false,
+    currentStepIndex: 0,
+    moderatorNotes: '',
+    showNudgeText: false,
+    simulatedCohort: null,
+    onboardingComplete: localStorage.getItem('grace_onboarding_complete') === 'true',
+
+    // Reset Checklist variables
+    chatMessagesCount: 0,
+    chatInputText: '',
+    journalTextContent: '',
+    clickedAnnotations: [],
+    incidentNotes: '',
+    isIncidentsRequested: false,
+    isJournalsRequested: false,
+    providerChatCount: 0,
+    providerNotesCount: 0,
+    letGoButtonClicked: false,
+
+    // Reset Free Roam State
+    freeRoamTab: 'home',
+    freeRoamResourceTab: 'stories',
+    freeRoamJournalTab: 'reflective',
+    freeRoamProgress: {},
+
+    // Reset Guided Progress state
+    currentScenarioIndex: 0,
+    guidedMode: 'step',
+    completedInstructions: {},
+    reflectionAnswers: {},
   }),
 }))
 

@@ -14,7 +14,7 @@ export function StudyInfoModal({ onClose }: StudyInfoModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center p-4 modal-portal"
           onClick={onClose}
         >
           <motion.div

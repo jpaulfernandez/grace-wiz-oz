@@ -13,16 +13,16 @@ const SCENARIO_0_ORIENTATION: ScenarioConfig = {
       prototypeInteractive: false,
       sidePanelInstruction: `### Welcome
 
-Thanks for being part of this session. You'll spend about 15-20 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
+Thanks for helping us test **Grace**—a private, safe space for women to write down and process difficult workplace experiences.
 
-The phone on your left is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
+The phone screen on the left is a prototype. You can tap and interact with it like a real app. During this session, the chat replies are written by a real researcher, so it will feel like a real conversation.
 
 Tap **Next step** when you're ready.`,
       mobileSidePanelInstruction: `### Welcome
 
-Thanks for being part of this session. You'll spend about 15-20 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
+Thanks for helping us test **Grace**—a private, safe space for women to write down and process difficult workplace experiences.
 
-This screen is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
+This screen is a prototype. You can tap and interact with it like a real app. During this session, the chat replies are written by a real researcher, so it will feel like a real conversation.
 
 Tap **Next step** when you're ready.`,
       instructionSteps: [
@@ -32,7 +32,7 @@ Tap **Next step** when you're ready.`,
           selector: '#phone-frame-root',
           popover: {
             title: 'The prototype',
-            description: `This is what you'll interact with. We'll point to what to tap as we go.`,
+            description: `This is what you'll interact with. We'll show you where to tap as we go.`,
             side: 'right',
             align: 'center',
           },
@@ -49,24 +49,24 @@ Tap **Next step** when you're ready.`,
       prototypeInteractive: false,
       sidePanelInstruction: `### This panel guides you
 
-Each scenario shows up here with:
+This panel guides you through the session. For each part, you will see:
 
-- A short explanation of what you're about to do
-- A checklist of small steps to follow
-- A pointer on the prototype showing where to tap
+- A quick explanation of the situation
+- A simple list of steps to follow
+- A pointer on the phone showing where to tap
 
-If you lose your place, tap any row in the checklist and we'll point you back to the right spot.
+If you ever get stuck, just tap any step in the list and we will show you where to go.
 
 Tap **Next step** to continue.`,
       mobileSidePanelInstruction: `### This drawer guides you
 
-Each scenario shows up here with:
+This drawer guides you through the session. For each part, you will see:
 
-- A short explanation of what you're about to do
-- A checklist of small steps to follow
-- A pointer on the prototype showing where to tap
+- A quick explanation of the situation
+- A simple list of steps to follow
+- A pointer on the phone showing where to tap
 
-If you get lost, just tap the **Guide** button at the bottom of the screen to open this drawer again.
+If you ever get lost, just tap the **Guide** button at the bottom of the screen to open this drawer again.
 
 Tap **Next step** to continue.`,
       instructionSteps: [],
@@ -80,9 +80,9 @@ Tap **Next step** to continue.`,
       prototypeInteractive: false,
       sidePanelInstruction: `### If you need help
 
-At the top of the screen, **I need help** reaches the researcher running this session. **Study info** explains what we're testing and how your data is handled.
+If you need help at any point, click **I need help** at the top of the screen to talk to the researcher. Click **Study info** to read how we protect your privacy.
 
-You can pause, skip, or stop at any time without affecting your compensation. There are no wrong answers, and "I don't know" is always a valid response.
+Remember, you can pause or stop at any time. There are no test scores here, and any answer you give is helpful.
 
 Tap **Next step** to continue.`,
       instructionSteps: [],
@@ -94,18 +94,18 @@ Tap **Next step** to continue.`,
       screenId: 'guided-home',
       title: 'Quick reflections along the way',
       prototypeInteractive: false,
-      sidePanelInstruction: `### Quick reflections along the way
+      sidePanelInstruction: `### Quick reflections
 
-Between scenarios, the prototype will pause and a short question or two will appear here in the panel. They look something like this:
+Between parts of the study, the screen will pause and ask you a quick question or two in this panel. For example:
 
-> **Example only — not recorded**
-> _I feel comfortable using a digital tool to discuss sensitive concerns._
+> **Example only**
+> *I feel comfortable using a phone app to write down sensitive concerns.*
 >
 > 1 (Strongly disagree) to 5 (Strongly agree)
 
-Please answer honestly. These short reflections are how we tell whether Grace is working the way it should.
+Please answer honestly. Your feedback helps us make Grace better.
 
-Tap **Next step** when you're ready for your first reflection.`,
+Tap **Next step** to try your first reflection question.`,
       instructionSteps: [],
       allowedSelectors: [],
       advanceOn: { type: 'manual_next' }
@@ -119,7 +119,7 @@ Tap **Next step** when you're ready for your first reflection.`,
       {
         id: 'welcome-feeling',
         type: 'likert-5',
-        question: 'I feel comfortable using a digital tool to discuss sensitive concerns.',
+        question: 'I feel comfortable using a phone app to write down and discuss sensitive personal matters.',
         required: true
       }
     ]
@@ -1135,15 +1135,28 @@ Your conversation summary is pre-filled.
           {
             id: 'scenario-b-breath',
             screenId: 'breath-reminder',
-            title: 'Pause & breathe',
-            sidePanelInstruction: `### Somatic breath pause
+            title: 'Take a breath',
+            sidePanelInstruction: `### Take a breath
 
-Breathe slowly. Follow the somatic expansion circle on the screen.
+Writing about stressful events can be heavy. Grace offers a short breathing exercise to help you ground yourself. Follow the circle on the phone screen for a few seconds.
 
-Tap **Next step** when ready.`,
-            instructionSteps: [],
-            allowedSelectors: [],
-            advanceOn: { type: 'manual_next' }
+Tap the button on the phone screen when you are ready to continue.`,
+            instructionSteps: [
+              {
+                id: 'tap-breath-continue',
+                label: 'Take a few slow breaths',
+                selector: '#breath-continue-btn',
+                popover: {
+                  title: 'Continue',
+                  description: 'Tap when you feel ready to move forward.',
+                  side: 'top',
+                  align: 'center'
+                },
+                completedWhen: { type: 'tap', selector: '#breath-continue-btn' }
+              }
+            ],
+            allowedSelectors: ['#breath-continue-btn'],
+            advanceOn: { type: 'tap', selector: '#breath-continue-btn' }
           }
         ],
         reflection: {
@@ -1280,7 +1293,7 @@ Tap **Help me notice patterns** to let Grace cross-reference somatic themes.`,
         label: 'A workplace situation',
         description: `### A workplace situation
 
-A coworker keeps making sexual jokes at the office. You're not sure if it counts as harassment.`,
+A coworker keeps making inappropriate jokes at the office. You are not sure if this counts as harassment and want to talk about it.`,
         steps: [
           {
             id: 'scenario-a-home',
@@ -1288,9 +1301,9 @@ A coworker keeps making sexual jokes at the office. You're not sure if it counts
             title: 'Open the Companion',
             sidePanelInstruction: `### Open the Companion
 
-Grace has a few different spaces. The **Companion** is for talking through what's on your mind.
+Grace has a few different features. The **Companion** is a private chat to help you talk through what's on your mind.
 
-Tap the **Companion** card on the phone to open it.`,
+Tap the **Companion** card on the phone to start.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card',
@@ -1298,7 +1311,7 @@ Tap the **Companion** card on the phone to open it.`,
                 selector: '#companion-card',
                 popover: {
                   title: 'Companion',
-                  description: `Open a chat with the Companion.`,
+                  description: 'Chat with the Companion.',
                   side: 'right',
                   align: 'center'
                 },
@@ -1314,11 +1327,11 @@ Tap the **Companion** card on the phone to open it.`,
             title: 'Talk it through',
             sidePanelInstruction: `### Talk it through
 
-You're now in the Companion. It's a space to think out loud. The Companion replies, but it won't tell you what your experience is — that's up to you.
+The Companion is a private chat to help you think out loud. It will listen and reply, but it won't label your experience for you—you are in control.
 
-1. Tap the **suggested prompt** chip to drop a sample message into the input.
+1. Tap the **suggested prompt** button at the bottom of the phone to enter a sample message.
 2. Tap **Send**.
-3. After the Companion replies, tap **Let go for now** to close the conversation without saving it.`,
+3. Once the Companion replies, tap **Let go for now** to close the chat without saving any of it.`,
             instructionSteps: [
               {
                 id: 'tap-suggestion-chip',
@@ -1326,7 +1339,7 @@ You're now in the Companion. It's a space to think out loud. The Companion repli
                 selector: '#chat-suggestion-chip-0',
                 popover: {
                   title: 'Suggested prompt',
-                  description: `Tap to drop a sample message into the input. You don't need to type anything yourself.`,
+                  description: 'Tap this to fill in a pre-written message so you don\'t have to type.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1338,7 +1351,7 @@ You're now in the Companion. It's a space to think out loud. The Companion repli
                 selector: '#chat-send-btn',
                 popover: {
                   title: 'Send',
-                  description: `Send the message. The researcher will reply as the Companion would.`,
+                  description: 'Send the message to the Companion.',
                   side: 'left',
                   align: 'center'
                 },
@@ -1350,7 +1363,7 @@ You're now in the Companion. It's a space to think out loud. The Companion repli
                 selector: '#let-go-btn',
                 popover: {
                   title: 'Let go for now',
-                  description: `Close the conversation without keeping a record of it.`,
+                  description: 'Close the chat. No record or copy of this conversation will be saved.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1368,7 +1381,7 @@ You're now in the Companion. It's a space to think out loud. The Companion repli
             {
               id: 'chat-restraint',
               type: 'likert-5',
-              question: 'The way the Companion held back from defining my experience felt supportive.',
+              question: 'I liked that the Companion listened without trying to label or define my experience for me.',
               required: true
             }
           ]
@@ -1379,7 +1392,7 @@ You're now in the Companion. It's a space to think out loud. The Companion repli
         label: 'Heading to work',
         description: `### Heading to work
 
-It's Monday morning. You feel anxious about going to the office because of the coworker from the last scenario.`,
+It's Monday morning. You feel anxious about going to the office because of the coworker who was making inappropriate jokes.`,
         steps: [
           {
             id: 'scenario-b-home',
@@ -1387,7 +1400,7 @@ It's Monday morning. You feel anxious about going to the office because of the c
             title: 'Open the Companion',
             sidePanelInstruction: `### Open the Companion
 
-Tap the **Companion** card on the phone.`,
+Tap the **Companion** card on the phone screen to start a new chat.`,
             instructionSteps: [
               {
                 id: 'tap-companion-card-b',
@@ -1395,7 +1408,7 @@ Tap the **Companion** card on the phone.`,
                 selector: '#companion-card',
                 popover: {
                   title: 'Companion',
-                  description: `Open a chat with the Companion.`,
+                  description: 'Start a chat with the Companion.',
                   side: 'right',
                   align: 'center'
                 },
@@ -1409,13 +1422,13 @@ Tap the **Companion** card on the phone.`,
             id: 'scenario-b-chat',
             screenId: 'companion-chat',
             title: 'Move it into the journal',
-            sidePanelInstruction: `### Move it into the journal
+            sidePanelInstruction: `### Save to your journal
 
-Sometimes a conversation is worth keeping. The Companion can hand off what you've talked about into the journal, where you can write more about it on your own.
+If a chat feels important, you can save it. The Companion can move a summary of your chat directly into a private journal, where you can add your own thoughts.
 
-1. Tap the **suggested prompt** to fill in the input.
+1. Tap the **suggested prompt** button at the bottom.
 2. Tap **Send**.
-3. When the Companion replies, tap **Continue to journal** to move the conversation into your journal.`,
+3. When the Companion replies, tap **Continue to journal** to move the summary into your journal.`,
             instructionSteps: [
               {
                 id: 'tap-suggestion-chip-b',
@@ -1423,7 +1436,7 @@ Sometimes a conversation is worth keeping. The Companion can hand off what you'v
                 selector: '#chat-suggestion-chip-0',
                 popover: {
                   title: 'Suggested prompt',
-                  description: `Tap to drop a sample message into the input.`,
+                  description: 'Tap this to fill in a pre-written message.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1435,7 +1448,7 @@ Sometimes a conversation is worth keeping. The Companion can hand off what you'v
                 selector: '#chat-send-btn',
                 popover: {
                   title: 'Send',
-                  description: `Send the message to the Companion.`,
+                  description: 'Send the message.',
                   side: 'left',
                   align: 'center'
                 },
@@ -1447,7 +1460,7 @@ Sometimes a conversation is worth keeping. The Companion can hand off what you'v
                 selector: '#continue-journal-btn',
                 popover: {
                   title: 'Continue to journal',
-                  description: `Carry this conversation into your journal so you can write more about it.`,
+                  description: 'Move this conversation\'s summary into a private journal entry.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1463,10 +1476,10 @@ Sometimes a conversation is worth keeping. The Companion can hand off what you'v
             title: "Write what you're feeling",
             sidePanelInstruction: `### Write what you're feeling
 
-A short summary of your chat is already at the top of the journal entry. You can keep it, edit it, or ignore it.
+A quick summary of your chat is pre-filled at the top of your journal. You can keep, edit, or delete it.
 
-1. Write a sentence or two about how you're feeling.
-2. Tap **Save entry** at the top right.`,
+1. Type a short sentence in the text area about how you are feeling.
+2. Tap **Save entry** in the top right.`,
             instructionSteps: [
               {
                 id: 'jh-write',
@@ -1474,7 +1487,7 @@ A short summary of your chat is already at the top of the journal entry. You can
                 selector: 'textarea',
                 popover: {
                   title: 'Write freely',
-                  description: `Type a short sentence. There's no right way to do this.`,
+                  description: 'Type a quick sentence about how you feel. Write whatever comes to mind.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1486,7 +1499,7 @@ A short summary of your chat is already at the top of the journal entry. You can
                 selector: '#save-journal-btn',
                 popover: {
                   title: 'Save',
-                  description: `Save what you've written. Grace doesn't comment on it — it just saves.`,
+                  description: 'Save your entry. It will be stored privately on your device.',
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1502,12 +1515,25 @@ A short summary of your chat is already at the top of the journal entry. You can
             title: 'Take a breath',
             sidePanelInstruction: `### Take a breath
 
-After a heavier entry, Grace offers a short breathing pause. Follow the circle on the phone for a few seconds.
+Writing about stressful events can be heavy. Grace offers a short breathing exercise to help you ground yourself. Follow the circle on the phone screen for a few seconds.
 
-Tap **Next step** when you're ready.`,
-            instructionSteps: [],
-            allowedSelectors: [],
-            advanceOn: { type: 'manual_next' }
+Tap the button on the phone screen when you are ready to continue.`,
+            instructionSteps: [
+              {
+                id: 'tap-breath-continue',
+                label: 'Take a few slow breaths',
+                selector: '#breath-continue-btn',
+                popover: {
+                  title: 'Continue',
+                  description: 'Tap when you feel ready to move forward.',
+                  side: 'top',
+                  align: 'center'
+                },
+                completedWhen: { type: 'tap', selector: '#breath-continue-btn' }
+              }
+            ],
+            allowedSelectors: ['#breath-continue-btn'],
+            advanceOn: { type: 'tap', selector: '#breath-continue-btn' }
           }
         ],
         reflection: {
@@ -1517,7 +1543,7 @@ Tap **Next step** when you're ready.`,
             {
               id: 'summary-useful',
               type: 'likert-5',
-              question: 'Moving from the chat into the journal felt natural to me.',
+              question: 'I liked how easy it was to move my chat summary into a private journal entry.',
               required: true
             }
           ]
@@ -1528,15 +1554,15 @@ Tap **Next step** when you're ready.`,
         label: 'Looking back over time',
         description: `### Looking back over time
 
-You've written a few entries over the past few weeks. Grace can look across them and point out things you've mentioned more than once.`,
+You have saved several journal entries over the last few weeks. Grace can help you spot details or patterns that keep appearing in what you wrote.`,
         steps: [
           {
             id: 'scenario-c-offers',
             screenId: ScreenIds.POST_SAVE_OFFERS,
             title: 'Ask Grace to look for patterns',
-            sidePanelInstruction: `### Ask Grace to look for patterns
+            sidePanelInstruction: `### Look for patterns
 
-After you save an entry, Grace offers a few things you can do next. One of them is to look across your past entries for things that keep coming up.
+Every time you save an entry, Grace suggests a few next steps. One option is to let Grace find common themes in your past entries.
 
 Tap **Help me notice patterns**.`,
             instructionSteps: [
@@ -1546,7 +1572,7 @@ Tap **Help me notice patterns**.`,
                 selector: '#help-notice-patterns-btn',
                 popover: {
                   title: 'Help me notice patterns',
-                  description: `Let Grace look across your entries and flag what comes up more than once.`,
+                  description: 'Let Grace find and highlight details or habits that repeat in your entries.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1562,10 +1588,10 @@ Tap **Help me notice patterns**.`,
             title: 'See what came up',
             sidePanelInstruction: `### See what came up
 
-Grace marks phrases in your entries it noticed. Each one is something that appeared more than once or seemed worth pointing out.
+Grace highlights repeating details in your text (like physical feelings or people who saw you).
 
-1. Tap one of the highlighted phrases (the colored numbers in your text) to see what Grace flagged.
-2. Tap **Close** to return.`,
+1. Tap any **colored phrase** on the screen to read what Grace noticed.
+2. Tap **Close** to finish.`,
             instructionSteps: [
               {
                 id: 'tap-annotation-phrase',
@@ -1573,7 +1599,7 @@ Grace marks phrases in your entries it noticed. Each one is something that appea
                 selector: '[id^=annotation-]',
                 popover: {
                   title: 'A note from Grace',
-                  description: `Each highlight is something Grace flagged. Tap to read what it noticed.`,
+                  description: 'Tap any colored phrase to see the pattern Grace found.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1585,7 +1611,7 @@ Grace marks phrases in your entries it noticed. Each one is something that appea
                 selector: '#close-annotations-btn',
                 popover: {
                   title: 'Close',
-                  description: `Return to your journal.`,
+                  description: 'Go back to your journal list.',
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1603,7 +1629,7 @@ Grace marks phrases in your entries it noticed. Each one is something that appea
             {
               id: 'annotation-helpful',
               type: 'likert-5',
-              question: 'The highlighted phrases reflected things I felt were worth pointing out.',
+              question: 'The highlighted words pointed out details or patterns that felt important to me.',
               required: true
             }
           ]
@@ -1614,7 +1640,7 @@ Grace marks phrases in your entries it noticed. Each one is something that appea
         label: 'Writing with a prompt',
         description: `### Writing with a prompt
 
-Sometimes a blank page is too much. Grace has guided prompts that give you somewhere to start.`,
+Writing on a blank page can be hard. Grace provides simple questions to help you start writing.`,
         steps: [
           {
             id: 'scenario-d-home',
@@ -1622,7 +1648,7 @@ Sometimes a blank page is too much. Grace has guided prompts that give you somew
             title: 'Open the journal',
             sidePanelInstruction: `### Open the journal
 
-Tap the **Reflective Journal** card on the phone.`,
+Tap the **Reflective Journal** card on the phone screen.`,
             instructionSteps: [
               {
                 id: 'tap-journal-card',
@@ -1630,7 +1656,7 @@ Tap the **Reflective Journal** card on the phone.`,
                 selector: '#journal-card',
                 popover: {
                   title: 'Reflective Journal',
-                  description: `Open the journal.`,
+                  description: 'Open your private journal.',
                   side: 'right',
                   align: 'center'
                 },
@@ -1644,9 +1670,9 @@ Tap the **Reflective Journal** card on the phone.`,
             id: 'scenario-d-modes',
             screenId: 'journal-modes',
             title: 'Pick a guided session',
-            sidePanelInstruction: `### Pick a guided session
+            sidePanelInstruction: `### Choose how to write
 
-The journal has two modes. **Free flow** is a blank page. **Guided** gives you a few short prompts to write into.
+You can write in two ways. **Free flow** is a blank page, while **Guided** gives you a few helpful questions to answer.
 
 Tap **Guided**.`,
             instructionSteps: [
@@ -1656,7 +1682,7 @@ Tap **Guided**.`,
                 selector: '#guided-journal-btn',
                 popover: {
                   title: 'Guided',
-                  description: `Use short prompts to help you start.`,
+                  description: 'Choose this mode to use simple questions to guide your writing.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1672,9 +1698,9 @@ Tap **Guided**.`,
             title: 'Save the entry',
             sidePanelInstruction: `### Save the entry
 
-You can answer the prompts now, or just save the entry as-is and come back to it later.
+You can answer the questions now, or just save the blank entry and fill it out later.
 
-Tap **save entry**.`,
+Tap **Save entry** at the top right.`,
             instructionSteps: [
               {
                 id: 'tap-just-save',
@@ -1682,7 +1708,7 @@ Tap **save entry**.`,
                 selector: '#save-guided-btn',
                 popover: {
                   title: 'save entry',
-                  description: `Save the entry without writing anything more.`,
+                  description: 'Save this entry as it is.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1700,7 +1726,7 @@ Tap **save entry**.`,
             {
               id: 'combined-no-ai-comfort',
               type: 'likert-5',
-              question: 'The guided prompts gave me somewhere to start.',
+              question: 'The guided questions made it easier to start writing.',
               required: true
             }
           ]
@@ -1711,7 +1737,7 @@ Tap **save entry**.`,
         label: 'Writing it down as a record',
         description: `### Writing it down as a record
 
-Sometimes you want to write something down in case you need it later — for yourself, or to share with someone. The incident log has fields for the date, place, and people involved, and saves the entry with a timestamp.`,
+If you want to keep an official record of what happened in case you need it later, the Incident Log helps you save specific details—like the date, location, and people involved—with a secure timestamp.`,
         steps: [
           {
             id: 'scenario-e-home',
@@ -1719,7 +1745,7 @@ Sometimes you want to write something down in case you need it later — for you
             title: 'Open the incident log',
             sidePanelInstruction: `### Open the incident log
 
-Tap **Incident Log** in the bottom nav.`,
+Tap **Incident Log** in the navigation bar at the bottom of the phone screen.`,
             instructionSteps: [
               {
                 id: 'tap-incident-tab',
@@ -1727,7 +1753,7 @@ Tap **Incident Log** in the bottom nav.`,
                 selector: '#incident-nav-tab',
                 popover: {
                   title: 'Incident Log',
-                  description: `Open the incident log.`,
+                  description: 'Go to the Incident Log.',
                   side: 'top',
                   align: 'center'
                 },
@@ -1741,13 +1767,13 @@ Tap **Incident Log** in the bottom nav.`,
             id: 'scenario-e-log',
             screenId: 'incident-log',
             title: 'Review incident log',
-            sidePanelInstruction: `### Review incident log
+            sidePanelInstruction: `### Review incident details
 
-The incident log has been prefilled with details from your statement. Please review it.
+Your incident details have been filled in for you to review.
 
-1. Review the prefilled incident details.
-2. Optionally add notes in the **Anything else** section at the bottom.
-3. Tap **Save incident** at the bottom.`,
+1. Read through the details on the screen.
+2. Add any extra notes under **Anything else** at the bottom if you want.
+3. Tap **Save incident securely** at the bottom.`,
             instructionSteps: [
               {
                 id: 'sel-write',
@@ -1755,7 +1781,7 @@ The incident log has been prefilled with details from your statement. Please rev
                 selector: 'textarea',
                 popover: {
                   title: 'Review prefilled log',
-                  description: `Review the prefilled fields. You can optionally add notes at the bottom.`,
+                  description: 'Review the details. Add any extra thoughts at the bottom if you\'d like.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1767,7 +1793,7 @@ The incident log has been prefilled with details from your statement. Please rev
                 selector: '#save-incident-btn',
                 popover: {
                   title: 'Save',
-                  description: `Save the entry. Grace will add a timestamp.`,
+                  description: 'Save the incident record. Grace will lock it and add a secure timestamp.',
                   side: 'bottom',
                   align: 'center'
                 },
@@ -1781,9 +1807,9 @@ The incident log has been prefilled with details from your statement. Please rev
             id: 'scenario-e-hash',
             screenId: ScreenIds.HASH_RECEIPT,
             title: 'Your timestamp receipt',
-            sidePanelInstruction: `### Your timestamp receipt
+            sidePanelInstruction: `### Your secure receipt
 
-After you save, Grace shows a timestamp receipt for the entry. This is what proves the entry hasn't been changed since you wrote it, in case you ever need that.
+Once saved, Grace creates a secure receipt for your entry. This proves exactly when you wrote it and that it has not been changed since, which is useful if you ever need to share it.
 
 Tap **Next** to continue.`,
             instructionSteps: [
@@ -1793,7 +1819,7 @@ Tap **Next** to continue.`,
                 selector: '#incident-receipt-next-btn',
                 popover: {
                   title: 'Next',
-                  description: `Move on to your options.`,
+                  description: 'Go to the next step.',
                   side: 'bottom',
                   align: 'end'
                 },
@@ -1809,7 +1835,7 @@ Tap **Next** to continue.`,
             title: 'Decide what to do next',
             sidePanelInstruction: `### Decide what to do next
 
-After saving, Grace offers a few things you could do — share with a lawyer or clinician, look at your past entries, or just leave it for now.
+Grace suggests a few steps you can take next, such as sharing with a professional or finding support. You can also choose to leave it for now.
 
 Tap **Do nothing for now**.`,
             instructionSteps: [
@@ -1819,7 +1845,7 @@ Tap **Do nothing for now**.`,
                 selector: '#do-nothing-btn',
                 popover: {
                   title: 'Do nothing for now',
-                  description: `Save the record without taking any further action.`,
+                  description: 'Choose this to finish saving without taking any other action today.',
                   side: 'right',
                   align: 'start'
                 },
@@ -1837,7 +1863,7 @@ Tap **Do nothing for now**.`,
             {
               id: 'incident-record-confidence',
               type: 'likert-5',
-              question: 'The incident log felt like a place I could record something I might need later.',
+              question: 'The Incident Log felt like a secure place to keep records that I might need in the future.',
               required: true
             }
           ]
@@ -1847,30 +1873,30 @@ Tap **Do nothing for now**.`,
     postSessionReflection: {
       id: 'reflection-post-session-women',
       title: 'Closing reflection',
-      description: 'Three short questions before we finish.',
+      description: 'A few short questions before we finish.',
       microPrompts: [
         {
           id: 'would-write-here',
           type: 'likert-5',
-          question: 'I would write what is happening to me in this app.',
+          question: 'I would feel comfortable writing down what happens to me using this app.',
           required: true
         },
         {
           id: 'trust-words',
           type: 'likert-5',
-          question: 'I trust this app with what I write in it.',
+          question: 'I trust this app to keep my writing private and safe.',
           required: true
         },
         {
           id: 'would-tell-another-woman',
           type: 'likert-5',
-          question: 'If a woman I knew was going through something similar, I would mention this app to her.',
+          question: 'I would recommend this app to another woman going through a similar situation.',
           required: true
         },
         {
           id: 'nothing-felt-unsafe',
           type: 'likert-5',
-          question: 'Nothing in this app felt unsafe to me.',
+          question: 'Everything in this app felt safe and secure to me.',
           required: true
         }
       ]

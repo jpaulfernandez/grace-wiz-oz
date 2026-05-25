@@ -43,19 +43,19 @@ export const SCENARIO_C_ANNOTATIONS: Annotation[] = [
   {
     id: "somatic-tightness",
     phrase: "chest felt so tight",
-    note: "This chest tightening is a somatic stress trigger you previously identified. Noticing where your body holds tension is a valuable step in recognizing trauma signals.",
+    note: "This feeling of chest tightness is a common reaction to stress. Noticing where your body holds stress is a helpful step in understanding how these situations affect you.",
     category: "somatic"
   },
   {
     id: "elevator-avoidance",
     phrase: "avoided the elevator",
-    note: "This is the third recorded instance of avoiding the elevator/lobby when Marco is present. A consistent pattern of behavioral adjustment indicates an escalating environment of discomfort.",
+    note: "This is the third time you recorded avoiding the elevator or lobby when Marco was around. Changing your daily routines to avoid someone shows a clear pattern of feeling uncomfortable at work.",
     category: "pattern"
   },
   {
     id: "witness-j",
     phrase: "J. saw me",
-    note: "You have identified J. as a potential third-party witness to your physical avoidance behaviors, which could serve as corroborative context if you ever decide to file a report.",
+    note: "You mentioned that J. saw you. This means J. could act as a witness who noticed how you avoided the situation, which could be helpful if you ever decide to make an official report.",
     category: "witness"
   }
 ]

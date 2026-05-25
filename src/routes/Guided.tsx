@@ -349,6 +349,38 @@ export default function Guided() {
       if (scenarioId === 'admin-freeroam') return
 
       const target = e.target as HTMLElement
+      if (!target || typeof target.closest !== 'function') return
+
+      // Always allow clicking outer top bar buttons and modal/portal contents (Restart, End, Study Info, Help)
+      const path = e.composedPath()
+      const text = target.textContent || ''
+      const isAllowedGlobally = path.some(el => {
+        if (!(el instanceof Element)) return false
+        const id = el.id || ''
+        const className = el.className || ''
+        const classes = typeof className === 'string' ? className : ((className as any).baseVal || '')
+        const label = el.getAttribute('aria-label') || ''
+        
+        return id === 'outer-top-bar' ||
+               id === 'study-info-button' ||
+               id === 'help-button' ||
+               id === 'mobile-mini-guide' ||
+               classes.includes('modal-portal') ||
+               classes.includes('z-[9999]') ||
+               classes.includes('z-9999') ||
+               label.includes('Study') ||
+               label.includes('Restart') ||
+               label.includes('Pause') ||
+               label.includes('Help') ||
+               label.includes('End')
+      }) ||
+      text.includes('Restart') ||
+      text.includes('Pause') ||
+      text.includes('Study Info') ||
+      text.includes('End session') ||
+      text.includes('Yes, restart')
+      if (isAllowedGlobally) return
+
       const isInsidePhone = target.closest('#phone-viewport') || window.innerWidth < 1024
       if (!isInsidePhone) return
 
@@ -356,6 +388,7 @@ export default function Guided() {
                          target.closest('.driver-overlay') || 
                          target.closest('.onboarding-overlay') ||
                          target.closest('#right-sidebar-panel') ||
+                         target.closest('#mobile-mini-guide') ||
                          target.closest('button[aria-label="View instructions"]') ||
                          target.closest('button[aria-label="Close instructions drawer"]')
       if (isOverride) return
@@ -520,15 +553,19 @@ export default function Guided() {
     }
   }, [currentStep, setScreen])
 
-  // Auto-advance for breathing reminder
+  // Breathing state interval loop (5 seconds in, 5 seconds out)
+  const [isBreathingIn, setIsBreathingIn] = useState(false)
   useEffect(() => {
     if (currentStep?.screenId === 'breath-reminder') {
-      const timer = setTimeout(() => {
-        triggerAdvanceWithModalCheck()
-      }, 2000)
-      return () => clearTimeout(timer)
+      setIsBreathingIn(true)
+      const interval = setInterval(() => {
+        setIsBreathingIn(prev => !prev)
+      }, 5000)
+      return () => clearInterval(interval)
+    } else {
+      setIsBreathingIn(false)
     }
-  }, [currentStep?.id])
+  }, [currentStep?.screenId])
 
   const handleManualNext = () => {
     if (currentStepIndex < steps.length - 1) {
@@ -691,7 +728,7 @@ export default function Guided() {
                       Companion
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Talk through what's on your mind to think things through.
+                      Chat privately to talk through your thoughts and figure things out.
                     </p>
                   </div>
                 </button>
@@ -785,7 +822,7 @@ export default function Guided() {
                   <div className="flex items-start justify-between">
                     <div>
                       <span className="block text-[10px] font-mono tracking-wider uppercase text-primary mb-1">
-                        From your chat (not saved with entry)
+                        Notes from your chat (not saved with your entry)
                       </span>
                       <p className="text-xs font-inter text-on-surface-variant leading-relaxed">
                         {carryOverSummary}
@@ -807,7 +844,7 @@ export default function Guided() {
                 <textarea
                   value={journalText}
                   onChange={(e) => setJournalText(e.target.value)}
-                  placeholder="Start typing what is on your mind... This entry is private and stored only on your device."
+                  placeholder="Start writing what's on your mind... Your entries are private and stored only on your device."
                   className="w-full h-full text-sm font-inter leading-relaxed text-on-surface placeholder:text-text-muted resize-none focus:outline-none bg-transparent border-0 p-0"
                 />
               </div>
@@ -819,18 +856,87 @@ export default function Guided() {
 
       case 'breath-reminder':
         return (
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-white h-full select-none animate-fade-in">
-            <div className="space-y-8 flex flex-col items-center">
-              {/* Animated breathing circles */}
-              <div className="relative flex items-center justify-center">
-                <div className="absolute w-24 h-24 bg-primary/10 rounded-full animate-ping" style={{ animationDuration: '3s' }} />
-                <div className="w-20 h-20 bg-primary/25 border border-primary/30 rounded-full flex items-center justify-center animate-pulse" style={{ animationDuration: '2s' }}>
-                  <div className="w-10 h-10 bg-primary/45 rounded-full" />
-                </div>
-              </div>
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-white h-full select-none animate-fade-in relative overflow-hidden">
+            <style>{`
+              @keyframes ripple-wave-1 {
+                0% { transform: translateX(0) translateY(-80%); }
+                50% { transform: translateX(-15%) translateY(-80%); }
+                100% { transform: translateX(0) translateY(-80%); }
+              }
+              @keyframes ripple-wave-2 {
+                0% { transform: translateX(0) translateY(-95%); }
+                50% { transform: translateX(15%) translateY(-95%); }
+                100% { transform: translateX(0) translateY(-95%); }
+              }
+              .animate-ripple-1 {
+                animation: ripple-wave-1 7s infinite ease-in-out;
+              }
+              .animate-ripple-2 {
+                animation: ripple-wave-2 11s infinite ease-in-out;
+              }
+            `}</style>
+
+            {/* Rising water layer */}
+            <div
+              className="absolute bottom-0 left-0 right-0 transition-all ease-in-out pointer-events-none"
+              style={{
+                height: isBreathingIn ? '100%' : '15%',
+                backgroundColor: isBreathingIn ? '#8B5CF6' : '#FFFFFF',
+                transitionDuration: '5000ms', // 5 seconds
+              }}
+            >
+              {/* Ripple Wave 1 (Semi-transparent, offset) */}
+              <svg
+                className="absolute top-0 left-[-50%] w-[200%] h-16 fill-current animate-ripple-1"
+                style={{
+                  transition: 'color 5000ms ease-in-out',
+                  color: isBreathingIn ? 'rgba(139, 92, 246, 0.45)' : 'rgba(243, 244, 246, 0.6)',
+                }}
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none"
+              >
+                <path d="M0,96 C280,192,560,0,840,96 C1120,192,1260,96,1440,32 L1440,320 L0,320 Z" />
+              </svg>
+
+              {/* Ripple Wave 2 (Full opacity) */}
+              <svg
+                className="absolute top-0 left-[-50%] w-[200%] h-16 fill-current animate-ripple-2"
+                style={{
+                  transition: 'color 5000ms ease-in-out',
+                  color: isBreathingIn ? '#8B5CF6' : '#FFFFFF',
+                }}
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none"
+              >
+                <path d="M0,128 C240,224,480,32,720,128 C960,224,1200,128,1440,64 L1440,320 L0,320 Z" />
+              </svg>
+            </div>
+
+            {/* Content floating on top of the water */}
+            <div className="z-10 space-y-8 flex flex-col items-center max-w-xs animate-fade-in">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest bg-neutral-900/10 backdrop-blur-[2px] px-4 py-1.5 rounded-full text-neutral-800 mix-blend-difference">
+                {isBreathingIn ? 'Slowly breathe in' : 'Slowly breathe out'}
+              </span>
+
               <div className="space-y-2">
-                <h3 className="text-lg font-newsreader font-medium text-on-surface">Take a breath.</h3>
-                <p className="text-xs font-inter text-text-muted">Grounding somatic cues securely</p>
+                <h3 className="text-2xl font-newsreader font-medium text-neutral-900 mix-blend-difference">Take a breath.</h3>
+                <p className="text-xs font-inter text-neutral-800 font-normal mix-blend-difference">A short pause to help you feel grounded.</p>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  id="breath-continue-btn"
+                  onClick={() => {
+                    telemetry.trackButtonTap('breath-continue-btn')
+                    triggerAdvanceWithModalCheck()
+                  }}
+                  className="px-8 py-3 bg-white text-primary border border-purple-200 rounded-full text-xs font-inter font-semibold hover:bg-neutral-50 active:scale-95 transition-all shadow-md focus:outline-none"
+                  style={{
+                    boxShadow: '0 4px 14px 0 rgba(139, 92, 246, 0.25)',
+                  }}
+                >
+                  I feel ready to continue
+                </button>
               </div>
             </div>
           </div>
@@ -851,14 +957,14 @@ export default function Guided() {
                   Your writing is safe.
                 </h3>
                 <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                  No gamification, no analysis, no pressure. What you write next is yours alone.
+                  No scores, no unwanted tracking, no pressure. What you write is yours alone.
                 </p>
               </div>
 
               {/* Reflection pathways */}
               <div className="space-y-3">
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted">
-                  Reflection Options
+                  What you can do now
                 </span>
 
                 <button
@@ -891,21 +997,21 @@ export default function Guided() {
               {/* Soft offers row */}
               <div className="space-y-3">
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted">
-                  Soft Offers
+                  Other options
                 </span>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-4 bg-white border border-border-divider rounded-card text-center space-y-2 opacity-80">
                     <div className="w-8 h-8 rounded-full bg-secondary-container text-secondary flex items-center justify-center mx-auto text-xs font-medium">2m</div>
                     <span className="block text-xs font-inter font-medium text-on-surface">A quick pause</span>
-                    <span className="block text-[10px] font-inter text-text-muted leading-tight">Simple breathing card</span>
+                    <span className="block text-[10px] font-inter text-text-muted leading-tight">Simple breathing exercise</span>
                   </div>
 
                   <div className="p-4 bg-white border border-border-divider rounded-card text-center space-y-2 opacity-80">
                     <div className="w-8 h-8 rounded-full bg-primary-container text-primary flex items-center justify-center mx-auto">
                       <AlertOctagon className="w-4 h-4" />
                     </div>
-                    <span className="block text-xs font-inter font-medium text-on-surface">Options pathways</span>
-                    <span className="block text-[10px] font-inter text-text-muted leading-tight">See what's out there</span>
+                    <span className="block text-xs font-inter font-medium text-on-surface">Next steps</span>
+                    <span className="block text-[10px] font-inter text-text-muted leading-tight">See your options</span>
                   </div>
                 </div>
               </div>
@@ -919,7 +1025,7 @@ export default function Guided() {
         return (
           <div className="flex-1 flex flex-col bg-white h-full overflow-hidden relative">
             <ScreenHeader
-              title="Patterns surfed"
+              title="Things we noticed"
               rightAction={
                 <button
                   id="close-annotations-btn"
@@ -945,7 +1051,7 @@ export default function Guided() {
             <div className="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col min-h-0">
               <div className="p-4 bg-background border border-border-divider rounded-card text-xs font-inter text-text-secondary leading-relaxed">
                 <p>
-                  Grace analyzed your past entries in the background. Tap the highlighted words below to explore identified somatic sensations, witness details, or recurring behavioral patterns.
+                  Grace looked at your past entries to find repeating details. Tap the highlighted words below to see what we found, like physical feelings, people who saw you, or repeated habits.
                 </p>
               </div>
 
@@ -989,13 +1095,13 @@ export default function Guided() {
                 const annotation = SCENARIO_C_ANNOTATIONS.find(a => a.id === activeAnnotationId)
                 if (!annotation) return null
 
-                let categoryLabel = "Somatic sensation"
+                let categoryLabel = "Physical feeling"
                 let cardStyle = "bg-primary-container/20 border-primary/20 text-primary"
                 if (annotation.category === 'pattern') {
-                  categoryLabel = "Behavioral pattern"
+                  categoryLabel = "Repeated pattern"
                   cardStyle = "bg-[#EDE7F6]/40 border-[#673AB7]/20 text-[#673AB7]"
                 } else if (annotation.category === 'witness') {
-                  categoryLabel = "Potential witness"
+                  categoryLabel = "Someone who saw you"
                   cardStyle = "bg-[#E8F5E9]/40 border-[#2E7D32]/20 text-[#2E7D32]"
                 }
 
@@ -1029,10 +1135,10 @@ export default function Guided() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="text-sm font-semibold font-inter text-on-surface">
-                      Try the annotation first
+                      Try it first
                     </h4>
                     <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                      Please test the annotation feature before closing. Tap any highlighted phrase in the journal entry (e.g., <strong>"chest felt so tight"</strong>) to see what Grace identified.
+                      Please try tapping a highlight before you close this. Tap any colored words (like <strong>"chest felt so tight"</strong>) to see what Grace noticed.
                     </p>
                   </div>
                   <button
@@ -1057,7 +1163,7 @@ export default function Guided() {
             <div className="flex-1 p-6 space-y-6 overflow-y-auto">
               <div className="py-2">
                 <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                  Select a reflection interface. You can change modes at any point—no features are locked.
+                  Choose how you want to write. You can switch modes anytime—everything is always open.
                 </p>
               </div>
 
@@ -1071,10 +1177,10 @@ export default function Guided() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-medium font-inter text-on-surface mb-0.5">
-                      Free flow
+                      Free writing
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Just write. Unstructured, raw journaling.
+                      Just write whatever you feel, with no rules.
                     </p>
                   </div>
                 </div>
@@ -1091,10 +1197,10 @@ export default function Guided() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-medium font-inter text-on-surface mb-0.5">
-                      Guided Mode
+                      Guided writing
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Guided writing designed to process sensitive events.
+                      Use gentle questions to help you write down sensitive events.
                     </p>
                   </div>
                 </button>
@@ -1110,7 +1216,7 @@ export default function Guided() {
                       Incident Log
                     </h3>
                     <p className="text-xs font-inter text-text-secondary">
-                      Structured, timestamped fields optimized for evidentiary weight.
+                      A step-by-step form to record exact details, locked in time as a secure record.
                     </p>
                   </div>
                 </div>
@@ -1125,7 +1231,7 @@ export default function Guided() {
         return (
           <div className="flex-1 flex flex-col bg-white h-full overflow-hidden">
             <ScreenHeader
-              title="Guided reflection"
+              title="Guided writing"
               rightAction={
                 <button
                   id="save-guided-btn"
@@ -1145,7 +1251,7 @@ export default function Guided() {
 
             <div className="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col min-h-0">
               <div className="p-4 bg-[#EDE7F6]/30 border border-[#673AB7]/10 rounded-card text-xs font-inter text-text-secondary leading-relaxed">
-                This structured guided exercise splits reflection into clear prompts. Feel free to review or edit the responses before saving.
+                This exercise breaks your writing into simple questions. You can change or edit your answers before saving.
               </div>
 
               {/* Prompt inputs */}
@@ -1187,7 +1293,7 @@ export default function Guided() {
               <div className="p-4 bg-background border border-border-divider rounded-card text-[11px] font-inter text-text-secondary leading-relaxed flex items-start space-x-2">
                 <ShieldAlert className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                 <p>
-                  Structured facts are locked and timestamped for legal admissibility. You can add extra details in the final field.
+                  The details you fill in here will be locked and saved with a secure timestamp. This makes sure your record can't be changed later. You can add extra notes at the end.
                 </p>
               </div>
 
@@ -1274,7 +1380,7 @@ export default function Guided() {
                 {/* Somatic feelings */}
                 <div className="space-y-1">
                   <label className="block text-[10px] font-inter font-medium text-text-secondary uppercase tracking-wider">
-                    Physical/Somatic feelings
+                    How your body felt (Physical reactions)
                   </label>
                   <input
                     type="text"
@@ -1292,7 +1398,7 @@ export default function Guided() {
                   <textarea
                     value={incidentAnythingElse}
                     onChange={(e) => setIncidentAnythingElse(e.target.value)}
-                    placeholder="Enter any additional reflections, evidence details, or notes here..."
+                    placeholder="Add any other notes, reflections, or details here..."
                     rows={3}
                     className="w-full text-xs font-inter leading-relaxed text-on-surface placeholder:text-text-muted resize-none focus:outline-none bg-background border border-border-divider p-3 rounded-input focus:border-primary transition-colors"
                   />
@@ -1308,7 +1414,7 @@ export default function Guided() {
                   onClick={handleSaveIncident}
                 >
                   <ShieldAlert className="w-4 h-4" />
-                  <span>Save incident securely</span>
+                  <span>Save this record securely</span>
                 </Button>
               </div>
             </div>
@@ -1321,7 +1427,7 @@ export default function Guided() {
         return (
           <div className="flex-1 flex flex-col bg-background h-full overflow-hidden select-none animate-fade-in">
             <ScreenHeader
-              title="Timestamp Proof"
+              title="Secure Receipt"
               rightAction={
                 <button
                   id="incident-receipt-next-btn"
@@ -1339,24 +1445,24 @@ export default function Guided() {
             <div className="flex-1 p-6 space-y-6 overflow-y-auto flex flex-col justify-center">
               <div className="text-center space-y-2">
                 <h3 className="text-base font-newsreader font-medium text-on-surface">
-                  Incident secured & verified
+                  Incident secured & saved
                 </h3>
                 <p className="text-xs font-inter text-text-secondary leading-relaxed">
-                  Your incident log is frozen in time. A timestamp fingerprint has been anchored so it cannot be altered or backdated.
+                  Your record is now safely saved. It has a secure timestamp that proves exactly when it was written, making sure it can never be changed or edited.
                 </p>
               </div>
 
               {/* QR Code receipt card */}
               <div className="p-5 bg-white border border-border-divider rounded-card shadow-sm space-y-4">
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted text-center font-bold">
-                  Grace Timestamp Authority
+                  Grace Secure Stamp
                 </span>
 
                 <div className="flex flex-col items-center space-y-3">
                   {/* Dummy QR Code */}
                   <div className="p-2 bg-white border border-border-divider rounded-input shadow-sm">
                     <img
-                      src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://grace.app/verify/85c8a06c&format=png&color=1a1a1a&bgcolor=ffffff"
+                      src="/verification-qr.png"
                       alt="Verification QR Code"
                       width={140}
                       height={140}
@@ -1371,7 +1477,7 @@ export default function Guided() {
                 </div>
 
                 <div className="text-[10px] font-inter text-text-muted text-center">
-                  Scan QR to verify fingerprint • SHA-256 (256-bit)
+                  Scan this code to verify your secure record • Locked with industry-standard encryption
                 </div>
               </div>
             </div>
@@ -1390,7 +1496,7 @@ export default function Guided() {
                 <div className="w-8 h-8 bg-primary-container text-primary rounded-full flex items-center justify-center mx-auto">
                   <Check className="w-4 h-4" />
                 </div>
-                <h4 className="text-xs font-inter font-semibold text-on-surface">Fingerprint anchored successfully</h4>
+                <h4 className="text-xs font-inter font-semibold text-on-surface">Record successfully timestamped and saved</h4>
                 <p className="text-[11px] font-inter text-text-secondary leading-relaxed">
                   Your record is secured and saved privately on this device. What would help you most right now?
                 </p>
@@ -1399,7 +1505,7 @@ export default function Guided() {
               {/* Action options */}
               <div className="space-y-3">
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted">
-                  Reflection Pathways
+                  Write more
                 </span>
 
                 <button
@@ -1414,7 +1520,7 @@ export default function Guided() {
 
               <div className="space-y-3">
                 <span className="block text-[10px] font-mono tracking-wider uppercase text-text-muted">
-                  External Pathways
+                  Find support
                 </span>
 
                 <button

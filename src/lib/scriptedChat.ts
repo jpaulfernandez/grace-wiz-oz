@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { CHAT_SCRIPTS, ChatTurn } from '../config/chatScripts'
 import { telemetry, EventTypes } from './telemetry'
 
@@ -27,11 +27,13 @@ export function useScriptedChat({
   const [isTyping, setIsTyping] = useState(false)
   const [showHandoff, setShowHandoff] = useState(false)
 
-  const script = CHAT_SCRIPTS[scenarioKey] || []
-  const currentTurn = script[turnIndex] as ChatTurn | undefined
+  const [prevScenarioKey, setPrevScenarioKey] = useState<string | null>(null)
 
-  // Initial welcome message from B1
-  useEffect(() => {
+  if (scenarioKey !== prevScenarioKey) {
+    setPrevScenarioKey(scenarioKey)
+    setTurnIndex(0)
+    setShowHandoff(false)
+    setIsTyping(false)
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     const welcomeMsg: Message = {
       id: 'welcome-msg',
@@ -42,10 +44,10 @@ export function useScriptedChat({
       timestamp: timeStr
     }
     setMessages([welcomeMsg])
-    setTurnIndex(0)
-    setShowHandoff(false)
-    setIsTyping(false)
-  }, [scenarioKey])
+  }
+
+  const script = CHAT_SCRIPTS[scenarioKey] || []
+  const currentTurn = script[turnIndex] as ChatTurn | undefined
 
   const sendMessage = async (text: string) => {
     if (isTyping || showHandoff) return

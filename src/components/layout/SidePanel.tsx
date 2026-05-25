@@ -158,6 +158,7 @@ interface SidePanelProps {
   canPrev?: boolean
   canNext?: boolean
   showStepControls?: boolean
+  onClose?: () => void
 }
 
 export function SidePanel({
@@ -165,7 +166,8 @@ export function SidePanel({
   onNext: _onNext,
   canPrev: _canPrev,
   canNext: _canNext,
-  showStepControls
+  showStepControls,
+  onClose
 }: SidePanelProps) {
   const navigate = useNavigate()
   const isFreeRoam = window.location.pathname.includes('/free')
@@ -409,6 +411,25 @@ export function SidePanel({
               </div>
             )}
           </div>
+
+          {/* Mobile-only CTA to minimize the guide */}
+          {onClose && currentScenario?.id !== 'scenario-0-orientation' && (
+            <div className="lg:hidden pt-4 border-t border-border-divider mt-2 mb-2 flex-shrink-0">
+              <button
+                onClick={() => {
+                  telemetry.trackButtonTap('mobile_guide_cta_close', {
+                    stepId: currentStep.id,
+                    stepIndex: currentStepIndex
+                  })
+                  onClose()
+                }}
+                className="w-full py-3.5 bg-primary text-on-primary rounded-full text-sm font-semibold hover:bg-opacity-95 active:scale-[0.98] transition-all shadow-md flex items-center justify-center space-x-2"
+              >
+                <span>Minimize Guide & Start Interacting</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+              </button>
+            </div>
+          )}
 
           {/* Step controls inside sidebar (backup for mobile drawer) */}
           {showStepControls && (

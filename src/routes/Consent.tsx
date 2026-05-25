@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, AlertTriangle, Heart, Phone } from 'lucide-react'
 import { Button, Checkbox } from '../components/ui'
@@ -62,6 +62,32 @@ export default function Consent() {
   const scenarioId = store.scenarioId
 
   const [step, setStep] = useState<'consent' | 'trigger_warning' | 'back_later'>('consent')
+
+  // Proactively clear previous session walkthrough progress and checklist variables to avoid bugs
+  useEffect(() => {
+    store.setSession({
+      guidedCompletedAt: null,
+      freeRoamStartedAt: null,
+      completedAt: null
+    })
+    useStore.setState({
+      currentScenarioIndex: 0,
+      currentStepIndex: 0,
+      guidedMode: 'step',
+      completedInstructions: {},
+      reflectionAnswers: {},
+      chatMessagesCount: 0,
+      chatInputText: '',
+      journalTextContent: '',
+      clickedAnnotations: [],
+      incidentNotes: '',
+      isIncidentsRequested: false,
+      isJournalsRequested: false,
+      providerChatCount: 0,
+      providerNotesCount: 0,
+      letGoButtonClicked: false
+    })
+  }, [])
   const [understoodCheckbox, setUnderstoodCheckbox] = useState(false)
   const [canPauseCheckbox, setCanPauseCheckbox] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
