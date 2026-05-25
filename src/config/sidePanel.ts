@@ -13,14 +13,14 @@ const SCENARIO_0_ORIENTATION: ScenarioConfig = {
       prototypeInteractive: false,
       sidePanelInstruction: `### Welcome
 
-Thanks for being part of this session. You'll spend about 60 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
+Thanks for being part of this session. You'll spend about 15-20 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
 
 The phone on your left is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
 
 Tap **Next step** when you're ready.`,
       mobileSidePanelInstruction: `### Welcome
 
-Thanks for being part of this session. You'll spend about 60 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
+Thanks for being part of this session. You'll spend about 15-20 minutes walking through **Grace**, a prototype space for women navigating gender-based harm.
 
 This screen is the prototype. You'll tap and interact with it the way you would a real app. A researcher is playing the part of the Companion live, so the chat replies are real even when other parts of the screen are simulated.
 
