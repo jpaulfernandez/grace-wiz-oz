@@ -44,6 +44,12 @@ export const SCENARIOS: ScenarioConfig[] = [
     scenarioId: 'admin-freeroam',
     description: 'Admin Free Roam (No Survey, No Guide, Cohort Switcher)'
   },
+  {
+    inviteCode: 'FREE-01',
+    cohort: 'women',
+    scenarioId: 'free-01',
+    description: 'Admin Free Roam V2 (Full feature, cohort switcher)'
+  },
 ]
 
 export function lookupScenario(code: string): ScenarioConfig | null {

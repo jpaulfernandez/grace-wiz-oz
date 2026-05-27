@@ -197,7 +197,23 @@ ORDER BY sm.started_at, sm.session_id, ec.event_type, sd.screen_id;
 
 ---
 
-## 3. Helper Query: Extract SUS Scores
+## 3. Completed vs. Not Completed Sessions
+
+```sql
+SELECT
+  COUNT(*) FILTER (WHERE completed_at IS NOT NULL) AS completed,
+  COUNT(*) FILTER (WHERE completed_at IS NULL) AS not_completed,
+  COUNT(*) AS total,
+  ROUND(
+    COUNT(*) FILTER (WHERE completed_at IS NOT NULL)::numeric / COUNT(*) * 100, 1
+  ) AS completion_rate_pct
+FROM sessions
+WHERE consented_at IS NOT NULL;
+```
+
+---
+
+## 4. Helper Query: Extract SUS Scores
 
 This query extracts SUS scores from the `sus_responses` JSON field:
 
@@ -229,7 +245,7 @@ ORDER BY cohort, sus_score DESC;
 
 ---
 
-## 4. Helper Query: Analyze Cohort Differences
+## 5. Helper Query: Analyze Cohort Differences
 
 This query compares metrics across study cohorts:
 
@@ -263,7 +279,7 @@ ORDER BY cohort;
 
 ---
 
-## 5. Reset Database (Start Fresh)
+## 6. Reset Database (Start Fresh)
 
 **WARNING: This will permanently delete all data in the database. Use with caution!**
 
@@ -279,6 +295,41 @@ TRUNCATE TABLE sessions CASCADE;
 - For testing purposes
 - When resetting the study for a new cohort
 - To clean up test data
+
+---
+
+## 7. Participant Overview (Excluding Test Accounts)
+
+Count of participants, their nicknames, and email addresses — excluding the test nickname "paul".
+
+```sql
+WITH email_events AS (
+  SELECT
+    session_id,
+    payload->>'email' AS email
+  FROM events
+  WHERE event_type = 'email_collected'
+)
+
+SELECT
+  s.id AS session_id,
+  s.nickname,
+  e.email,
+  s.started_at,
+  s.cohort
+FROM sessions s
+LEFT JOIN email_events e ON s.id = e.session_id
+WHERE LOWER(s.nickname) != 'paul'
+ORDER BY s.started_at DESC;
+```
+
+To get just the count:
+
+```sql
+SELECT COUNT(*) AS participant_count
+FROM sessions
+WHERE LOWER(nickname) != 'paul';
+```
 
 ---
 

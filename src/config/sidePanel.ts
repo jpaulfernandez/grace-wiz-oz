@@ -2412,6 +2412,11 @@ Review the export, then tap **End Review** to finish.`,
     id: 'admin-freeroam',
     label: 'Admin Free Roam',
     scenarios: []
+  },
+  'free-01': {
+    id: 'free-01',
+    label: 'FREE-01 Free Roam Admin',
+    scenarios: []
   }
 }
 

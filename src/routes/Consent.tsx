@@ -131,6 +131,11 @@ export default function Consent() {
       // Record consent
       await recordConsent(sessionId)
 
+      // Set default screen for free roam admin
+      if (scenarioId === 'free-01') {
+        useStore.setState({ currentScreen: 'guided-home' })
+      }
+
       // Navigate to guided
       navigate('/guided')
     } catch (e: unknown) {

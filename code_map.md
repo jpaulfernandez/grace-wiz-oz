@@ -111,6 +111,13 @@ last_updated: 2026-05-24
 | `MarketplaceDirectory.tsx` | NGOs and external help directory |
 | `FreeRoamSidebar.tsx` | Sidebar specific to freeroam mode |
 | `ProviderHubFreeRoam.tsx` | Provider intake dashboard simulator for free roam |
+| `AdminFeatureSidebar.tsx` | Sidebar specific to FREE-01 admin free roam with cohort switcher |
+
+#### Guided Components (`src/components/guided/`)
+| File | Purpose |
+|------|---------|
+| `LawyerHub.tsx` | Advocate/Lawyer cohort intake, booking, artifacts secure vault, and export screens |
+| `ClinicianHub.tsx` | Therapist/Clinician somatic grounding preparation, secure vault, and export screens |
 
 #### UI Components (`src/components/ui/`)
 > **PATTERN:** All base UI components live here. Import from `src/components/ui/index.ts`

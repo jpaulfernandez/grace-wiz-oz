@@ -6,6 +6,7 @@ import { telemetry, EventTypes } from '../../lib/telemetry'
 import { getSessionConfig } from '../../config/sidePanel'
 import { StepChecklist } from './StepChecklist'
 import { FreeRoamSidebar } from '../freeroam/FreeRoamSidebar'
+import { AdminFeatureSidebar } from '../freeroam/AdminFeatureSidebar'
 import { Markdown } from '../ui/Markdown'
 
 // Introductory screen for a new scenario
@@ -170,6 +171,12 @@ export function SidePanel({
   onClose
 }: SidePanelProps) {
   const navigate = useNavigate()
+  const { scenarioId } = useStore()
+
+  if (scenarioId === 'free-01') {
+    return <AdminFeatureSidebar />
+  }
+
   const isFreeRoam = window.location.pathname.includes('/free')
 
   if (isFreeRoam) {
@@ -177,7 +184,6 @@ export function SidePanel({
   }
 
   const {
-    scenarioId,
     currentScenarioIndex,
     currentStepIndex,
     guidedMode,
